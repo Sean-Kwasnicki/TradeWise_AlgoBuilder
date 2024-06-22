@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required
 from app.models import Stock, StockHistoricalPrice
-from app.api.yahoo_finance_client import get_stock_price
+# from app.api.yahoo_finance_client import get_stock_price
+from app.api.finnhub_client import get_stock_price
 from app import db
 
 stock_routes = Blueprint('stocks', __name__)
