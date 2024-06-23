@@ -4,7 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import StockList from '../components/StockList/StockList';
 
-const symbols = ['AAPL', 'GOOGL', 'MSFT']; 
+const symbols = ['AAPL', 'GOOGL', 'MSFT'];
 
 export const router = createBrowserRouter([
   {
@@ -23,11 +23,11 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "portfolio",
+        path: "portfolios",
         element: <StockList symbols={symbols} listType="portfolio" />,
       },
       {
-        path: "watchlist",
+        path: "watchlists",
         element: <StockList symbols={symbols} listType="watchlist" />,
       },
     ],
