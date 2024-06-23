@@ -9,6 +9,7 @@ ARG FLASK_ENV
 ARG DATABASE_URL
 ARG SCHEMA
 ARG SECRET_KEY
+ARG FINNHUB_API_KEY
 
 WORKDIR /var/www
 
@@ -21,4 +22,4 @@ COPY . .
 
 RUN flask db upgrade
 RUN flask seed all
-CMD ["python3", "-m", "app"]
+CMD ["flask", "run", "--host=0.0.0.0"]
