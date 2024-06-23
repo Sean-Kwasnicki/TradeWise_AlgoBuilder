@@ -2,6 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
+import StockList from '../components/StockList/StockList';
+
+const symbols = ['AAPL', 'GOOGL', 'MSFT']; 
 
 export const router = createBrowserRouter([
   {
@@ -9,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <StockList symbols={symbols} listType="portfolio" />,
       },
       {
         path: "login",
@@ -18,6 +21,14 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "portfolio",
+        element: <StockList symbols={symbols} listType="portfolio" />,
+      },
+      {
+        path: "watchlist",
+        element: <StockList symbols={symbols} listType="watchlist" />,
       },
     ],
   },

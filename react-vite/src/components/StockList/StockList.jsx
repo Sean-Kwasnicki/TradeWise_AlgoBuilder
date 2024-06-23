@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { subscribeToStock, unsubscribeFromStock, fetchInitialData } from '../redux/stock';
+import { subscribeToStock, unsubscribeFromStock, fetchInitialData } from '../../redux/stock';
 
 const StockList = ({ symbols, listType }) => {
   const dispatch = useDispatch();
