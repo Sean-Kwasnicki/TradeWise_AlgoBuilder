@@ -9,10 +9,10 @@ function Navigation() {
         <NavLink to="/">New</NavLink>
       </li>
       <li>
-        <NavLink to="/portfolio">Portfolio</NavLink>
+        <NavLink to="/portfolios">Portfolio</NavLink>
       </li>
       <li>
-        <NavLink to="/watchlist">Watchlist</NavLink>
+        <NavLink to="/watchlists">Watchlist</NavLink>
       </li>
       <li>
         <NavLink to="/login">Login</NavLink>
