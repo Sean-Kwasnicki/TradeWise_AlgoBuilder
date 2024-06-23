@@ -6,20 +6,9 @@ function Navigation() {
   return (
     <ul>
       <li>
-        <NavLink to="/">New</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
-      <li>
-        <NavLink to="/portfolios">Portfolio</NavLink>
-      </li>
-      <li>
-        <NavLink to="/watchlists">Watchlist</NavLink>
-      </li>
-      <li>
-        <NavLink to="/login">Login</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signup">Signup</NavLink>
-      </li>
+
       <li>
         <ProfileButton />
       </li>

@@ -12,7 +12,6 @@ import backtestReducer from "./backtest";
 import portfolioReducer from "./portfolio";
 import stockReducer from "./stock";
 import stockHistoricalPriceReducer from "./stockHistoricalPrice";
-import stockHistoricalPriceReducer from "./stockHistoricalPrice";
 import userReducer from "./user";
 import watchlistReducer from "./watchlist";
 import portfolioStockReducer from "./portfolioStock";
