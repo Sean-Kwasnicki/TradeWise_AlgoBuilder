@@ -11,12 +11,9 @@ import algorithmBlockReducer from "./algorithmBlock";
 import backtestReducer from "./backtest";
 import portfolioReducer from "./portfolio";
 import stockReducer from "./stock";
-import stockHistoricalPriceReducer from "./stockHistoricalPrice";
-import stockHistoricalPriceReducer from "./stockHistoricalPrice";
 import userReducer from "./user";
 import watchlistReducer from "./watchlist";
-import portfolioStockReducer from "./portfolioStock";
-import watchlistStockReducer from "./watchlistStock";
+
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -25,11 +22,8 @@ const rootReducer = combineReducers({
   backtest: backtestReducer,
   portfolio: portfolioReducer,
   stock: stockReducer,
-  stockHistoricalPrice: stockHistoricalPriceReducer,
   user: userReducer,
   watchlist: watchlistReducer,
-  portfolioStock: portfolioStockReducer,
-  watchlistStock: watchlistStockReducer
 });
 
 let enhancer;

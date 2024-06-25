@@ -128,49 +128,55 @@ def delete_portfolio(id):
 #         return jsonify(portfolio_stock.to_dict()), 201
 #     return jsonify({"errors": form.errors}), 400
 
-
 # Add Stock to Portfolio
 @portfolio_routes.route('/<int:portfolio_id>/stocks', methods=['POST'])
 @login_required
 def add_stock_to_portfolio(portfolio_id):
-    data = request.get_json()
-    portfolio = Portfolio.query.get(portfolio_id)
-    if portfolio is None:
-        return jsonify({"errors": "Portfolio not found"}), 404
-    if portfolio.user_id != current_user.id:
-        return jsonify({"errors": "Unauthorized access"}), 401
+    form = AddPortfolioStockForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = request.get_json()
+        portfolio = Portfolio.query.get(portfolio_id)
+        if portfolio is None:
+            return jsonify({"errors": "Portfolio not found"}), 404
+        if portfolio.user_id != current_user.id:
+            return jsonify({"errors": "Unauthorized access"}), 401
 
-    stock_symbol = data.get('stock_symbol')
-    stock_quantity = data.get('quantity')
+        stock_symbol = data.get('stock_symbol')
+        stock_quantity = data.get('quantity')
+        stock_purchase_price = Decimal(data.get('purchase_price'))
 
-    if not stock_symbol or not stock_quantity:
-        return jsonify({"errors": "Invalid data"}), 400
+        if not stock_symbol or not stock_quantity or not stock_purchase_price:
+            return jsonify({"errors": "Invalid data"}), 400
 
-    stock_price_info = get_stock_price(stock_symbol)
-    if not stock_price_info:
-        return jsonify({"errors": "Stock not found"}), 404
+        stock_price_info = get_stock_price(stock_symbol)
+        if not stock_price_info:
+            return jsonify({"errors": "Stock not found"}), 404
 
-    stock_purchase_price = Decimal(stock_price_info['price'])
-    total_purchase_value = stock_purchase_price * Decimal(stock_quantity)
+        stock_current_price = Decimal(stock_price_info['price'])
+        total_purchase_value = stock_purchase_price * Decimal(stock_quantity)
 
-    if total_purchase_value > portfolio.free_capital:
-        return jsonify({"errors": "Not enough free capital"}), 400
+        if total_purchase_value > portfolio.free_capital:
+            return jsonify({"errors": "Not enough free capital"}), 400
 
-    portfolio_stock = PortfolioStock(
-        portfolio_id=portfolio_id,
-        stock_symbol=stock_symbol,
-        quantity=stock_quantity,
-        purchase_price=stock_purchase_price,
-        current_price=stock_purchase_price  # Use the same purchase price initially
-    )
-    db.session.add(portfolio_stock)
+        portfolio_stock = PortfolioStock(
+            portfolio_id=portfolio_id,
+            stock_symbol=stock_symbol,
+            quantity=stock_quantity,
+            purchase_price=stock_purchase_price,
+            current_price=stock_current_price  # Use the current price from the API
+        )
+        db.session.add(portfolio_stock)
 
-    portfolio.current_value += total_purchase_value
-    portfolio.profit_loss = portfolio.current_value - portfolio.initial_balance
-    portfolio.free_capital -= total_purchase_value
+        portfolio.current_value += total_purchase_value
+        portfolio.profit_loss = portfolio.current_value - portfolio.initial_balance
+        portfolio.free_capital -= total_purchase_value
 
-    db.session.commit()
-    return jsonify(portfolio_stock.to_dict()), 201
+        db.session.commit()
+        return jsonify({
+            "portfolio_stock": portfolio_stock.to_dict(),
+        }), 201
+    return jsonify({"errors": form.errors}), 400
 
 # Get Portfolio Stocks
 @portfolio_routes.route('/<int:portfolio_id>/stocks', methods=['GET'])

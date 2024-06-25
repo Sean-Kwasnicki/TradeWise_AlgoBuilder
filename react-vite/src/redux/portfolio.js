@@ -1,94 +1,286 @@
-// Actions
-const LOAD_PORTFOLIOS = 'portfolios/LOAD_PORTFOLIOS';
-const ADD_PORTFOLIO = 'portfolios/ADD_PORTFOLIO';
-const UPDATE_PORTFOLIO = 'portfolios/UPDATE_PORTFOLIO';
-const DELETE_PORTFOLIO = 'portfolios/DELETE_PORTFOLIO';
+
+// Action Types
+const CREATE_PORTFOLIO = 'portfolio/CREATE_PORTFOLIO';
+const GET_PORTFOLIO = 'portfolio/GET_PORTFOLIO';
+const GET_ALL_PORTFOLIOS = 'portfolio/GET_ALL_PORTFOLIOS';
+const UPDATE_PORTFOLIO = 'portfolio/UPDATE_PORTFOLIO';
+const DELETE_PORTFOLIO = 'portfolio/DELETE_PORTFOLIO';
+const ADD_PORTFOLIO_STOCK = 'portfolio/ADD_PORTFOLIO_STOCK';
+const GET_PORTFOLIO_STOCKS = 'portfolio/GET_PORTFOLIO_STOCKS';
+const UPDATE_PORTFOLIO_STOCK = 'portfolio/UPDATE_PORTFOLIO_STOCK';
+const DELETE_PORTFOLIO_STOCK = 'portfolio/DELETE_PORTFOLIO_STOCK';
 
 // Action Creators
-const loadPortfolios = (portfolios) => ({
-  type: LOAD_PORTFOLIOS,
-  portfolios,
+const createPortfolio = (portfolio) => ({
+    type: CREATE_PORTFOLIO,
+    portfolio
 });
 
-const addPortfolio = (portfolio) => ({
-  type: ADD_PORTFOLIO,
-  portfolio,
+const getPortfolio = (portfolio) => ({
+    type: GET_PORTFOLIO,
+    portfolio
+});
+
+const getAllPortfolios = (portfolios) => ({
+    type: GET_ALL_PORTFOLIOS,
+    portfolios
 });
 
 const updatePortfolio = (portfolio) => ({
-  type: UPDATE_PORTFOLIO,
-  portfolio,
+    type: UPDATE_PORTFOLIO,
+    portfolio
 });
 
 const deletePortfolio = (portfolioId) => ({
-  type: DELETE_PORTFOLIO,
-  portfolioId,
+    type: DELETE_PORTFOLIO,
+    portfolioId
+});
+
+const addPortfolioStock = (stock) => ({
+    type: ADD_PORTFOLIO_STOCK,
+    stock
+});
+
+const getPortfolioStocks = (stocks) => ({
+    type: GET_PORTFOLIO_STOCKS,
+    stocks
+});
+
+const updatePortfolioStock = (stock) => ({
+    type: UPDATE_PORTFOLIO_STOCK,
+    stock
+});
+
+const deletePortfolioStock = (stockId) => ({
+    type: DELETE_PORTFOLIO_STOCK,
+    stockId
 });
 
 // Thunks
-export const fetchPortfolios = () => async (dispatch) => {
-  const response = await fetch('/api/portfolios');
-  if (response.ok) {
-    const portfolios = await response.json();
-    dispatch(loadPortfolios(portfolios));
-  }
+export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
+    const response = await fetch('/api/portfolios/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(portfolioData)
+    });
+
+    if (response.ok) {
+        const portfolio = await response.json();
+        dispatch(createPortfolio(portfolio));
+        return portfolio;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const createPortfolio = (portfolio) => async (dispatch) => {
-  const response = await fetch('/api/portfolios', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(portfolio),
-  });
-  if (response.ok) {
-    const newPortfolio = await response.json();
-    dispatch(addPortfolio(newPortfolio));
-  }
+export const getPortfolioThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const portfolio = await response.json();
+        dispatch(getPortfolio(portfolio));
+        return portfolio;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const updatePortfolioThunk = (portfolio) => async (dispatch) => {
-  const response = await fetch(`/api/portfolios/${portfolio.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(portfolio),
-  });
-  if (response.ok) {
-    const updatedPortfolio = await response.json();
-    dispatch(updatePortfolio(updatedPortfolio));
-  }
+export const getAllPortfoliosThunk = () => async (dispatch) => {
+    const response = await fetch('/api/portfolios/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const portfolios = await response.json();
+        dispatch(getAllPortfolios(portfolios));
+        return portfolios;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const deletePortfolioThunk = (portfolioId) => async (dispatch) => {
-  const response = await fetch(`/api/portfolios/${portfolioId}`, {
-    method: 'DELETE',
-  });
-  if (response.ok) {
-    dispatch(deletePortfolio(portfolioId));
-  }
+export const updatePortfolioThunk = (id, portfolioData) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(portfolioData)
+    });
+
+    if (response.ok) {
+        const portfolio = await response.json();
+        dispatch(updatePortfolio(portfolio));
+        return portfolio;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deletePortfolioThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deletePortfolio(id));
+        return { message: 'Portfolio deleted successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const addPortfolioStockThunk = (portfolioId, stockData) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${portfolioId}/stocks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stockData)
+    });
+
+    if (response.ok) {
+        const stock = await response.json();
+        dispatch(addPortfolioStock(stock));
+        return stock;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const getPortfolioStocksThunk = (portfolioId) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${portfolioId}/stocks`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const stocks = await response.json();
+        dispatch(getPortfolioStocks(stocks));
+        return stocks;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const updatePortfolioStockThunk = (portfolioId, stockId, stockData) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${portfolioId}/stocks/${stockId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stockData)
+    });
+
+    if (response.ok) {
+        const stock = await response.json();
+        dispatch(updatePortfolioStock(stock));
+        return stock;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deletePortfolioStockThunk = (portfolioId, stockId) => async (dispatch) => {
+    const response = await fetch(`/api/portfolios/${portfolioId}/stocks/${stockId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deletePortfolioStock(stockId));
+        return { message: 'Stock deleted from portfolio successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+// Initial State
+const initialState = {
+    portfolio: {},
+    portfolios: [],
+    stocks: []
 };
 
 // Reducer
-const initialState = {};
-
-const portfolioReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_PORTFOLIOS:
-      const newPortfolios = {};
-      action.portfolios.forEach((portfolio) => {
-        newPortfolios[portfolio.id] = portfolio;
-      });
-      return { ...state, ...newPortfolios };
-    case ADD_PORTFOLIO:
-      return { ...state, [action.portfolio.id]: action.portfolio };
-    case UPDATE_PORTFOLIO:
-      return { ...state, [action.portfolio.id]: action.portfolio };
-    case DELETE_PORTFOLIO:
-      const newState = { ...state };
-      delete newState[action.portfolioId];
-      return newState;
-    default:
-      return state;
-  }
-};
-
-export default portfolioReducer;
+export default function portfolioReducer(state = initialState, action) {
+    switch (action.type) {
+        case CREATE_PORTFOLIO:
+            return {
+                ...state,
+                portfolios: [...state.portfolios, action.portfolio]
+            };
+        case GET_PORTFOLIO:
+            return {
+                ...state,
+                portfolio: action.portfolio
+            };
+        case GET_ALL_PORTFOLIOS:
+            return {
+                ...state,
+                portfolios: action.portfolios
+            };
+        case UPDATE_PORTFOLIO:
+            return {
+                ...state,
+                portfolios: state.portfolios.map((portfolio) =>
+                    portfolio.id === action.portfolio.id ? action.portfolio : portfolio
+                )
+            };
+        case DELETE_PORTFOLIO:
+            return {
+                ...state,
+                portfolios: state.portfolios.filter((portfolio) => portfolio.id !== action.portfolioId)
+            };
+        case ADD_PORTFOLIO_STOCK:
+            return {
+                ...state,
+                stocks: [...state.stocks, action.stock]
+            };
+        case GET_PORTFOLIO_STOCKS:
+            return {
+                ...state,
+                stocks: action.stocks
+            };
+        case UPDATE_PORTFOLIO_STOCK:
+            return {
+                ...state,
+                stocks: state.stocks.map((stock) =>
+                    stock.id === action.stock.id ? action.stock : stock
+                )
+            };
+        case DELETE_PORTFOLIO_STOCK:
+            return {
+                ...state,
+                stocks: state.stocks.filter((stock) => stock.id !== action.stockId)
+            };
+        default:
+            return state;
+    }
+}

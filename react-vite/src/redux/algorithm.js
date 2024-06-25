@@ -1,94 +1,167 @@
-// Actions
-const LOAD_ALGORITHMS = 'algorithms/LOAD_ALGORITHMS';
-const ADD_ALGORITHM = 'algorithms/ADD_ALGORITHM';
-const UPDATE_ALGORITHM = 'algorithms/UPDATE_ALGORITHM';
-const DELETE_ALGORITHM = 'algorithms/DELETE_ALGORITHM';
+// src/store/algorithm.js
+
+// Action Types
+const CREATE_ALGORITHM = 'algorithm/CREATE_ALGORITHM';
+const GET_ALGORITHM = 'algorithm/GET_ALGORITHM';
+const GET_ALL_ALGORITHMS = 'algorithm/GET_ALL_ALGORITHMS';
+const UPDATE_ALGORITHM = 'algorithm/UPDATE_ALGORITHM';
+const DELETE_ALGORITHM = 'algorithm/DELETE_ALGORITHM';
 
 // Action Creators
-const loadAlgorithms = (algorithms) => ({
-  type: LOAD_ALGORITHMS,
-  algorithms,
+const createAlgorithm = (algorithm) => ({
+    type: CREATE_ALGORITHM,
+    algorithm
 });
 
-const addAlgorithm = (algorithm) => ({
-  type: ADD_ALGORITHM,
-  algorithm,
+const getAlgorithm = (algorithm) => ({
+    type: GET_ALGORITHM,
+    algorithm
+});
+
+const getAllAlgorithms = (algorithms) => ({
+    type: GET_ALL_ALGORITHMS,
+    algorithms
 });
 
 const updateAlgorithm = (algorithm) => ({
-  type: UPDATE_ALGORITHM,
-  algorithm,
+    type: UPDATE_ALGORITHM,
+    algorithm
 });
 
 const deleteAlgorithm = (algorithmId) => ({
-  type: DELETE_ALGORITHM,
-  algorithmId,
+    type: DELETE_ALGORITHM,
+    algorithmId
 });
 
 // Thunks
-export const fetchAlgorithms = () => async (dispatch) => {
-  const response = await fetch('/api/algorithms');
-  if (response.ok) {
-    const algorithms = await response.json();
-    dispatch(loadAlgorithms(algorithms));
-  }
+export const createAlgorithmThunk = (algorithmData) => async (dispatch) => {
+    const response = await fetch('/api/algorithms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(algorithmData)
+    });
+
+    if (response.ok) {
+        const algorithm = await response.json();
+        dispatch(createAlgorithm(algorithm));
+        return algorithm;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const createAlgorithm = (algorithm) => async (dispatch) => {
-  const response = await fetch('/api/algorithms', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(algorithm),
-  });
-  if (response.ok) {
-    const newAlgorithm = await response.json();
-    dispatch(addAlgorithm(newAlgorithm));
-  }
+export const getAlgorithmThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/algorithms/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const algorithm = await response.json();
+        dispatch(getAlgorithm(algorithm));
+        return algorithm;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const updateAlgorithmThunk = (algorithm) => async (dispatch) => {
-  const response = await fetch(`/api/algorithms/${algorithm.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(algorithm),
-  });
-  if (response.ok) {
-    const updatedAlgorithm = await response.json();
-    dispatch(updateAlgorithm(updatedAlgorithm));
-  }
+export const getAllAlgorithmsThunk = () => async (dispatch) => {
+    const response = await fetch('/api/algorithms', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const algorithms = await response.json();
+        dispatch(getAllAlgorithms(algorithms));
+        return algorithms;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const deleteAlgorithmThunk = (algorithmId) => async (dispatch) => {
-  const response = await fetch(`/api/algorithms/${algorithmId}`, {
-    method: 'DELETE',
-  });
-  if (response.ok) {
-    dispatch(deleteAlgorithm(algorithmId));
-  }
+export const updateAlgorithmThunk = (id, algorithmData) => async (dispatch) => {
+    const response = await fetch(`/api/algorithms/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(algorithmData)
+    });
+
+    if (response.ok) {
+        const algorithm = await response.json();
+        dispatch(updateAlgorithm(algorithm));
+        return algorithm;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deleteAlgorithmThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/algorithms/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deleteAlgorithm(id));
+        return { message: 'Algorithm deleted successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+// Initial State
+const initialState = {
+    algorithm: {},
+    algorithms: []
 };
 
 // Reducer
-const initialState = {};
-
-const algorithmReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_ALGORITHMS:
-      const newAlgorithms = {};
-      action.algorithms.forEach((algorithm) => {
-        newAlgorithms[algorithm.id] = algorithm;
-      });
-      return { ...state, ...newAlgorithms };
-    case ADD_ALGORITHM:
-      return { ...state, [action.algorithm.id]: action.algorithm };
-    case UPDATE_ALGORITHM:
-      return { ...state, [action.algorithm.id]: action.algorithm };
-    case DELETE_ALGORITHM:
-      const newState = { ...state };
-      delete newState[action.algorithmId];
-      return newState;
-    default:
-      return state;
-  }
-};
-
-export default algorithmReducer;
+export default function algorithmReducer(state = initialState, action) {
+    switch (action.type) {
+        case CREATE_ALGORITHM:
+            return {
+                ...state,
+                algorithms: [...state.algorithms, action.algorithm]
+            };
+        case GET_ALGORITHM:
+            return {
+                ...state,
+                algorithm: action.algorithm
+            };
+        case GET_ALL_ALGORITHMS:
+            return {
+                ...state,
+                algorithms: action.algorithms
+            };
+        case UPDATE_ALGORITHM:
+            return {
+                ...state,
+                algorithms: state.algorithms.map((algorithm) =>
+                    algorithm.id === action.algorithm.id ? action.algorithm : algorithm
+                )
+            };
+        case DELETE_ALGORITHM:
+            return {
+                ...state,
+                algorithms: state.algorithms.filter((algorithm) => algorithm.id !== action.algorithmId)
+            };
+        default:
+            return state;
+    }
+}

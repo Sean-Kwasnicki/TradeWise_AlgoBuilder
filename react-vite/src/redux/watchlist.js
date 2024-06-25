@@ -1,94 +1,255 @@
-// Actions
-const LOAD_WATCHLISTS = 'watchlists/LOAD_WATCHLISTS';
-const ADD_WATCHLIST = 'watchlists/ADD_WATCHLIST';
-const UPDATE_WATCHLIST = 'watchlists/UPDATE_WATCHLIST';
-const DELETE_WATCHLIST = 'watchlists/DELETE_WATCHLIST';
+// src/store/watchlist.js
+
+// Action Types
+const CREATE_WATCHLIST = 'watchlist/CREATE_WATCHLIST';
+const GET_WATCHLIST = 'watchlist/GET_WATCHLIST';
+const GET_ALL_WATCHLISTS = 'watchlist/GET_ALL_WATCHLISTS';
+const UPDATE_WATCHLIST = 'watchlist/UPDATE_WATCHLIST';
+const DELETE_WATCHLIST = 'watchlist/DELETE_WATCHLIST';
+const ADD_WATCHLIST_STOCK = 'watchlist/ADD_WATCHLIST_STOCK';
+const GET_WATCHLIST_STOCKS = 'watchlist/GET_WATCHLIST_STOCKS';
+const DELETE_WATCHLIST_STOCK = 'watchlist/DELETE_WATCHLIST_STOCK';
 
 // Action Creators
-const loadWatchlists = (watchlists) => ({
-  type: LOAD_WATCHLISTS,
-  watchlists,
+const createWatchlist = (watchlist) => ({
+    type: CREATE_WATCHLIST,
+    watchlist
 });
 
-const addWatchlist = (watchlist) => ({
-  type: ADD_WATCHLIST,
-  watchlist,
+const getWatchlist = (watchlist) => ({
+    type: GET_WATCHLIST,
+    watchlist
+});
+
+const getAllWatchlists = (watchlists) => ({
+    type: GET_ALL_WATCHLISTS,
+    watchlists
 });
 
 const updateWatchlist = (watchlist) => ({
-  type: UPDATE_WATCHLIST,
-  watchlist,
+    type: UPDATE_WATCHLIST,
+    watchlist
 });
 
 const deleteWatchlist = (watchlistId) => ({
-  type: DELETE_WATCHLIST,
-  watchlistId,
+    type: DELETE_WATCHLIST,
+    watchlistId
+});
+
+const addWatchlistStock = (stock) => ({
+    type: ADD_WATCHLIST_STOCK,
+    stock
+});
+
+const getWatchlistStocks = (stocks) => ({
+    type: GET_WATCHLIST_STOCKS,
+    stocks
+});
+
+const deleteWatchlistStock = (stockId) => ({
+    type: DELETE_WATCHLIST_STOCK,
+    stockId
 });
 
 // Thunks
-export const fetchWatchlists = () => async (dispatch) => {
-  const response = await fetch('/api/watchlists');
-  if (response.ok) {
-    const watchlists = await response.json();
-    dispatch(loadWatchlists(watchlists));
-  }
+export const createWatchlistThunk = (watchlistData) => async (dispatch) => {
+    const response = await fetch('/api/watchlists', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(watchlistData)
+    });
+
+    if (response.ok) {
+        const watchlist = await response.json();
+        dispatch(createWatchlist(watchlist));
+        return watchlist;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const createWatchlist = (watchlist) => async (dispatch) => {
-  const response = await fetch('/api/watchlists', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(watchlist),
-  });
-  if (response.ok) {
-    const newWatchlist = await response.json();
-    dispatch(addWatchlist(newWatchlist));
-  }
+export const getWatchlistThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const watchlist = await response.json();
+        dispatch(getWatchlist(watchlist));
+        return watchlist;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const updateWatchlistThunk = (watchlist) => async (dispatch) => {
-  const response = await fetch(`/api/watchlists/${watchlist.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(watchlist),
-  });
-  if (response.ok) {
-    const updatedWatchlist = await response.json();
-    dispatch(updateWatchlist(updatedWatchlist));
-  }
+export const getAllWatchlistsThunk = () => async (dispatch) => {
+    const response = await fetch('/api/watchlists', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const watchlists = await response.json();
+        dispatch(getAllWatchlists(watchlists));
+        return watchlists;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const deleteWatchlistThunk = (watchlistId) => async (dispatch) => {
-  const response = await fetch(`/api/watchlists/${watchlistId}`, {
-    method: 'DELETE',
-  });
-  if (response.ok) {
-    dispatch(deleteWatchlist(watchlistId));
-  }
+export const updateWatchlistThunk = (id, watchlistData) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(watchlistData)
+    });
+
+    if (response.ok) {
+        const watchlist = await response.json();
+        dispatch(updateWatchlist(watchlist));
+        return watchlist;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deleteWatchlistThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deleteWatchlist(id));
+        return { message: 'Watchlist deleted successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const addWatchlistStockThunk = (watchlistId, stockData) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stockData)
+    });
+
+    if (response.ok) {
+        const stock = await response.json();
+        dispatch(addWatchlistStock(stock));
+        return stock;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const getWatchlistStocksThunk = (watchlistId) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const stocks = await response.json();
+        dispatch(getWatchlistStocks(stocks));
+        return stocks;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deleteWatchlistStockThunk = (watchlistId, stockId) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${watchlistId}/stocks/${stockId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deleteWatchlistStock(stockId));
+        return { message: 'Stock deleted from watchlist successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+// Initial State
+const initialState = {
+    watchlist: {},
+    watchlists: [],
+    stocks: []
 };
 
 // Reducer
-const initialState = {};
-
-const watchlistReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_WATCHLISTS:
-      const newWatchlists = {};
-      action.watchlists.forEach((watchlist) => {
-        newWatchlists[watchlist.id] = watchlist;
-      });
-      return { ...state, ...newWatchlists };
-    case ADD_WATCHLIST:
-      return { ...state, [action.watchlist.id]: action.watchlist };
-    case UPDATE_WATCHLIST:
-      return { ...state, [action.watchlist.id]: action.watchlist };
-    case DELETE_WATCHLIST:
-      const newState = { ...state };
-      delete newState[action.watchlistId];
-      return newState;
-    default:
-      return state;
-  }
-};
-
-export default watchlistReducer;
+export default function watchlistReducer(state = initialState, action) {
+    switch (action.type) {
+        case CREATE_WATCHLIST:
+            return {
+                ...state,
+                watchlists: [...state.watchlists, action.watchlist]
+            };
+        case GET_WATCHLIST:
+            return {
+                ...state,
+                watchlist: action.watchlist
+            };
+        case GET_ALL_WATCHLISTS:
+            return {
+                ...state,
+                watchlists: action.watchlists
+            };
+        case UPDATE_WATCHLIST:
+            return {
+                ...state,
+                watchlists: state.watchlists.map((watchlist) =>
+                    watchlist.id === action.watchlist.id ? action.watchlist : watchlist
+                )
+            };
+        case DELETE_WATCHLIST:
+            return {
+                ...state,
+                watchlists: state.watchlists.filter((watchlist) => watchlist.id !== action.watchlistId)
+            };
+        case ADD_WATCHLIST_STOCK:
+            return {
+                ...state,
+                stocks: [...state.stocks, action.stock]
+            };
+        case GET_WATCHLIST_STOCKS:
+            return {
+                ...state,
+                stocks: action.stocks
+            };
+        case DELETE_WATCHLIST_STOCK:
+            return {
+                ...state,
+                stocks: state.stocks.filter((stock) => stock.id !== action.stockId)
+            };
+        default:
+            return state;
+    }
+}

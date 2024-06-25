@@ -1,94 +1,167 @@
-// Actions
-const LOAD_BACKTESTS = 'backtests/LOAD_BACKTESTS';
-const ADD_BACKTEST = 'backtests/ADD_BACKTEST';
-const UPDATE_BACKTEST = 'backtests/UPDATE_BACKTEST';
-const DELETE_BACKTEST = 'backtests/DELETE_BACKTEST';
+// src/store/backtest.js
+
+// Action Types
+const CREATE_BACKTEST = 'backtest/CREATE_BACKTEST';
+const GET_BACKTEST = 'backtest/GET_BACKTEST';
+const GET_ALL_BACKTESTS = 'backtest/GET_ALL_BACKTESTS';
+const UPDATE_BACKTEST = 'backtest/UPDATE_BACKTEST';
+const DELETE_BACKTEST = 'backtest/DELETE_BACKTEST';
 
 // Action Creators
-const loadBacktests = (backtests) => ({
-  type: LOAD_BACKTESTS,
-  backtests,
+const createBacktest = (backtest) => ({
+    type: CREATE_BACKTEST,
+    backtest
 });
 
-const addBacktest = (backtest) => ({
-  type: ADD_BACKTEST,
-  backtest,
+const getBacktest = (backtest) => ({
+    type: GET_BACKTEST,
+    backtest
+});
+
+const getAllBacktests = (backtests) => ({
+    type: GET_ALL_BACKTESTS,
+    backtests
 });
 
 const updateBacktest = (backtest) => ({
-  type: UPDATE_BACKTEST,
-  backtest,
+    type: UPDATE_BACKTEST,
+    backtest
 });
 
 const deleteBacktest = (backtestId) => ({
-  type: DELETE_BACKTEST,
-  backtestId,
+    type: DELETE_BACKTEST,
+    backtestId
 });
 
 // Thunks
-export const fetchBacktests = () => async (dispatch) => {
-  const response = await fetch('/api/backtests');
-  if (response.ok) {
-    const backtests = await response.json();
-    dispatch(loadBacktests(backtests));
-  }
+export const createBacktestThunk = (backtestData) => async (dispatch) => {
+    const response = await fetch('/api/backtests', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(backtestData)
+    });
+
+    if (response.ok) {
+        const backtest = await response.json();
+        dispatch(createBacktest(backtest));
+        return backtest;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const createBacktest = (backtest) => async (dispatch) => {
-  const response = await fetch('/api/backtests', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(backtest),
-  });
-  if (response.ok) {
-    const newBacktest = await response.json();
-    dispatch(addBacktest(newBacktest));
-  }
+export const getBacktestThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/backtests/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const backtest = await response.json();
+        dispatch(getBacktest(backtest));
+        return backtest;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const updateBacktestThunk = (backtest) => async (dispatch) => {
-  const response = await fetch(`/api/backtests/${backtest.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(backtest),
-  });
-  if (response.ok) {
-    const updatedBacktest = await response.json();
-    dispatch(updateBacktest(updatedBacktest));
-  }
+export const getAllBacktestsThunk = () => async (dispatch) => {
+    const response = await fetch('/api/backtests', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const backtests = await response.json();
+        dispatch(getAllBacktests(backtests));
+        return backtests;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
-export const deleteBacktestThunk = (backtestId) => async (dispatch) => {
-  const response = await fetch(`/api/backtests/${backtestId}`, {
-    method: 'DELETE',
-  });
-  if (response.ok) {
-    dispatch(deleteBacktest(backtestId));
-  }
+export const updateBacktestThunk = (id, backtestData) => async (dispatch) => {
+    const response = await fetch(`/api/backtests/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(backtestData)
+    });
+
+    if (response.ok) {
+        const backtest = await response.json();
+        dispatch(updateBacktest(backtest));
+        return backtest;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const deleteBacktestThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/backtests/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        dispatch(deleteBacktest(id));
+        return { message: 'Backtest deleted successfully' };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+// Initial State
+const initialState = {
+    backtest: {},
+    backtests: []
 };
 
 // Reducer
-const initialState = {};
-
-const backtestReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_BACKTESTS:
-      const newBacktests = {};
-      action.backtests.forEach((backtest) => {
-        newBacktests[backtest.id] = backtest;
-      });
-      return { ...state, ...newBacktests };
-    case ADD_BACKTEST:
-      return { ...state, [action.backtest.id]: action.backtest };
-    case UPDATE_BACKTEST:
-      return { ...state, [action.backtest.id]: action.backtest };
-    case DELETE_BACKTEST:
-      const newState = { ...state };
-      delete newState[action.backtestId];
-      return newState;
-    default:
-      return state;
-  }
-};
-
-export default backtestReducer;
+export default function backtestReducer(state = initialState, action) {
+    switch (action.type) {
+        case CREATE_BACKTEST:
+            return {
+                ...state,
+                backtests: [...state.backtests, action.backtest]
+            };
+        case GET_BACKTEST:
+            return {
+                ...state,
+                backtest: action.backtest
+            };
+        case GET_ALL_BACKTESTS:
+            return {
+                ...state,
+                backtests: action.backtests
+            };
+        case UPDATE_BACKTEST:
+            return {
+                ...state,
+                backtests: state.backtests.map((backtest) =>
+                    backtest.id === action.backtest.id ? action.backtest : backtest
+                )
+            };
+        case DELETE_BACKTEST:
+            return {
+                ...state,
+                backtests: state.backtests.filter((backtest) => backtest.id !== action.backtestId)
+            };
+        default:
+            return state;
+    }
+}
