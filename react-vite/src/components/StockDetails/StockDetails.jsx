@@ -5,10 +5,10 @@ import { fetchStock } from '../../redux/stock';
 const StockDetails = () => {
     const [symbol, setSymbol] = useState('');
     const dispatch = useDispatch();
-    const stock = useSelector((state) => state.stocks.stock);
+    const stock = useSelector((state) => state.stocks ? state.stocks[symbol] : null);
 
     const handleInputChange = (e) => {
-        setSymbol(e.target.value);
+        setSymbol(e.target.value.toUpperCase());
     };
 
     const handleFetchDetails = () => {
@@ -19,6 +19,7 @@ const StockDetails = () => {
 
     return (
         <div>
+            <h1>Stock Details</h1>
             <input
                 type="text"
                 value={symbol}
@@ -26,7 +27,7 @@ const StockDetails = () => {
                 placeholder="Enter stock symbol"
             />
             <button onClick={handleFetchDetails}>Get Stock Details</button>
-            {stock && (
+            {stock ? (
                 <div>
                     <h2>Stock Details for {stock.symbol}</h2>
                     <p>Current Price: ${stock.current_price}</p>
@@ -38,9 +39,12 @@ const StockDetails = () => {
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <p>Average Volume: {stock.average_volume}</p>
                 </div>
+            ) : (
+                <p>No stock details available. Enter a symbol and fetch the details.</p>
             )}
         </div>
     );
 };
 
 export default StockDetails;
+

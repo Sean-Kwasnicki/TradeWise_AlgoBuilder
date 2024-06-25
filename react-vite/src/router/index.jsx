@@ -2,9 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
-import StockList from '../components/StockList/StockList';
-
-const symbols = ['AAPL', 'GOOGL', 'MSFT'];
+import StockDetails from '../components/StockDetails/StockDetails';
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +10,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <StockList symbols={symbols} listType="portfolio" />,
+        element: <StockDetails />,
       },
       {
         path: "login",
@@ -21,15 +19,7 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
-      },
-      {
-        path: "portfolios",
-        element: <StockList symbols={symbols} listType="portfolio" />,
-      },
-      {
-        path: "watchlists",
-        element: <StockList symbols={symbols} listType="watchlist" />,
-      },
+      }
     ],
   },
 ]);
