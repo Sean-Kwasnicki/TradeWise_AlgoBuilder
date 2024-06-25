@@ -7,9 +7,10 @@ def seed_portfolios():
         portfolio = Portfolio(
             user_id=user.id,
             name=f'{user.username} Portfolio',
-            initial_balance=10000.00,
-            current_value=10000.00,
-            profit_loss=0.00
+            initial_balance=1000000.00,
+            current_value=1000000.00,
+            profit_loss=0.00,
+            free_capital=1000000.00  # Initialize free capital to initial balance
         )
         db.session.add(portfolio)
     db.session.commit()

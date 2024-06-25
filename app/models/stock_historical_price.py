@@ -4,7 +4,7 @@ class StockHistoricalPrice(db.Model):
     __tablename__ = 'stock_historical_prices'
 
     id = db.Column(db.Integer, primary_key=True)
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
+    stock_symbol = db.Column(db.String(10), nullable=False)  # Use stock symbol instead of stock ID
     date = db.Column(db.Date, nullable=False)
     open_price = db.Column(db.Numeric(15, 2), nullable=False)
     close_price = db.Column(db.Numeric(15, 2), nullable=False)
@@ -12,12 +12,10 @@ class StockHistoricalPrice(db.Model):
     low_price = db.Column(db.Numeric(15, 2), nullable=False)
     volume = db.Column(db.Integer, nullable=False)
 
-    stock = db.relationship('Stock', back_populates='historical_prices')
-
     def to_dict(self):
         return {
             'id': self.id,
-            'stock_id': self.stock_id,
+            'stock_symbol': self.stock_symbol,
             'date': self.date,
             'open_price': str(self.open_price),
             'close_price': str(self.close_price),

@@ -1,7 +1,7 @@
 """Create users table
 
 Revision ID: 2a785fe89f64
-Revises: 
+Revises:
 Create Date: 2024-06-20 22:57:25.729424
 
 """
@@ -26,6 +26,10 @@ def upgrade():
     sa.Column('market_cap', sa.Numeric(precision=20, scale=2), nullable=False),
     sa.Column('pe_ratio', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.Column('dividend_yield', sa.Numeric(precision=5, scale=2), nullable=False),
+    sa.Column('volume', sa.Integer(), nullable=True),
+    sa.Column('week_52_high', sa.Numeric(precision=15, scale=2), nullable=True),
+    sa.Column('week_52_low', sa.Numeric(precision=15, scale=2), nullable=True),
+    sa.Column('average_volume', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
@@ -59,6 +63,7 @@ def upgrade():
     sa.Column('initial_balance', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('current_value', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('profit_loss', sa.Numeric(precision=15, scale=2), nullable=False),
+    sa.Column('free_capital', sa.Numeric(precision=15, scale=2), nullable=False, server_default='0.00'),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -66,14 +71,13 @@ def upgrade():
     )
     op.create_table('stock_historical_prices',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('stock_id', sa.Integer(), nullable=False),
+    sa.Column('stock_symbol', sa.String(length=10), nullable=False),  # Use stock symbol instead of stock ID
     sa.Column('date', sa.Date(), nullable=False),
     sa.Column('open_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('close_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('high_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('low_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('volume', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('watchlists',
@@ -114,23 +118,22 @@ def upgrade():
     op.create_table('portfolio_stocks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
-    sa.Column('stock_id', sa.Integer(), nullable=False),
+    sa.Column('stock_symbol', sa.String(length=10), nullable=False),  # Use stock symbol instead of stock ID
     sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('purchase_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('current_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
-    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('watchlist_stocks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('watchlist_id', sa.Integer(), nullable=False),
-    sa.Column('stock_id', sa.Integer(), nullable=False),
+    sa.Column('stock_symbol', sa.String(length=10), nullable=False),  # Use stock symbol instead of stock ID
+    sa.Column('current_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.ForeignKeyConstraint(['watchlist_id'], ['watchlists.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

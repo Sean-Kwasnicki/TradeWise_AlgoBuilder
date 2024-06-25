@@ -50,6 +50,7 @@
 from app.models import db, Stock, environment, SCHEMA
 from sqlalchemy.sql import text
 from app.api.finnhub_client import get_stock_price
+from app.api.yahoo_finance_client import get_stock_details
 
 def seed_stocks():
     stock_symbols = ['AAPL', 'GOOGL', 'MSFT']
@@ -57,7 +58,8 @@ def seed_stocks():
 
     for symbol in stock_symbols:
         stock_info = get_stock_price(symbol)
-        if stock_info:
+        stock_details = get_stock_details(symbol)
+        if stock_info and stock_details:
             stocks.append(
                 Stock(
                     symbol=stock_info['symbol'],
@@ -65,7 +67,11 @@ def seed_stocks():
                     current_price=stock_info['price'],
                     market_cap=stock_info['market_cap'],
                     pe_ratio=stock_info['pe_ratio'],
-                    dividend_yield=stock_info['dividend_yield']
+                    dividend_yield=stock_info['dividend_yield'],
+                    volume=stock_details['volume'],
+                    week_52_high=stock_details['week_52_high'],
+                    week_52_low=stock_details['week_52_low'],
+                    average_volume=stock_details['average_volume']
                 )
             )
 

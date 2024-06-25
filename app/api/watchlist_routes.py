@@ -3,11 +3,12 @@ from flask_login import login_required, current_user
 from app.models import Watchlist, WatchlistStock, Stock, db
 from app.forms.watchlist_form import WatchlistForm
 from app.forms.watchlist_stock_form import WatchlistStockForm
+from app.api.finnhub_client import get_stock_price
 
 watchlist_routes = Blueprint('watchlists', __name__)
 
 # Create Watchlist
-@watchlist_routes.route('/', methods=['POST'])
+@watchlist_routes.route('', methods=['POST'])
 @login_required
 def create_watchlist():
     form = WatchlistForm()
@@ -33,7 +34,7 @@ def get_watchlist(id):
     return jsonify(watchlist.to_dict()), 200
 
 # Get All Watchlists
-@watchlist_routes.route('/', methods=['GET'])
+@watchlist_routes.route('', methods=['GET'])
 @login_required
 def get_all_watchlists():
     watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
@@ -79,10 +80,16 @@ def add_stock_to_watchlist(watchlist_id):
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        stock_id = form.stock_id.data
-        if not Stock.query.get(stock_id):
+        stock_symbol = form.stock_symbol.data
+        stock_price_info = get_stock_price(stock_symbol)
+        if not stock_price_info:
             return jsonify({"errors": "Stock not found"}), 404
-        watchlist_stock = WatchlistStock(watchlist_id=watchlist_id, stock_id=stock_id)
+
+        watchlist_stock = WatchlistStock(
+        watchlist_id=watchlist_id,
+        stock_symbol=stock_symbol,
+        current_price=stock_price_info['price']  # Set the current price
+        )
         db.session.add(watchlist_stock)
         db.session.commit()
         return jsonify(watchlist_stock.to_dict()), 201

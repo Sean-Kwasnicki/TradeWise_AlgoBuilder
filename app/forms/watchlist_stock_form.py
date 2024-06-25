@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField
-from wtforms.validators import DataRequired
+from wtforms import StringField
+from wtforms.validators import DataRequired, Length
 
 class WatchlistStockForm(FlaskForm):
-  stock_id = IntegerField('stock_id', validators=[DataRequired()])
+    stock_symbol = StringField('stock_symbol', validators=[DataRequired(), Length(max=10)])

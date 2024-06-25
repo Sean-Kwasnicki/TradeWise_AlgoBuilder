@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, DecimalField
-from wtforms.validators import DataRequired, NumberRange
+from wtforms import StringField, IntegerField, DecimalField
+from wtforms.validators import DataRequired, NumberRange, Length
 
 class AddPortfolioStockForm(FlaskForm):
-  stock_id = IntegerField('stock_id', validators=[DataRequired()])
-  quantity = IntegerField('quantity', validators=[DataRequired(), NumberRange(min=1)])
-  purchase_price = DecimalField('purchase_price', validators=[DataRequired(), NumberRange(min=0)])
+    stock_symbol = StringField('stock_symbol', validators=[DataRequired(), Length(max=10)])
+    quantity = IntegerField('quantity', validators=[DataRequired(), NumberRange(min=1)])
+    purchase_price = DecimalField('purchase_price', validators=[DataRequired(), NumberRange(min=0)])
