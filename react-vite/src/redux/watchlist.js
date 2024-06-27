@@ -1,5 +1,3 @@
-// src/store/watchlist.js
-
 // Action Types
 const CREATE_WATCHLIST = 'watchlist/CREATE_WATCHLIST';
 const GET_WATCHLIST = 'watchlist/GET_WATCHLIST';
@@ -41,8 +39,9 @@ const addWatchlistStock = (stock) => ({
     stock
 });
 
-const getWatchlistStocks = (stocks) => ({
+const getWatchlistStocks = (watchlistId, stocks) => ({
     type: GET_WATCHLIST_STOCKS,
+    watchlistId,
     stocks
 });
 
@@ -172,7 +171,7 @@ export const getWatchlistStocksThunk = (watchlistId) => async (dispatch) => {
 
     if (response.ok) {
         const stocks = await response.json();
-        dispatch(getWatchlistStocks(stocks));
+        dispatch(getWatchlistStocks(watchlistId, stocks));
         return stocks;
     } else {
         const errors = await response.json();
@@ -199,9 +198,8 @@ export const deleteWatchlistStockThunk = (watchlistId, stockId) => async (dispat
 
 // Initial State
 const initialState = {
-    watchlist: {},
     watchlists: [],
-    stocks: []
+    stocksByWatchlistId: {}
 };
 
 // Reducer
@@ -215,7 +213,9 @@ export default function watchlistReducer(state = initialState, action) {
         case GET_WATCHLIST:
             return {
                 ...state,
-                watchlist: action.watchlist
+                watchlists: state.watchlists.map((watchlist) =>
+                    watchlist.id === action.watchlist.id ? action.watchlist : watchlist
+                )
             };
         case GET_ALL_WATCHLISTS:
             return {
@@ -237,17 +237,29 @@ export default function watchlistReducer(state = initialState, action) {
         case ADD_WATCHLIST_STOCK:
             return {
                 ...state,
-                stocks: [...state.stocks, action.stock]
+                stocksByWatchlistId: {
+                    ...state.stocksByWatchlistId,
+                    [action.stock.watchlist_id]: [
+                        ...(state.stocksByWatchlistId[action.stock.watchlist_id] || []),
+                        action.stock
+                    ]
+                }
             };
         case GET_WATCHLIST_STOCKS:
             return {
                 ...state,
-                stocks: action.stocks
+                stocksByWatchlistId: {
+                    ...state.stocksByWatchlistId,
+                    [action.watchlistId]: action.stocks
+                }
             };
         case DELETE_WATCHLIST_STOCK:
             return {
                 ...state,
-                stocks: state.stocks.filter((stock) => stock.id !== action.stockId)
+                stocksByWatchlistId: {
+                    ...state.stocksByWatchlistId,
+                    [action.watchlistId]: state.stocksByWatchlistId[action.watchlistId].filter((stock) => stock.id !== action.stockId)
+                }
             };
         default:
             return state;

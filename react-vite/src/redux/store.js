@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   algorithmBlock: algorithmBlockReducer,
   backtest: backtestReducer,
   portfolio: portfolioReducer,
-  stock: stockReducer,
+  stocks: stockReducer,
   user: userReducer,
   watchlist: watchlistReducer,
 });

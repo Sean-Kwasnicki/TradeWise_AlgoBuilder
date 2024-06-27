@@ -1,4 +1,3 @@
-
 // Action Types
 const CREATE_PORTFOLIO = 'portfolio/CREATE_PORTFOLIO';
 const GET_PORTFOLIO = 'portfolio/GET_PORTFOLIO';
@@ -41,8 +40,9 @@ const addPortfolioStock = (stock) => ({
     stock
 });
 
-const getPortfolioStocks = (stocks) => ({
+const getPortfolioStocks = (portfolioId, stocks) => ({
     type: GET_PORTFOLIO_STOCKS,
+    portfolioId,
     stocks
 });
 
@@ -177,7 +177,7 @@ export const getPortfolioStocksThunk = (portfolioId) => async (dispatch) => {
 
     if (response.ok) {
         const stocks = await response.json();
-        dispatch(getPortfolioStocks(stocks));
+        dispatch(getPortfolioStocks(portfolioId, stocks));
         return stocks;
     } else {
         const errors = await response.json();
@@ -223,9 +223,8 @@ export const deletePortfolioStockThunk = (portfolioId, stockId) => async (dispat
 
 // Initial State
 const initialState = {
-    portfolio: {},
     portfolios: [],
-    stocks: []
+    stocksByPortfolioId: {}
 };
 
 // Reducer
@@ -239,7 +238,9 @@ export default function portfolioReducer(state = initialState, action) {
         case GET_PORTFOLIO:
             return {
                 ...state,
-                portfolio: action.portfolio
+                portfolios: state.portfolios.map((portfolio) =>
+                    portfolio.id === action.portfolio.id ? action.portfolio : portfolio
+                )
             };
         case GET_ALL_PORTFOLIOS:
             return {
@@ -261,24 +262,37 @@ export default function portfolioReducer(state = initialState, action) {
         case ADD_PORTFOLIO_STOCK:
             return {
                 ...state,
-                stocks: [...state.stocks, action.stock]
+                stocksByPortfolioId: {
+                    ...state.stocksByPortfolioId,
+                    [action.stock.portfolio_id]: [...(state.stocksByPortfolioId[action.stock.portfolio_id] || []), action.stock]
+                }
             };
         case GET_PORTFOLIO_STOCKS:
             return {
                 ...state,
-                stocks: action.stocks
+                stocksByPortfolioId: {
+                    ...state.stocksByPortfolioId,
+                    [action.portfolioId]: action.stocks
+                }
             };
         case UPDATE_PORTFOLIO_STOCK:
             return {
                 ...state,
-                stocks: state.stocks.map((stock) =>
-                    stock.id === action.stock.id ? action.stock : stock
-                )
+                stocksByPortfolioId: {
+                    ...state.stocksByPortfolioId,
+                    [action.stock.portfolio_id]: state.stocksByPortfolioId[action.stock.portfolio_id].map((stock) =>
+                        stock.id === action.stock.id ? action.stock : stock
+                    )
+                }
             };
         case DELETE_PORTFOLIO_STOCK:
             return {
                 ...state,
-                stocks: state.stocks.filter((stock) => stock.id !== action.stockId)
+                stocksByPortfolioId: {
+                    [action.portfolioId]: state.stocksByPortfolioId[action.portfolioId].filter(
+                        (stock) => stock.id !== action.stockId
+                    )
+                }
             };
         default:
             return state;

@@ -86,47 +86,6 @@ def delete_portfolio(id):
     db.session.commit()
     return jsonify({"message": "Portfolio deleted successfully"}), 200
 
-# Add Stock to Portfolio
-# @portfolio_routes.route('/<int:portfolio_id>/stocks', methods=['POST'])
-# @login_required
-# def add_stock_to_portfolio(portfolio_id):
-#     form = AddPortfolioStockForm()
-#     if form.validate_on_submit():
-#         data = request.get_json()
-#         portfolio = Portfolio.query.get(portfolio_id)
-#         if portfolio is None:
-#             return jsonify({"errors": "Portfolio not found"}), 404
-#         if portfolio.user_id != current_user.id:
-#             return jsonify({"errors": "Unauthorized access"}), 401
-
-#         stock_symbol = data['stock_symbol']
-#         stock_quantity = data['quantity']
-#         stock_price_info = get_stock_price(stock_symbol)
-#         if not stock_price_info:
-#             return jsonify({"errors": "Stock not found"}), 404
-
-#         stock_purchase_price = stock_price_info['price']
-#         total_purchase_value = stock_purchase_price * stock_quantity
-
-#         if total_purchase_value > portfolio.free_capital:
-#             return jsonify({"errors": "Not enough free capital"}), 400
-
-#         portfolio_stock = PortfolioStock(
-#             portfolio_id=portfolio_id,
-#             stock_symbol=stock_symbol,  # Use stock_symbol instead of stock_id
-#             quantity=stock_quantity,
-#             purchase_price=stock_purchase_price,
-#             current_price=stock_price_info['price']
-#         )
-#         db.session.add(portfolio_stock)
-
-#         portfolio.current_value += stock_purchase_price * stock_quantity
-#         portfolio.profit_loss = portfolio.current_value - portfolio.initial_balance
-#         portfolio.free_capital -= total_purchase_value
-
-#         db.session.commit()
-#         return jsonify(portfolio_stock.to_dict()), 201
-#     return jsonify({"errors": form.errors}), 400
 
 # Add Stock to Portfolio
 @portfolio_routes.route('/<int:portfolio_id>/stocks', methods=['POST'])

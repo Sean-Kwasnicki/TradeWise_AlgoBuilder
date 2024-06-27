@@ -3,6 +3,9 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import StockDetails from '../components/StockDetails/StockDetails';
+import Portfolio from '../components/Portfolios/Portfolios';
+import Watchlist from '../components/Watchlists/Watchlists';
+
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +22,14 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "portfolios",
+        element: <Portfolio />,
+      },
+      {
+        path: "watchlists",
+        element: <Watchlist />,
       }
     ],
   },

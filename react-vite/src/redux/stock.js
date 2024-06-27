@@ -1,3 +1,5 @@
+// redux/stock.js
+
 // Action Types
 const GET_STOCK = 'stocks/GET_STOCK';
 const GET_HISTORICAL_PRICES = 'stocks/GET_HISTORICAL_PRICES';
@@ -93,7 +95,7 @@ export const fetchAllStocks = () => async (dispatch) => {
 
 // Initial State
 const initialState = {
-    stock: {},
+    stocks: {}, // Changed from stock to stocks to reflect multiple stock entries
     historicalPrices: {},
     allStocks: []
 };
@@ -104,7 +106,10 @@ export default function stockReducer(state = initialState, action) {
         case GET_STOCK:
             return {
                 ...state,
-                stock: action.stock
+                stocks: {
+                    ...state.stocks,
+                    [action.stock.symbol]: action.stock
+                }
             };
         case GET_HISTORICAL_PRICES:
             return {
@@ -117,7 +122,10 @@ export default function stockReducer(state = initialState, action) {
         case UPDATE_STOCK:
             return {
                 ...state,
-                stock: action.stock
+                stocks: {
+                    ...state.stocks,
+                    [action.stock.symbol]: action.stock
+                }
             };
         case GET_ALL_STOCKS:
             return {

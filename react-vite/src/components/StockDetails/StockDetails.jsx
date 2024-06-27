@@ -1,19 +1,25 @@
+
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
+import { FaSpinner } from 'react-icons/fa';
+import './StockDetails.css'
 
 const StockDetails = () => {
     const [symbol, setSymbol] = useState('');
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const stock = useSelector((state) => state.stocks ? state.stocks[symbol] : null);
+    const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
 
     const handleInputChange = (e) => {
-        setSymbol(e.target.value.toUpperCase());
+        setSymbol(e.target.value.toUpperCase()); 
     };
 
-    const handleFetchDetails = () => {
+    const handleFetchDetails = async () => {
         if (symbol) {
-            dispatch(fetchStock(symbol));
+            setLoading(true);
+            await dispatch(fetchStock(symbol));
+            setLoading(false);
         }
     };
 
@@ -27,9 +33,14 @@ const StockDetails = () => {
                 placeholder="Enter stock symbol"
             />
             <button onClick={handleFetchDetails}>Get Stock Details</button>
-            {stock ? (
+            {loading ? (
                 <div>
-                    <h2>Stock Details for {stock.symbol}</h2>
+                    <FaSpinner className="spinner" />
+                    <p>Loading...</p>
+                </div>
+            ) : stock ? (
+                <div>
+                    <h2>Stock Details for {stock.name}: {stock.symbol}</h2>
                     <p>Current Price: ${stock.current_price}</p>
                     <p>Market Cap: ${stock.market_cap}</p>
                     <p>PE Ratio: {stock.pe_ratio}</p>
@@ -47,4 +58,3 @@ const StockDetails = () => {
 };
 
 export default StockDetails;
-

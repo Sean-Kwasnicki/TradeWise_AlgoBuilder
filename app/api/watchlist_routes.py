@@ -102,8 +102,20 @@ def get_watchlist_stocks(watchlist_id):
     watchlist = Watchlist.query.get(watchlist_id)
     if not watchlist or watchlist.user_id != current_user.id:
         return jsonify({"errors": "Watchlist not found"}), 404
+
     stocks = WatchlistStock.query.filter_by(watchlist_id=watchlist_id).all()
-    return jsonify([stock.to_dict() for stock in stocks]), 200
+
+    # Fetch current prices for each stock
+    updated_stocks = []
+    for stock in stocks:
+        stock_data = get_stock_price(stock.stock_symbol)
+        if stock_data:
+            stock.current_price = stock_data['price']
+            updated_stocks.append(stock)
+
+    db.session.commit()
+    return jsonify([stock.to_dict() for stock in updated_stocks]), 200
+
 
 # Delete Stock from Watchlist
 @watchlist_routes.route('/<int:watchlist_id>/stocks/<int:id>', methods=['DELETE'])
