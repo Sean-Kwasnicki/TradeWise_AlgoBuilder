@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     getAllPortfoliosThunk,
@@ -7,11 +7,16 @@ import {
     deletePortfolioThunk,
     updatePortfolioThunk
 } from '../../redux/portfolio';
+import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
+import { FaSpinner } from 'react-icons/fa';
 
 const Portfolio = () => {
     const dispatch = useDispatch();
     const portfolios = useSelector((state) => state.portfolio.portfolios);
     const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
+    const [loading, setLoading] = useState({});
+    const [visibleStocks, setVisibleStocks] = useState({});
+    const [visibleCharts, setVisibleCharts] = useState({});
 
     useEffect(() => {
         dispatch(getAllPortfoliosThunk());
@@ -36,7 +41,22 @@ const Portfolio = () => {
     };
 
     const handleViewStocks = (portfolioId) => {
-        dispatch(getPortfolioStocksThunk(portfolioId));
+        if (visibleStocks[portfolioId]) {
+            setVisibleStocks((prev) => ({ ...prev, [portfolioId]: false }));
+        } else {
+            setLoading((prev) => ({ ...prev, [portfolioId]: true }));
+            dispatch(getPortfolioStocksThunk(portfolioId)).then(() => {
+                setLoading((prev) => ({ ...prev, [portfolioId]: false }));
+                setVisibleStocks((prev) => ({ ...prev, [portfolioId]: true }));
+            });
+        }
+    };
+
+    const toggleChartVisibility = (portfolioId, stockSymbol) => {
+        setVisibleCharts((prev) => ({
+            ...prev,
+            [`${portfolioId}-${stockSymbol}`]: !prev[`${portfolioId}-${stockSymbol}`]
+        }));
     };
 
     return (
@@ -52,15 +72,33 @@ const Portfolio = () => {
                         <p>Profit/Loss: ${portfolio.profit_loss}</p>
                         <button onClick={() => handleUpdatePortfolio(portfolio.id)}>Edit</button>
                         <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete</button>
-                        <button onClick={() => handleViewStocks(portfolio.id)}>View Stocks</button>
-                        {stocksByPortfolioId[portfolio.id] && Array.isArray(stocksByPortfolioId[portfolio.id]) && (
-                            <ul>
-                                {stocksByPortfolioId[portfolio.id].map((stock) => (
-                                    <li key={stock.id}>
-                                        {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
-                                    </li>
-                                ))}
-                            </ul>
+                        <button onClick={() => handleViewStocks(portfolio.id)}>
+                            {visibleStocks[portfolio.id] ? 'Hide Stocks' : 'View Stocks'}
+                        </button>
+                        {loading[portfolio.id] ? (
+                            <div>
+                                <FaSpinner className="spinner" />
+                                <p>Loading...</p>
+                            </div>
+                        ) : (
+                            visibleStocks[portfolio.id] && (
+                                <ul>
+                                    {stocksByPortfolioId[portfolio.id]?.map((stock) => (
+                                        <li key={stock.id}>
+                                            {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
+                                            <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
+                                                {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                            </button>
+                                            {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] && (
+                                                <TradingViewMiniWidget
+                                                    symbol={stock.stock_symbol}
+                                                    containerId={`tradingview_widget_${portfolio.id}_${stock.stock_symbol}`}
+                                                />
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )
                         )}
                     </li>
                 ))}

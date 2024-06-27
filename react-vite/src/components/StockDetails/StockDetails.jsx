@@ -1,8 +1,10 @@
-
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
+import { addPortfolioStockThunk } from '../../redux/portfolio';
+import { addWatchlistStockThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
+import TradingViewWidget from '../SmartChart/TradingViewWidget';
 import './StockDetails.css'
 
 const StockDetails = () => {
@@ -12,7 +14,7 @@ const StockDetails = () => {
     const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
 
     const handleInputChange = (e) => {
-        setSymbol(e.target.value.toUpperCase()); 
+        setSymbol(e.target.value.toUpperCase());
     };
 
     const handleFetchDetails = async () => {
@@ -20,6 +22,29 @@ const StockDetails = () => {
             setLoading(true);
             await dispatch(fetchStock(symbol));
             setLoading(false);
+        }
+    };
+
+    const handleAddToPortfolio = () => {
+        const quantity = prompt('Enter quantity:');
+        const purchasePrice = prompt('Enter purchase price:');
+        if (quantity && purchasePrice) {
+            const portfolioId = prompt('Enter portfolio ID:');
+            dispatch(addPortfolioStockThunk(portfolioId, {
+                stock_symbol: symbol,
+                quantity: parseFloat(quantity),
+                purchase_price: parseFloat(purchasePrice)
+            }));
+        }
+    };
+
+    const handleAddToWatchlist = () => {
+        const watchlistId = prompt('Enter watchlist ID:');
+        if (watchlistId) {
+            dispatch(addWatchlistStockThunk(watchlistId, {
+                stock_symbol: symbol,
+                current_price: stock.current_price
+            }));
         }
     };
 
@@ -49,6 +74,9 @@ const StockDetails = () => {
                     <p>52 Week High: ${stock.week_52_high}</p>
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <p>Average Volume: {stock.average_volume}</p>
+                    <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
+                    <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                    <TradingViewWidget symbol={stock.symbol} />
                 </div>
             ) : (
                 <p>No stock details available. Enter a symbol and fetch the details.</p>

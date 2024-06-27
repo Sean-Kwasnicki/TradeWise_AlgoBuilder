@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     getAllWatchlistsThunk,
@@ -7,11 +7,16 @@ import {
     deleteWatchlistThunk,
     updateWatchlistThunk
 } from '../../redux/watchlist';
+import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
+import { FaSpinner } from 'react-icons/fa';
 
-const Watchlist = () => {
+const Watchlists = () => {
     const dispatch = useDispatch();
     const watchlists = useSelector((state) => state.watchlist.watchlists);
     const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
+    const [loading, setLoading] = useState({});
+    const [visibleStocks, setVisibleStocks] = useState({});
+    const [visibleCharts, setVisibleCharts] = useState({});
 
     useEffect(() => {
         dispatch(getAllWatchlistsThunk());
@@ -32,7 +37,22 @@ const Watchlist = () => {
     };
 
     const handleViewStocks = (watchlistId) => {
-        dispatch(getWatchlistStocksThunk(watchlistId));
+        if (visibleStocks[watchlistId]) {
+            setVisibleStocks((prev) => ({ ...prev, [watchlistId]: false }));
+        } else {
+            setLoading((prev) => ({ ...prev, [watchlistId]: true }));
+            dispatch(getWatchlistStocksThunk(watchlistId)).then(() => {
+                setLoading((prev) => ({ ...prev, [watchlistId]: false }));
+                setVisibleStocks((prev) => ({ ...prev, [watchlistId]: true }));
+            });
+        }
+    };
+
+    const toggleChartVisibility = (watchlistId, stockSymbol) => {
+        setVisibleCharts((prev) => ({
+            ...prev,
+            [`${watchlistId}-${stockSymbol}`]: !prev[`${watchlistId}-${stockSymbol}`]
+        }));
     };
 
     return (
@@ -45,15 +65,33 @@ const Watchlist = () => {
                         <h2>{watchlist.name}</h2>
                         <button onClick={() => handleUpdateWatchlist(watchlist.id)}>Edit</button>
                         <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete</button>
-                        <button onClick={() => handleViewStocks(watchlist.id)}>View Stocks</button>
-                        {stocksByWatchlistId[watchlist.id] && Array.isArray(stocksByWatchlistId[watchlist.id]) && (
-                            <ul>
-                                {stocksByWatchlistId[watchlist.id].map((stock) => (
-                                    <li key={stock.id}>
-                                        {stock.stock_symbol} - Current Price: ${stock.current_price}
-                                    </li>
-                                ))}
-                            </ul>
+                        <button onClick={() => handleViewStocks(watchlist.id)}>
+                            {visibleStocks[watchlist.id] ? 'Hide Stocks' : 'View Stocks'}
+                        </button>
+                        {loading[watchlist.id] ? (
+                            <div>
+                                <FaSpinner className="spinner" />
+                                <p>Loading...</p>
+                            </div>
+                        ) : (
+                            visibleStocks[watchlist.id] && (
+                                <ul>
+                                    {stocksByWatchlistId[watchlist.id]?.map((stock) => (
+                                        <li key={stock.id}>
+                                            {stock.stock_symbol} - Current Price: ${stock.current_price}
+                                            <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
+                                                {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                            </button>
+                                            {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] && (
+                                                <TradingViewMiniWidget
+                                                    symbol={stock.stock_symbol}
+                                                    containerId={`tradingview_widget_${watchlist.id}_${stock.stock_symbol}`}
+                                                />
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )
                         )}
                     </li>
                 ))}
@@ -62,4 +100,4 @@ const Watchlist = () => {
     );
 };
 
-export default Watchlist;
+export default Watchlists;

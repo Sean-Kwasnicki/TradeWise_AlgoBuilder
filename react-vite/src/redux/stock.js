@@ -1,10 +1,10 @@
-// redux/stock.js
-
 // Action Types
 const GET_STOCK = 'stocks/GET_STOCK';
 const GET_HISTORICAL_PRICES = 'stocks/GET_HISTORICAL_PRICES';
 const UPDATE_STOCK = 'stocks/UPDATE_STOCK';
 const GET_ALL_STOCKS = 'stocks/GET_ALL_STOCKS';
+const SET_STOCK_ERROR = 'stocks/SET_STOCK_ERROR';
+const CLEAR_STOCK_ERROR = 'stocks/CLEAR_STOCK_ERROR';
 
 // Action Creators
 const getStock = (stock) => ({
@@ -28,8 +28,18 @@ const getAllStocks = (stocks) => ({
     stocks
 });
 
+const setStockError = (error) => ({
+    type: SET_STOCK_ERROR,
+    error
+});
+
+const clearStockError = () => ({
+    type: CLEAR_STOCK_ERROR
+});
+
 // Thunks
 export const fetchStock = (symbol) => async (dispatch) => {
+    dispatch(clearStockError()); // Clear any previous errors
     const response = await fetch(`/api/stocks/symbol/${symbol}`, {
         method: 'GET',
         headers: {
@@ -39,9 +49,14 @@ export const fetchStock = (symbol) => async (dispatch) => {
 
     if (response.ok) {
         const stock = await response.json();
-        dispatch(getStock(stock));
+        if (stock.volume > 0) {
+            dispatch(getStock(stock));
+        } else {
+            dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
+        }
     } else {
         console.error('Failed to fetch stock data');
+        dispatch(setStockError('Failed to fetch stock data. Please try again.'));
     }
 };
 
@@ -58,6 +73,7 @@ export const fetchHistoricalPrices = (symbol) => async (dispatch) => {
         dispatch(getHistoricalPrices(symbol, prices));
     } else {
         console.error('Failed to fetch historical prices');
+        dispatch(setStockError('Failed to fetch historical prices. Please try again.'));
     }
 };
 
@@ -74,6 +90,7 @@ export const updateStockPrice = (symbol) => async (dispatch) => {
         dispatch(updateStock(stock));
     } else {
         console.error('Failed to update stock price');
+        dispatch(setStockError('Failed to update stock price. Please try again.'));
     }
 };
 
@@ -90,6 +107,7 @@ export const fetchAllStocks = () => async (dispatch) => {
         dispatch(getAllStocks(stocks));
     } else {
         console.error('Failed to fetch all stocks');
+        dispatch(setStockError('Failed to fetch all stocks. Please try again.'));
     }
 };
 
@@ -97,7 +115,8 @@ export const fetchAllStocks = () => async (dispatch) => {
 const initialState = {
     stocks: {}, // Changed from stock to stocks to reflect multiple stock entries
     historicalPrices: {},
-    allStocks: []
+    allStocks: [],
+    error: null
 };
 
 // Reducer
@@ -131,6 +150,16 @@ export default function stockReducer(state = initialState, action) {
             return {
                 ...state,
                 allStocks: action.stocks
+            };
+        case SET_STOCK_ERROR:
+            return {
+                ...state,
+                error: action.error
+            };
+        case CLEAR_STOCK_ERROR:
+            return {
+                ...state,
+                error: null
             };
         default:
             return state;
