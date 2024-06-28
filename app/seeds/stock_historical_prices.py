@@ -1,5 +1,4 @@
 from app.models import db, Stock, StockHistoricalPrice, environment, SCHEMA
-from sqlalchemy.sql import text
 from app.api.yahoo_finance_client import get_historical_prices
 from datetime import datetime
 
@@ -26,6 +25,5 @@ def undo_stock_historical_prices():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.stock_historical_prices RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM stock_historical_prices"))
-
+        db.session.execute("DELETE FROM stock_historical_prices")
     db.session.commit()
