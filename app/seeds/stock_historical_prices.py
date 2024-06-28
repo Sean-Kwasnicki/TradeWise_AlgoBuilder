@@ -1,6 +1,6 @@
 from app.models import db, Stock, StockHistoricalPrice, environment, SCHEMA
 from sqlalchemy.sql import text
-from app.api.yahoo_finance_client import get_historical_prices  
+from app.api.yahoo_finance_client import get_historical_prices
 from datetime import datetime
 
 def seed_stock_historical_prices():

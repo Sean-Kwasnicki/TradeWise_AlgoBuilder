@@ -14,14 +14,14 @@ def get_historical_prices(symbol):
     start_date = end_date - timedelta(days=5)
     historical_data = stock.history(start=start_date, end=end_date)
 
-    # Ensure the index is treated as dates
+    # Convert index to date without timezone
     historical_data.index = historical_data.index.date
 
     historical_prices = historical_data.to_dict('index')
     formatted_data = {}
 
     for date, data in historical_prices.items():
-        formatted_data[date.strftime('%Y-%m-%d')] = {
+        formatted_data[date] = {
             '1. open': data['Open'],
             '4. close': data['Close'],
             '2. high': data['High'],

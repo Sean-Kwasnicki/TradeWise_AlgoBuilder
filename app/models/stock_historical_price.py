@@ -4,7 +4,7 @@ class StockHistoricalPrice(db.Model):
     __tablename__ = 'stock_historical_prices'
 
     id = db.Column(db.Integer, primary_key=True)
-    stock_symbol = db.Column(db.String(10), nullable=False)  # Use stock symbol instead of stock ID
+    stock_symbol = db.Column(db.String(10), nullable=False)  
     date = db.Column(db.Date, nullable=False)
     open_price = db.Column(db.Numeric(15, 2), nullable=False)
     close_price = db.Column(db.Numeric(15, 2), nullable=False)
