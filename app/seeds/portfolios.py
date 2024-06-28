@@ -10,7 +10,7 @@ def seed_portfolios():
             initial_balance=1000000.00,
             current_value=1000000.00,
             profit_loss=0.00,
-            free_capital=1000000.00  # Initialize free capital to initial balance
+            free_capital=1000000.00  
         )
         db.session.add(portfolio)
     db.session.commit()

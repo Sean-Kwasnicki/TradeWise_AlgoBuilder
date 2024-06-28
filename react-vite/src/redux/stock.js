@@ -39,7 +39,7 @@ const clearStockError = () => ({
 
 // Thunks
 export const fetchStock = (symbol) => async (dispatch) => {
-    dispatch(clearStockError()); // Clear any previous errors
+    dispatch(clearStockError());
     const response = await fetch(`/api/stocks/symbol/${symbol}`, {
         method: 'GET',
         headers: {
@@ -113,7 +113,7 @@ export const fetchAllStocks = () => async (dispatch) => {
 
 // Initial State
 const initialState = {
-    stocks: {}, // Changed from stock to stocks to reflect multiple stock entries
+    stocks: {}, 
     historicalPrices: {},
     allStocks: [],
     error: null

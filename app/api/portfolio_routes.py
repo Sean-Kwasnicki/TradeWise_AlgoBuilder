@@ -123,7 +123,7 @@ def add_stock_to_portfolio(portfolio_id):
             stock_symbol=stock_symbol,
             quantity=stock_quantity,
             purchase_price=stock_purchase_price,
-            current_price=stock_current_price  # Use the current price from the API
+            current_price=stock_current_price  
         )
         db.session.add(portfolio_stock)
 

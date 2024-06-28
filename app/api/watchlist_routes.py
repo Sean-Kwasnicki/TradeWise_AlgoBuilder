@@ -88,7 +88,7 @@ def add_stock_to_watchlist(watchlist_id):
         watchlist_stock = WatchlistStock(
         watchlist_id=watchlist_id,
         stock_symbol=stock_symbol,
-        current_price=stock_price_info['price']  # Set the current price
+        current_price=stock_price_info['price']  
         )
         db.session.add(watchlist_stock)
         db.session.commit()

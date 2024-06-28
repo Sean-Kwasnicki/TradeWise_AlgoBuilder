@@ -21,7 +21,7 @@ def seed_watchlist_stocks():
             watchlist_stock = WatchlistStock(
                 watchlist_id=watchlist.id,
                 stock_symbol=symbol,
-                current_price=current_price  # Set the current price
+                current_price=current_price  
             )
             db.session.add(watchlist_stock)
             print(f"Added stock {symbol} with price {current_price} to watchlist {watchlist.id}")  # Debug print

@@ -5,7 +5,7 @@ from app.api.yahoo_finance_client import get_stock_details, get_historical_price
 
 stock_routes = Blueprint('stocks', __name__)
 
-# In-memory list to store looked-up stock symbols
+
 looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
 
 # Get Stock by Symbol
@@ -71,7 +71,7 @@ def update_stock(symbol):
     }
     return jsonify(stock_response), 200
 
-# Get All Stocks (you might want to implement pagination here if the stock list is large)
+# Get All Stocks
 @stock_routes.route('/', methods=['GET'])
 @login_required
 def get_all_stocks():
