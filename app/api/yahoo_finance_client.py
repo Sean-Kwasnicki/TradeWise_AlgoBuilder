@@ -1,9 +1,7 @@
 import os
 from datetime import datetime, timedelta
-import requests
 import yfinance as yf
 from dotenv import load_dotenv
-import pandas as pd
 
 load_dotenv()
 
@@ -12,12 +10,12 @@ BASE_URL = 'https://www.alphavantage.co/query'
 
 def get_historical_prices(symbol):
     stock = yf.Ticker(symbol)
-    end_date = datetime.now()
+    end_date = datetime.now().date()
     start_date = end_date - timedelta(days=5)
     historical_data = stock.history(start=start_date, end=end_date)
 
-    # Convert the index to datetime format without timezone
-    historical_data.index = pd.to_datetime(historical_data.index).date
+    # Ensure the index is treated as dates
+    historical_data.index = historical_data.index.date
 
     historical_prices = historical_data.to_dict('index')
     formatted_data = {}
