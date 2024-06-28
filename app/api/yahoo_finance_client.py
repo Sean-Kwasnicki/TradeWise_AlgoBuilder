@@ -7,7 +7,7 @@ import pandas as pd
 load_dotenv()
 
 def get_historical_prices(symbol):
-    stock = yf.TTicker(symbol)
+    stock = yf.Ticker(symbol)
     end_date = datetime.now()
     start_date = end_date - timedelta(days=5)
     historical_data = stock.history(start=start_date, end=end_date)
