@@ -1,5 +1,11 @@
-import requests
+import os
 from datetime import datetime, timedelta
+import yfinance as yf
+from dotenv import load_dotenv
+import requests
+
+load_dotenv()
+
 
 def get_historical_prices(symbol):
     end_date = datetime.now()
@@ -35,20 +41,18 @@ def get_historical_prices(symbol):
     return historical_prices
 
 def get_stock_details(symbol):
-    url = f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{symbol}?modules=summaryDetail"
-    response = requests.get(url)
-    data = response.json()
+    try:
+        stock = yf.Ticker(symbol)
+        info = stock.info
 
-    if "quoteSummary" not in data or "result" not in data["quoteSummary"] or len(data["quoteSummary"]["result"]) == 0:
+        details = {
+            'volume': info.get('volume'),
+            'week_52_high': info.get('fiftyTwoWeekHigh'),
+            'week_52_low': info.get('fiftyTwoWeekLow'),
+            'average_volume': info.get('averageVolume')
+        }
+
+        return details
+    except Exception as e:
+        print(f"Error fetching stock details for {symbol}: {e}")
         return None
-
-    summary_detail = data["quoteSummary"]["result"][0]["summaryDetail"]
-
-    details = {
-        'volume': summary_detail.get('volume', {}).get('raw'),
-        'week_52_high': summary_detail.get('fiftyTwoWeekHigh', {}).get('raw'),
-        'week_52_low': summary_detail.get('fiftyTwoWeekLow', {}).get('raw'),
-        'average_volume': summary_detail.get('averageVolume', {}).get('raw')
-    }
-
-    return details
