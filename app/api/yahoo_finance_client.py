@@ -16,7 +16,10 @@ def get_historical_prices(symbol):
     if not isinstance(historical_data.index, pd.DatetimeIndex):
         historical_data.index = pd.to_datetime(historical_data.index)
 
-    historical_data.index = historical_data.index.tz_localize("UTC").tz_convert("America/New_York")
+    # Ensure the index has a timezone
+    if historical_data.index.tz is None:
+        historical_data.index = historical_data.index.tz_localize("UTC").tz_convert("America/New_York")
+
     historical_prices = historical_data.to_dict('index')
     formatted_data = {}
 
