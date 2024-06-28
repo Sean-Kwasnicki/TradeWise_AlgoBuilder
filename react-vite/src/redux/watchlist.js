@@ -45,8 +45,9 @@ const getWatchlistStocks = (watchlistId, stocks) => ({
     stocks
 });
 
-const deleteWatchlistStock = (stockId) => ({
+const deleteWatchlistStock = (watchlistId, stockId) => ({
     type: DELETE_WATCHLIST_STOCK,
+    watchlistId,
     stockId
 });
 
@@ -188,7 +189,7 @@ export const deleteWatchlistStockThunk = (watchlistId, stockId) => async (dispat
     });
 
     if (response.ok) {
-        dispatch(deleteWatchlistStock(stockId));
+        dispatch(deleteWatchlistStock(watchlistId, stockId));
         return { message: 'Stock deleted from watchlist successfully' };
     } else {
         const errors = await response.json();
@@ -239,10 +240,7 @@ export default function watchlistReducer(state = initialState, action) {
                 ...state,
                 stocksByWatchlistId: {
                     ...state.stocksByWatchlistId,
-                    [action.stock.watchlist_id]: [
-                        ...(state.stocksByWatchlistId[action.stock.watchlist_id] || []),
-                        action.stock
-                    ]
+                    [action.stock.watchlist_id]: [...(state.stocksByWatchlistId[action.stock.watchlist_id] || []), action.stock]
                 }
             };
         case GET_WATCHLIST_STOCKS:
@@ -258,7 +256,9 @@ export default function watchlistReducer(state = initialState, action) {
                 ...state,
                 stocksByWatchlistId: {
                     ...state.stocksByWatchlistId,
-                    [action.watchlistId]: state.stocksByWatchlistId[action.watchlistId].filter((stock) => stock.id !== action.stockId)
+                    [action.watchlistId]: state.stocksByWatchlistId[action.watchlistId].filter(
+                        (stock) => stock.id !== action.stockId
+                    )
                 }
             };
         default:

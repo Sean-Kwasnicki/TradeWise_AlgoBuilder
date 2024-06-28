@@ -53,21 +53,37 @@ const StockDetails = () => {
         }
     };
 
-    const handleAddToWatchlist = async () => {
-        const watchlistName = prompt('Enter watchlist name:');
-        const watchlist = watchlists.find(w => w.name === watchlistName);
-        if (watchlist) {
-            const result = await dispatch(addWatchlistStockThunk(watchlist.id, {
-                stock_symbol: symbol,
-                current_price: stock.current_price
-            }));
-            if (result.error) {
-                alert('Failed to add stock to watchlist: ' + result.error);
-            }
-        } else {
-            alert('Watchlist not found');
-        }
-    };
+    // const handleAddToWatchlist = async () => {
+    //     const watchlistName = prompt('Enter watchlist name:');
+    //     const watchlist = watchlists.find(w => w.name === watchlistName);
+    //     if (watchlist) {
+    //         const result = await dispatch(addWatchlistStockThunk(watchlist.id, {
+    //             stock_symbol: symbol,
+    //             current_price: stock.current_price
+    //         }));
+    //         if (result.error) {
+    //             alert('Failed to add stock to watchlist: ' + result.error);
+    //         }
+    //     } else {
+    //         alert('Watchlist not found');
+    //     }
+    // };
+
+    const handleAddToWatchlist = () => {
+      const watchlistName = prompt('Enter watchlist name:');
+      const watchlist = watchlists.find(w => w.name === watchlistName);
+      if (watchlist) {
+          dispatch(addWatchlistStockThunk(watchlist.id, {
+              stock_symbol: symbol,
+              current_price: stock.current_price,
+              added_price: stock.current_price // Set added price to current price
+          }));
+      } else {
+          alert('Watchlist not found');
+      }
+  };
+
+
 
     return (
         <div>
