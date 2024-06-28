@@ -35,7 +35,7 @@ def get_historical_prices(symbol):
 
 def get_stock_details(symbol):
     try:
-        stock = yf.TTicker(symbol)
+        stock = yf.Ticker(symbol)
         info = stock.info
 
         details = {
