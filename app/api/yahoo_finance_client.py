@@ -1,19 +1,22 @@
 import os
 from datetime import datetime, timedelta
-import requests
 import yfinance as yf
 from dotenv import load_dotenv
+import pandas as pd
 
 load_dotenv()
 
-API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY')
-BASE_URL = 'https://www.alphavantage.co/query'
-
 def get_historical_prices(symbol):
-    stock = yf.Ticker(symbol)
+    stock = yf.TTicker(symbol)
     end_date = datetime.now()
     start_date = end_date - timedelta(days=5)
     historical_data = stock.history(start=start_date, end=end_date)
+
+    # Ensure the index is datetime
+    if not isinstance(historical_data.index, pd.DatetimeIndex):
+        historical_data.index = pd.to_datetime(historical_data.index)
+
+    historical_data.index = historical_data.index.tz_localize("UTC").tz_convert("America/New_York")
     historical_prices = historical_data.to_dict('index')
     formatted_data = {}
 
