@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     getAllPortfoliosThunk,
     getPortfolioStocksThunk,
     createPortfolioThunk,
     deletePortfolioThunk,
-    updatePortfolioThunk
+    updatePortfolioThunk,
+    deletePortfolioStockThunk,
+    updatePortfolioStockThunk
 } from '../../redux/portfolio';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
@@ -30,14 +32,16 @@ const Portfolio = () => {
 
     const handleUpdatePortfolio = (id) => {
         const name = prompt('Enter new portfolio name:');
-        const initialBalance = prompt('Enter new initial balance:');
-        const currentValue = prompt('Enter current value:');
-        const profitLoss = prompt('Enter profit/loss:');
-        dispatch(updatePortfolioThunk(id, { name, initial_balance: initialBalance, current_value: currentValue, profit_loss: profitLoss }));
+        if (name) {
+            dispatch(updatePortfolioThunk(id, { name }));
+        }
     };
 
     const handleDeletePortfolio = (id) => {
+      const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
+      if(confirmDelete){
         dispatch(deletePortfolioThunk(id));
+      }
     };
 
     const handleViewStocks = (portfolioId) => {
@@ -57,6 +61,24 @@ const Portfolio = () => {
             ...prev,
             [`${portfolioId}-${stockSymbol}`]: !prev[`${portfolioId}-${stockSymbol}`]
         }));
+    };
+
+    const handleDeleteStock = (portfolioId, stockId) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this stock?');
+        if (confirmDelete) {
+            dispatch(deletePortfolioStockThunk(portfolioId, stockId));
+        }
+    };
+
+    const handleUpdateStock = (portfolioId, stock) => {
+        const quantity = prompt('Enter new quantity:', stock.quantity);
+        if (quantity && quantity !== stock.quantity) {
+            dispatch(updatePortfolioStockThunk(portfolioId, stock.id, {
+                quantity: parseFloat(quantity),
+                purchase_price: stock.purchase_price,
+                current_price: stock.current_price
+            }));
+        }
     };
 
     return (
@@ -86,6 +108,8 @@ const Portfolio = () => {
                                     {stocksByPortfolioId[portfolio.id]?.map((stock) => (
                                         <li key={stock.id}>
                                             {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
+                                            <button onClick={() => handleUpdateStock(portfolio.id, stock)}>Edit Stock</button>
+                                            <button onClick={() => handleDeleteStock(portfolio.id, stock.id)}>Delete Stock</button>
                                             <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
                                                 {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
                                             </button>

@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
-import { addPortfolioStockThunk } from '../../redux/portfolio';
-import { addWatchlistStockThunk } from '../../redux/watchlist';
+import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portfolio';
+import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
 import TradingViewWidget from '../SmartChart/TradingViewWidget';
-import './StockDetails.css'
+import './StockDetails.css';
 
 const StockDetails = () => {
     const [symbol, setSymbol] = useState('');
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
+    const portfolios = useSelector((state) => state.portfolio.portfolios);
+    const watchlists = useSelector((state) => state.watchlist.watchlists);
+
+    useEffect(() => {
+        dispatch(getAllPortfoliosThunk());
+        dispatch(getAllWatchlistsThunk());
+    }, [dispatch]);
 
     const handleInputChange = (e) => {
         setSymbol(e.target.value.toUpperCase());
@@ -25,26 +32,40 @@ const StockDetails = () => {
         }
     };
 
-    const handleAddToPortfolio = () => {
+    const handleAddToPortfolio = async () => {
         const quantity = prompt('Enter quantity:');
         const purchasePrice = prompt('Enter purchase price:');
         if (quantity && purchasePrice) {
-            const portfolioId = prompt('Enter portfolio ID:');
-            dispatch(addPortfolioStockThunk(portfolioId, {
-                stock_symbol: symbol,
-                quantity: parseFloat(quantity),
-                purchase_price: parseFloat(purchasePrice)
-            }));
+            const portfolioName = prompt('Enter portfolio name:');
+            const portfolio = portfolios.find(p => p.name === portfolioName);
+            if (portfolio) {
+                const result = await dispatch(addPortfolioStockThunk(portfolio.id, {
+                    stock_symbol: symbol,
+                    quantity: parseFloat(quantity),
+                    purchase_price: parseFloat(purchasePrice)
+                }));
+                if (result.error) {
+                    alert('Failed to add stock to portfolio: ' + result.error);
+                }
+            } else {
+                alert('Portfolio not found');
+            }
         }
     };
 
-    const handleAddToWatchlist = () => {
-        const watchlistId = prompt('Enter watchlist ID:');
-        if (watchlistId) {
-            dispatch(addWatchlistStockThunk(watchlistId, {
+    const handleAddToWatchlist = async () => {
+        const watchlistName = prompt('Enter watchlist name:');
+        const watchlist = watchlists.find(w => w.name === watchlistName);
+        if (watchlist) {
+            const result = await dispatch(addWatchlistStockThunk(watchlist.id, {
                 stock_symbol: symbol,
                 current_price: stock.current_price
             }));
+            if (result.error) {
+                alert('Failed to add stock to watchlist: ' + result.error);
+            }
+        } else {
+            alert('Watchlist not found');
         }
     };
 

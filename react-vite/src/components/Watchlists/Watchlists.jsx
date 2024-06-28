@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    getAllWatchlistsThunk,
-    getWatchlistStocksThunk,
-    createWatchlistThunk,
-    deleteWatchlistThunk,
-    updateWatchlistThunk
-} from '../../redux/watchlist';
+import { getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
 
-const Watchlists = () => {
+const Watchlist = () => {
     const dispatch = useDispatch();
     const watchlists = useSelector((state) => state.watchlist.watchlists);
     const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
@@ -21,20 +15,6 @@ const Watchlists = () => {
     useEffect(() => {
         dispatch(getAllWatchlistsThunk());
     }, [dispatch]);
-
-    const handleCreateWatchlist = () => {
-        const name = prompt('Enter watchlist name:');
-        dispatch(createWatchlistThunk({ name }));
-    };
-
-    const handleUpdateWatchlist = (id) => {
-        const name = prompt('Enter new watchlist name:');
-        dispatch(updateWatchlistThunk(id, { name }));
-    };
-
-    const handleDeleteWatchlist = (id) => {
-        dispatch(deleteWatchlistThunk(id));
-    };
 
     const handleViewStocks = (watchlistId) => {
         if (visibleStocks[watchlistId]) {
@@ -58,13 +38,10 @@ const Watchlists = () => {
     return (
         <div>
             <h1>Watchlists</h1>
-            <button onClick={handleCreateWatchlist}>Create Watchlist</button>
             <ul>
                 {watchlists.map((watchlist) => (
                     <li key={watchlist.id}>
                         <h2>{watchlist.name}</h2>
-                        <button onClick={() => handleUpdateWatchlist(watchlist.id)}>Edit</button>
-                        <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete</button>
                         <button onClick={() => handleViewStocks(watchlist.id)}>
                             {visibleStocks[watchlist.id] ? 'Hide Stocks' : 'View Stocks'}
                         </button>
@@ -78,7 +55,7 @@ const Watchlists = () => {
                                 <ul>
                                     {stocksByWatchlistId[watchlist.id]?.map((stock) => (
                                         <li key={stock.id}>
-                                            {stock.stock_symbol} - Current Price: ${stock.current_price}
+                                            {stock.stock_symbol} - Current Price: ${stock.current_price}, Added Price: ${stock.added_price}
                                             <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
                                                 {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
                                             </button>
@@ -100,4 +77,4 @@ const Watchlists = () => {
     );
 };
 
-export default Watchlists;
+export default Watchlist;

@@ -149,23 +149,30 @@ export const deletePortfolioThunk = (id) => async (dispatch) => {
 };
 
 export const addPortfolioStockThunk = (portfolioId, stockData) => async (dispatch) => {
-    const response = await fetch(`/api/portfolios/${portfolioId}/stocks`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(stockData)
-    });
+  try {
+      const response = await fetch(`/api/portfolios/${portfolioId}/stocks`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(stockData)
+      });
 
-    if (response.ok) {
-        const stock = await response.json();
-        dispatch(addPortfolioStock(stock));
-        return stock;
-    } else {
-        const errors = await response.json();
-        return errors;
-    }
+      if (response.ok) {
+          const stock = await response.json();
+          dispatch(addPortfolioStock(stock));
+          return stock;
+      } else {
+          const errors = await response.json();
+          console.error(errors); // Log the errors to help with debugging
+          return errors;
+      }
+  } catch (error) {
+      console.error('Error adding stock to portfolio:', error);
+      return { error: 'Failed to add stock to portfolio' };
+  }
 };
+
 
 export const getPortfolioStocksThunk = (portfolioId) => async (dispatch) => {
     const response = await fetch(`/api/portfolios/${portfolioId}/stocks`, {

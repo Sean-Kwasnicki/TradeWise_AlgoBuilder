@@ -10,7 +10,7 @@ const TradingViewMiniWidget = ({ symbol, containerId }) => {
                 new window.TradingView.widget({
                     symbol: symbol,
                     container_id: containerId,
-                    interval: 'D', // Set the interval to 1-day
+                    interval: 'D', 
                     autosize: true,
                     theme: 'light',
                     style: '1',
