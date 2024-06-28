@@ -2,50 +2,37 @@ import os
 from datetime import datetime, timedelta
 import yfinance as yf
 from dotenv import load_dotenv
-import requests
+import pandas as pd
 
 load_dotenv()
 
 def get_historical_prices(symbol):
+    stock = yf.Ticker(symbol)
     end_date = datetime.now()
     start_date = end_date - timedelta(days=5)
-    start_str = start_date.strftime('%Y-%m-%d')
-    end_str = end_date.strftime('%Y-%m-%d')
+    historical_data = stock.history(start=start_date, end=end_date)
 
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?period1={int(start_date.timestamp())}&period2={int(end_date.timestamp())}&interval=1d"
+    # Ensure the index is datetime
+    if not isinstance(historical_data.index, pd.DatetimeIndex):
+        historical_data.index = pd.to_datetime(historical_data.index)
 
-    response = requests.get(url)
-    if response.status_code != 200 or not response.content:
-        print(f"Failed to fetch historical data for {symbol}. Status code: {response.status_code}, Content: {response.content}")
-        return {}
+    # Ensure the index has a timezone
+    if historical_data.index.tz is None:
+        historical_data.index = historical_data.index.tz_localize("UTC").tz_convert("America/New_York")
 
-    try:
-        data = response.json()
-    except requests.exceptions.JSONDecodeError as e:
-        print(f"Error decoding JSON for {symbol}: {e}")
-        return {}
+    historical_prices = historical_data.to_dict('index')
+    formatted_data = {}
 
-    if "chart" not in data or "result" not in data["chart"] or len(data["chart"]["result"]) == 0:
-        print(f"No chart data available for {symbol}")
-        return {}
-
-    result = data["chart"]["result"][0]
-    timestamps = result["timestamp"]
-    indicators = result["indicators"]["quote"][0]
-
-    historical_prices = {}
-
-    for i in range(len(timestamps)):
-        date_str = datetime.fromtimestamp(timestamps[i]).strftime('%Y-%m-%d')
-        historical_prices[date_str] = {
-            '1. open': indicators['open'][i],
-            '2. high': indicators['high'][i],
-            '3. low': indicators['low'][i],
-            '4. close': indicators['close'][i],
-            '5. volume': indicators['volume'][i]
+    for date, data in historical_prices.items():
+        formatted_data[date.strftime('%Y-%m-%d')] = {
+            '1. open': data['Open'],
+            '4. close': data['Close'],
+            '2. high': data['High'],
+            '3. low': data['Low'],
+            '5. volume': data['Volume']
         }
 
-    return historical_prices
+    return formatted_data
 
 def get_stock_details(symbol):
     try:
