@@ -6,20 +6,27 @@ import requests
 
 load_dotenv()
 
-
 def get_historical_prices(symbol):
     end_date = datetime.now()
     start_date = end_date - timedelta(days=5)
     start_str = start_date.strftime('%Y-%m-%d')
     end_str = end_date.strftime('%Y-%m-%d')
 
-    # Yahoo Finance API URL for historical data
     url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?period1={int(start_date.timestamp())}&period2={int(end_date.timestamp())}&interval=1d"
 
     response = requests.get(url)
-    data = response.json()
+    if response.status_code != 200 or not response.content:
+        print(f"Failed to fetch historical data for {symbol}. Status code: {response.status_code}, Content: {response.content}")
+        return {}
+
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"Error decoding JSON for {symbol}: {e}")
+        return {}
 
     if "chart" not in data or "result" not in data["chart"] or len(data["chart"]["result"]) == 0:
+        print(f"No chart data available for {symbol}")
         return {}
 
     result = data["chart"]["result"][0]

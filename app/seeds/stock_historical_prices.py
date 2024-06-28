@@ -19,6 +19,8 @@ def seed_stock_historical_prices():
                     volume=price_data['5. volume']
                 )
                 db.session.add(historical_price)
+        else:
+            print(f"No historical prices found for {stock.symbol}")
     db.session.commit()
 
 def undo_stock_historical_prices():
