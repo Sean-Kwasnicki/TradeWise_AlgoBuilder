@@ -113,7 +113,7 @@ export const fetchAllStocks = () => async (dispatch) => {
 
 // Initial State
 const initialState = {
-    stocks: {}, 
+    stocks: {},
     historicalPrices: {},
     allStocks: [],
     error: null
@@ -123,6 +123,7 @@ const initialState = {
 export default function stockReducer(state = initialState, action) {
     switch (action.type) {
         case GET_STOCK:
+            console.log('GET_STOCK action:', action.stock);
             return {
                 ...state,
                 stocks: {
