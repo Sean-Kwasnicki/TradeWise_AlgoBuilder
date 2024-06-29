@@ -76,14 +76,12 @@ const StockDetails = () => {
           dispatch(addWatchlistStockThunk(watchlist.id, {
               stock_symbol: symbol,
               current_price: stock.current_price,
-              added_price: stock.current_price 
+              added_price: stock.current_price
           }));
       } else {
           alert('Watchlist not found');
       }
   };
-
-
 
     return (
         <div>
