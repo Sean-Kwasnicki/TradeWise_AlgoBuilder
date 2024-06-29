@@ -39,26 +39,33 @@ const clearStockError = () => ({
 
 // Thunks
 export const fetchStock = (symbol) => async (dispatch) => {
-    dispatch(clearStockError());
-    const response = await fetch(`/api/stocks/symbol/${symbol}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+  dispatch(clearStockError());
+  try {
+      const response = await fetch(`/api/stocks/symbol/${symbol}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
 
-    if (response.ok) {
-        const stock = await response.json();
-        if (stock.volume > 0) {
-            dispatch(getStock(stock));
-        } else {
-            dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
-        }
-    } else {
-        console.error('Failed to fetch stock data');
-        dispatch(setStockError('Failed to fetch stock data. Please try again.'));
-    }
+      if (response.ok) {
+          const stock = await response.json();
+          if (stock.volume > 0) {
+              dispatch(getStock(stock));
+          } else {
+              dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
+          }
+      } else {
+          const errorData = await response.json();
+          console.error('Failed to fetch stock data:', errorData);
+          dispatch(setStockError('Failed to fetch stock data. Please try again.'));
+      }
+  } catch (error) {
+      console.error('Error fetching stock data:', error);
+      dispatch(setStockError('Error fetching stock data. Please try again.'));
+  }
 };
+
 
 export const fetchHistoricalPrices = (symbol) => async (dispatch) => {
     const response = await fetch(`/api/stocks/symbol/${symbol}/historical_prices`, {
@@ -113,7 +120,7 @@ export const fetchAllStocks = () => async (dispatch) => {
 
 // Initial State
 const initialState = {
-    stocks: {}, 
+    stocks: {},
     historicalPrices: {},
     allStocks: [],
     error: null
