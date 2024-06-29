@@ -20,7 +20,7 @@ def seed_stocks():
                     market_cap=stock_info['market_cap'],
                     pe_ratio=stock_info['pe_ratio'],
                     dividend_yield=stock_info['dividend_yield'],
-                    volume=stock_details['volume'],
+                    # volume=stock_details['volume'],
                     week_52_high=stock_details['week_52_high'],
                     week_52_low=stock_details['week_52_low'],
                     average_volume=stock_details['average_volume']

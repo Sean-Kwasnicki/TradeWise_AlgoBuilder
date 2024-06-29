@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.api.finnhub_client import get_stock_price
-from app.api.yahoo_finance_client import get_stock_details, get_historical_prices
+from app.api.finnhub_client import get_stock_price, get_stock_details
+from app.api.yahoo_finance_client import get_historical_prices
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -24,7 +24,6 @@ def get_stock_by_symbol(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         'average_volume': stock_details['average_volume']
@@ -65,7 +64,6 @@ def update_stock(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         'average_volume': stock_details['average_volume']
@@ -88,7 +86,6 @@ def get_all_stocks():
                 'market_cap': stock_data['market_cap'],
                 'pe_ratio': stock_data['pe_ratio'],
                 'dividend_yield': stock_data['dividend_yield'],
-                'volume': stock_details['volume'],
                 'week_52_high': stock_details['week_52_high'],
                 'week_52_low': stock_details['week_52_low'],
                 'average_volume': stock_details['average_volume']

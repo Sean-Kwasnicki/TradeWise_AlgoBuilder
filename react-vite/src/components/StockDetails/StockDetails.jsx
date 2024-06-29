@@ -110,7 +110,7 @@ const StockDetails = () => {
                     <p>Market Cap: ${stock.market_cap}</p>
                     <p>PE Ratio: {stock.pe_ratio}</p>
                     <p>Dividend Yield: {stock.dividend_yield}</p>
-                    <p>Volume: {stock.volume}</p>
+                    {/* <p>Volume: {stock.volume}</p> */}
                     <p>52 Week High: ${stock.week_52_high}</p>
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <p>Average Volume: {stock.average_volume}</p>
