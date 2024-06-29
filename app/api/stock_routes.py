@@ -30,7 +30,6 @@ def get_stock_by_symbol(symbol):
         'average_volume': stock_details['average_volume']
     }
 
-    # Add the symbol to the looked-up list if not already present
     if symbol not in looked_up_symbols:
         looked_up_symbols.append(symbol)
 
