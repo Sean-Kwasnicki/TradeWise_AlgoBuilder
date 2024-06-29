@@ -1,7 +1,7 @@
 from app.models import db, Stock, StockHistoricalPrice, environment, SCHEMA
+from sqlalchemy.sql import text
 from app.api.yahoo_finance_client import get_historical_prices
 from datetime import datetime
-# from app.api.finnhub_client import get_historical_prices
 
 def seed_stock_historical_prices():
     stocks = Stock.query.all()
@@ -17,16 +17,15 @@ def seed_stock_historical_prices():
                     close_price=price_data['4. close'],
                     high_price=price_data['2. high'],
                     low_price=price_data['3. low'],
-                    # volume=price_data['5. volume']
+                    volume=price_data['5. volume']
                 )
                 db.session.add(historical_price)
-        else:
-            print(f"No historical prices found for {stock.symbol}")
     db.session.commit()
 
 def undo_stock_historical_prices():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.stock_historical_prices RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute("DELETE FROM stock_historical_prices")
+        db.session.execute(text("DELETE FROM stock_historical_prices"))
+
     db.session.commit()

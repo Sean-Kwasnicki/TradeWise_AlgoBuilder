@@ -26,7 +26,7 @@ def upgrade():
     sa.Column('market_cap', sa.Numeric(precision=20, scale=2), nullable=False),
     sa.Column('pe_ratio', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.Column('dividend_yield', sa.Numeric(precision=5, scale=2), nullable=False),
-    # sa.Column('volume', sa.Integer(), nullable=True),
+    sa.Column('volume', sa.Integer(), nullable=True),
     sa.Column('week_52_high', sa.Numeric(precision=15, scale=2), nullable=True),
     sa.Column('week_52_low', sa.Numeric(precision=15, scale=2), nullable=True),
     sa.Column('average_volume', sa.Integer(), nullable=True),
@@ -77,7 +77,7 @@ def upgrade():
     sa.Column('close_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('high_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('low_price', sa.Numeric(precision=15, scale=2), nullable=False),
-    # sa.Column('volume', sa.Integer(), nullable=False),
+    sa.Column('volume', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('watchlists',

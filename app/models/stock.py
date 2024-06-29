@@ -10,7 +10,7 @@ class Stock(db.Model):
     market_cap = db.Column(db.Numeric(20, 2), nullable=False)
     pe_ratio = db.Column(db.Numeric(10, 2), nullable=False)
     dividend_yield = db.Column(db.Numeric(5, 2), nullable=False)
-    # volume = db.Column(db.Integer(), nullable=True)
+    volume = db.Column(db.Integer(), nullable=True)
     week_52_high = db.Column(db.Numeric(15, 2), nullable=True)
     week_52_low = db.Column(db.Numeric(15, 2), nullable=True)
     average_volume = db.Column(db.Integer(), nullable=True)
@@ -26,7 +26,7 @@ class Stock(db.Model):
             'market_cap': str(self.market_cap),
             'pe_ratio': str(self.pe_ratio),
             'dividend_yield': str(self.dividend_yield),
-            # 'volume': self.volume,
+            'volume': self.volume,
             'week_52_high': str(self.week_52_high),
             'week_52_low': str(self.week_52_low),
             'average_volume': self.average_volume,
