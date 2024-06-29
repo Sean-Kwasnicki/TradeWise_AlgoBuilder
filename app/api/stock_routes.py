@@ -30,6 +30,8 @@ def get_stock_by_symbol(symbol):
         'average_volume': stock_details['average_volume']
     }
 
+    print(f"Stock response for {symbol}: {stock_response}")
+
     if symbol not in looked_up_symbols:
         looked_up_symbols.append(symbol)
 

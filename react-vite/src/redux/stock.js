@@ -49,7 +49,8 @@ export const fetchStock = (symbol) => async (dispatch) => {
 
     if (response.ok) {
         const stock = await response.json();
-        if (stock.volume > 0) {
+        console.log('Stock fetched from API:', stock);
+        if (stock) {
             dispatch(getStock(stock));
         } else {
             dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));

@@ -29,8 +29,13 @@ const StockDetails = () => {
             setLoading(true);
             await dispatch(fetchStock(symbol));
             setLoading(false);
+            console.log('Fetched stock:', stock);
         }
     };
+
+    useEffect(() => {
+        console.log('Current stock state:', stock);
+    }, [stock])
 
     const handleAddToPortfolio = async () => {
         const quantity = prompt('Enter quantity:');
