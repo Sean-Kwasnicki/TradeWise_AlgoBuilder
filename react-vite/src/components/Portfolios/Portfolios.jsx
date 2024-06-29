@@ -64,10 +64,10 @@ const Portfolio = () => {
     };
 
     const handleDeleteStock = (portfolioId, stockId) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this stock?');
-        if (confirmDelete) {
+        // const confirmDelete = window.confirm('Are you sure you want to delete this stock?');
+        // if (confirmDelete) {
             dispatch(deletePortfolioStockThunk(portfolioId, stockId));
-        }
+        // }
     };
 
     const handleUpdateStock = (portfolioId, stock) => {
