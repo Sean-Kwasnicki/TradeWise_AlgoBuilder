@@ -46,7 +46,6 @@ export const fetchStock = (symbol) => async (dispatch) => {
             'Content-Type': 'application/json'
         }
     });
-
     if (response.ok) {
         const stock = await response.json();
         console.log('Stock fetched from API:', stock);
