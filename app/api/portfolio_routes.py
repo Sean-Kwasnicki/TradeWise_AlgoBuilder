@@ -2,8 +2,8 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Portfolio, Stock, PortfolioStock, db
 from app.forms import AddPortfolioStockForm, UpdatePortfolioStockForm, CreatePortfolioForm, UpdatePortfolioForm
-from app.api.finnhub_client import get_stock_price
-from app.api.yahoo_finance_client import get_stock_details
+from app.api.finnhub_client import get_stock_price, get_stock_details
+# from app.api.yahoo_finance_client import get_stock_details
 from decimal import Decimal
 
 

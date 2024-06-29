@@ -34,16 +34,16 @@ def get_historical_prices(symbol):
 
     return formatted_data
 
-def get_stock_details(symbol):
+def get_stock_volume(symbol):
     try:
         stock = yf.Ticker(symbol)
         info = stock.info
 
         details = {
             'volume': info.get('volume'),
-            'week_52_high': info.get('fiftyTwoWeekHigh'),
-            'week_52_low': info.get('fiftyTwoWeekLow'),
-            'average_volume': info.get('averageVolume')
+            # 'week_52_high': info.get('fiftyTwoWeekHigh'),
+            # 'week_52_low': info.get('fiftyTwoWeekLow'),
+            # 'average_volume': info.get('averageVolume')
         }
 
         return details

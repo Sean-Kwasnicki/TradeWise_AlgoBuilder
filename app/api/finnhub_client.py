@@ -59,6 +59,46 @@ def get_stock_price(symbol):
         return None
 
 
+def get_stock_details(symbol):
+    url = f"{BASE_URL}/stock/metric?symbol={symbol}&metric=all&token={API_KEY}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        metric = data.get('metric')
+        if metric:
+            return {
+                'volume': metric.get('v'), #volume is not working here
+                'week_52_high': metric.get('52WeekHigh'),
+                'week_52_low': metric.get('52WeekLow'),
+                'average_volume': metric.get('10DayAverageTradingVolume')
+            }
+    return None
+
+# Function to get historical prices including volume
+def get_historical_prices(symbol):
+    end_time = int(datetime.now().timestamp())
+    start_time = int((datetime.now() - timedelta(days=5)).timestamp())
+
+    url = f'https://finnhub.io/api/v1/stock/candle?symbol={symbol}&resolution=D&from={start_time}&to={end_time}&token={API_KEY}'
+
+    response = requests.get(url)
+    data = response.json()
+
+    if data and data.get('s') == 'ok':
+        historical_prices = {}
+        for i in range(len(data['t'])):
+            date = datetime.utcfromtimestamp(data['t'][i]).strftime('%Y-%m-%d')
+            historical_prices[date] = {
+                '1. open': data['o'][i],
+                '2. high': data['h'][i],
+                '3. low': data['l'][i],
+                '4. close': data['c'][i],
+                '5. volume': data['v'][i]
+            }
+        return historical_prices
+    else:
+        print("Error fetching data:", data)
+        return None
 
 if __name__ == "__main__":
     symbols = ['AAPL', 'GOOGL', 'MSFT']

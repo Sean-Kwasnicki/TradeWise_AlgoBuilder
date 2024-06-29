@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.api.finnhub_client import get_stock_price
-from app.api.yahoo_finance_client import get_stock_details, get_historical_prices
+from app.api.finnhub_client import get_stock_price, get_stock_details, get_historical_prices
+from app.api.yahoo_finance_client import get_stock_volume
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -14,6 +14,7 @@ looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
 def get_stock_by_symbol(symbol):
     stock_data = get_stock_price(symbol)
     stock_details = get_stock_details(symbol)
+    volume=get_stock_volume(symbol)
     if stock_data is None or stock_details is None:
         return jsonify({"errors": "Failed to fetch stock data"}), 404
 
@@ -24,7 +25,7 @@ def get_stock_by_symbol(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
+        'volume': volume,
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         'average_volume': stock_details['average_volume']
@@ -57,6 +58,8 @@ def update_stock(symbol):
     if stock_details is None:
         return jsonify({"errors": "Failed to fetch stock details"}), 400
 
+    volume=get_stock_volume(symbol)
+
     stock_response = {
         'symbol': stock_data['symbol'],
         'name': stock_data['name'],
@@ -64,7 +67,7 @@ def update_stock(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
+        'volume': volume,
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         'average_volume': stock_details['average_volume']
@@ -79,6 +82,7 @@ def get_all_stocks():
     for symbol in looked_up_symbols:
         stock_data = get_stock_price(symbol)
         stock_details = get_stock_details(symbol)
+        volume = get_stock_volume(symbol)
         if stock_data and stock_details:
             stock_response = {
                 'symbol': stock_data['symbol'],
@@ -87,7 +91,7 @@ def get_all_stocks():
                 'market_cap': stock_data['market_cap'],
                 'pe_ratio': stock_data['pe_ratio'],
                 'dividend_yield': stock_data['dividend_yield'],
-                'volume': stock_details['volume'],
+                'volume': volume,
                 'week_52_high': stock_details['week_52_high'],
                 'week_52_low': stock_details['week_52_low'],
                 'average_volume': stock_details['average_volume']

@@ -2,6 +2,7 @@ from app.models import db, Stock, StockHistoricalPrice, environment, SCHEMA
 from sqlalchemy.sql import text
 from app.api.yahoo_finance_client import get_historical_prices
 from datetime import datetime
+# from app.api.finnhub_client import get_historical_prices
 
 def seed_stock_historical_prices():
     stocks = Stock.query.all()
