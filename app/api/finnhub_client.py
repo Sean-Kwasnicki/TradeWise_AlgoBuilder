@@ -48,11 +48,11 @@ def get_stock_price(symbol):
         financials = get_financials(symbol)
         return {
             'symbol': symbol,
-            'price': stock_info.get('c', 0),  # Current price
-            'name': profile.get('name', symbol),  # Company name
-            'market_cap': profile.get('market_cap', 0),  # Market cap
-            'pe_ratio': financials.get('pe_ratio', 0),  # PE ratio
-            'dividend_yield': financials.get('dividend_yield', 0)  # Dividend yield
+            'price': stock_info.get('c', 0),
+            'name': profile.get('name', symbol),
+            'market_cap': profile.get('market_cap', 0),
+            'pe_ratio': financials.get('pe_ratio', 0),
+            'dividend_yield': financials.get('dividend_yield', 0)  
         }
     except Exception as e:
         print(f"Error fetching data for {symbol}: {e}")  # Error handling
@@ -61,8 +61,9 @@ def get_stock_price(symbol):
 
 def get_stock_details(symbol):
     url = f"{BASE_URL}/stock/metric?symbol={symbol}&metric=all&token={API_KEY}"
-    response = requests.get(url)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
         data = response.json()
         metric = data.get('metric')
         if metric:
@@ -71,7 +72,10 @@ def get_stock_details(symbol):
                 'week_52_low': metric.get('52WeekLow'),
                 'average_volume': metric.get('10DayAverageTradingVolume')
             }
-    return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching stock details for {symbol}: {e}")
+        return None
+
 
 # Function to get historical prices including volume
 def get_historical_prices(symbol):
