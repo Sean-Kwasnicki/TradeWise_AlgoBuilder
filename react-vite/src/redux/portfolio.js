@@ -51,8 +51,9 @@ const updatePortfolioStock = (stock) => ({
     stock
 });
 
-const deletePortfolioStock = (stockId) => ({
+const deletePortfolioStock = (portfolioId, stockId) => ({
     type: DELETE_PORTFOLIO_STOCK,
+    portfolioId,
     stockId
 });
 
@@ -220,7 +221,7 @@ export const deletePortfolioStockThunk = (portfolioId, stockId) => async (dispat
     });
 
     if (response.ok) {
-        dispatch(deletePortfolioStock(stockId));
+        dispatch(deletePortfolioStock(portfolioId, stockId));
         return { message: 'Stock deleted from portfolio successfully' };
     } else {
         const errors = await response.json();
