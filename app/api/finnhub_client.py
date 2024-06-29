@@ -69,7 +69,7 @@ def get_stock_details(symbol):
             return {
                 'week_52_high': metric.get('52WeekHigh'),
                 'week_52_low': metric.get('52WeekLow'),
-                'average_volume': metric.get('10DayAverageTradingVolume')
+                # 'average_volume': metric.get('10DayAverageTradingVolume')
             }
     return None
 

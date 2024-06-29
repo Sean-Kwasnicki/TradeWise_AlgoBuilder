@@ -81,7 +81,7 @@ const StockDetails = () => {
           dispatch(addWatchlistStockThunk(watchlist.id, {
               stock_symbol: symbol,
               current_price: stock.current_price,
-              added_price: stock.current_price
+            //   added_price: stock.current_price
           }));
       } else {
           alert('Watchlist not found');
@@ -113,7 +113,7 @@ const StockDetails = () => {
                     {/* <p>Volume: {stock.volume}</p> */}
                     <p>52 Week High: ${stock.week_52_high}</p>
                     <p>52 Week Low: ${stock.week_52_low}</p>
-                    <p>Average Volume: {stock.average_volume}</p>
+                    {/* <p>Average Volume: {stock.average_volume}</p> */}
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                     <TradingViewWidget symbol={stock.symbol} />

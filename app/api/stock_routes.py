@@ -26,7 +26,7 @@ def get_stock_by_symbol(symbol):
         'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
-        'average_volume': stock_details['average_volume']
+        # 'average_volume': stock_details['average_volume']
     }
 
     print(f"Stock response for {symbol}: {stock_response}")
@@ -66,7 +66,7 @@ def update_stock(symbol):
         'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
-        'average_volume': stock_details['average_volume']
+        # 'average_volume': stock_details['average_volume']
     }
     return jsonify(stock_response), 200
 
@@ -88,7 +88,7 @@ def get_all_stocks():
                 'dividend_yield': stock_data['dividend_yield'],
                 'week_52_high': stock_details['week_52_high'],
                 'week_52_low': stock_details['week_52_low'],
-                'average_volume': stock_details['average_volume']
+                # 'average_volume': stock_details['average_volume']
             }
             stocks.append(stock_response)
     return jsonify(stocks), 200

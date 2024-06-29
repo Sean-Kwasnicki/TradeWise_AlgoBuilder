@@ -23,7 +23,7 @@ def seed_stocks():
                     # volume=stock_details['volume'],
                     week_52_high=stock_details['week_52_high'],
                     week_52_low=stock_details['week_52_low'],
-                    average_volume=stock_details['average_volume']
+                    # average_volume=stock_details['average_volume']
                 )
             )
 

@@ -29,7 +29,7 @@ def upgrade():
     # sa.Column('volume', sa.Integer(), nullable=True),
     sa.Column('week_52_high', sa.Numeric(precision=15, scale=2), nullable=True),
     sa.Column('week_52_low', sa.Numeric(precision=15, scale=2), nullable=True),
-    sa.Column('average_volume', sa.Integer(), nullable=True),
+    # sa.Column('average_volume', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.PrimaryKeyConstraint('id'),

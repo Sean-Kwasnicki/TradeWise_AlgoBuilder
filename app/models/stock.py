@@ -13,7 +13,7 @@ class Stock(db.Model):
     # volume = db.Column(db.Integer(), nullable=True)
     week_52_high = db.Column(db.Numeric(15, 2), nullable=True)
     week_52_low = db.Column(db.Numeric(15, 2), nullable=True)
-    average_volume = db.Column(db.Integer(), nullable=True)
+    # average_volume = db.Column(db.Integer(), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now())
 
@@ -29,7 +29,7 @@ class Stock(db.Model):
             # 'volume': self.volume,
             'week_52_high': str(self.week_52_high),
             'week_52_low': str(self.week_52_low),
-            'average_volume': self.average_volume,
+            # 'average_volume': self.average_volume,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
