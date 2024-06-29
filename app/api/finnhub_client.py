@@ -67,7 +67,6 @@ def get_stock_details(symbol):
         metric = data.get('metric')
         if metric:
             return {
-                'volume': metric.get('v'), #volume is not working here
                 'week_52_high': metric.get('52WeekHigh'),
                 'week_52_low': metric.get('52WeekLow'),
                 'average_volume': metric.get('10DayAverageTradingVolume')
@@ -93,7 +92,6 @@ def get_historical_prices(symbol):
                 '2. high': data['h'][i],
                 '3. low': data['l'][i],
                 '4. close': data['c'][i],
-                '5. volume': data['v'][i]
             }
         return historical_prices
     else:

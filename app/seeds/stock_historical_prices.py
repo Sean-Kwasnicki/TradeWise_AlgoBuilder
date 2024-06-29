@@ -18,7 +18,7 @@ def seed_stock_historical_prices():
                     close_price=price_data['4. close'],
                     high_price=price_data['2. high'],
                     low_price=price_data['3. low'],
-                    volume=price_data['5. volume']
+                    # volume=price_data['5. volume']
                 )
                 db.session.add(historical_price)
     db.session.commit()
