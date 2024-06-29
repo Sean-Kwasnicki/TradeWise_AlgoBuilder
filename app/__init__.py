@@ -17,6 +17,9 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+# Application Security
+CORS(app)
+
 
 # Setup login manager
 login = LoginManager(app)
@@ -44,8 +47,8 @@ app.register_blueprint(algorithm_block_routes, url_prefix='/api/algorithm_blocks
 db.init_app(app)
 Migrate(app, db)
 
-# Application Security
-CORS(app)
+# # Application Security
+# CORS(app)
 
 
 # Since we are deploying with Docker and Flask,
