@@ -45,7 +45,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app, resources={r"/*": {"origins": "*"}})  # Ensure CORS is allowing requests from all origins
+CORS(app, resources={r"/*": {"origins": "*"}})  
 
 # # Application Security
 # CORS(app)
