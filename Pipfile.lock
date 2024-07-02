@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a0f9f83a5468dfbb3b35db1f68f423523bf2cedf6a33cda1330a1b87381bc11b"
+            "sha256": "cb363d8d610a6256fbc01c5ec20c8cff7d19868483e1647c17365c0548047dd1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -630,6 +630,15 @@
             ],
             "version": "==0.0.11"
         },
+        "newsdataapi": {
+            "hashes": [
+                "sha256:3229d9462d2fdfa78bbc06bffd5553dab3d57c83feaad72ba07a84408a6700b8",
+                "sha256:a9e9161780064002af5188e81922d54d70647d35023e6324466dfb7baf8dbc6c"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.5'",
+            "version": "==0.1.18"
+        },
         "numpy": {
             "hashes": [
                 "sha256:04494f6ec467ccb5369d1808570ae55f6ed9b5809d7f035059000a37b8d7e86f",
@@ -839,11 +848,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:937a48c7cdb7a21eb53cd7f9b59e525503aa8abaf3584c730dc5f7a5bec3a650",
-                "sha256:a58a8fde0541dab0419750bcc521fbdf8585f6e5cb41909df3a472ef7b81ca95"
+                "sha256:b8b8060bb426838fbe942479c90296ce976249451118ef566a5a0b7d8b78fb05",
+                "sha256:bd63e505105011b25c3c11f753f7e3b8465ea739efddaccef8f0efac2137bac1"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==70.1.1"
+            "version": "==70.2.0"
         },
         "six": {
             "hashes": [

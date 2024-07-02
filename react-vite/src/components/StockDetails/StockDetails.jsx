@@ -5,6 +5,7 @@ import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portf
 import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
 import TradingViewWidget from '../SmartChart/TradingViewWidget';
+import StockNews from '../StockNews/StockNews';
 import './StockDetail.css';
 
 const StockDetails = ({ detailType }) => {
@@ -92,6 +93,7 @@ const StockDetails = ({ detailType }) => {
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                     <TradingViewWidget symbol={stock.symbol} />
+                    <StockNews symbol={stock.symbol} /> {/* Add the StockNews component */}
                 </div>
             ) : (
                 <p>No stock details available. Enter a valid symbol and fetch the details.</p>

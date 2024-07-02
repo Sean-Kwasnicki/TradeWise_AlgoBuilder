@@ -3,11 +3,21 @@ from flask_login import login_required
 from app.api.finnhub_client import get_stock_price, get_stock_details
 from app.api.yahoo_finance_client import get_historical_prices
 from app.api.twelvedata_client import get_historical_prices_twelvedata
+from app.api.newsdata_client import get_news_by_company_name
 
 stock_routes = Blueprint('stocks', __name__)
 
 
 looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
+
+@stock_routes.route('/company_news/<string:company_name>', methods=['GET'])
+@login_required
+def get_news_by_company(company_name):
+    news = get_news_by_company_name(company_name)
+    if news:
+        return jsonify(news), 200
+    else:
+        return jsonify({"errors": "Failed to fetch news"}), 404
 
 # Get Stock by Symbol
 @stock_routes.route('/symbol/<string:symbol>', methods=['GET'])
