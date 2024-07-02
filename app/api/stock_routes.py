@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.api.finnhub_client import get_stock_price
-from app.api.yahoo_finance_client import get_stock_details, get_historical_prices
+from app.api.finnhub_client import get_stock_price, get_stock_details
+from app.api.yahoo_finance_client import get_historical_prices
+from app.api.twelvedata_client import get_historical_prices_twelvedata
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -24,11 +25,12 @@ def get_stock_by_symbol(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
-        'average_volume': stock_details['average_volume']
+        # 'average_volume': stock_details['average_volume']
     }
+
+    print(f"Stock response for {symbol}: {stock_response}")
 
     if symbol not in looked_up_symbols:
         looked_up_symbols.append(symbol)
@@ -39,7 +41,7 @@ def get_stock_by_symbol(symbol):
 @stock_routes.route('/symbol/<string:symbol>/historical_prices', methods=['GET'])
 @login_required
 def get_historical_prices_by_symbol(symbol):
-    historical_prices = get_historical_prices(symbol)
+    historical_prices = get_historical_prices_twelvedata(symbol)
     if historical_prices is None:
         return jsonify({"errors": "Failed to fetch historical prices"}), 404
     return jsonify(historical_prices), 200
@@ -63,10 +65,9 @@ def update_stock(symbol):
         'market_cap': stock_data['market_cap'],
         'pe_ratio': stock_data['pe_ratio'],
         'dividend_yield': stock_data['dividend_yield'],
-        'volume': stock_details['volume'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
-        'average_volume': stock_details['average_volume']
+        # 'average_volume': stock_details['average_volume']
     }
     return jsonify(stock_response), 200
 
@@ -86,10 +87,9 @@ def get_all_stocks():
                 'market_cap': stock_data['market_cap'],
                 'pe_ratio': stock_data['pe_ratio'],
                 'dividend_yield': stock_data['dividend_yield'],
-                'volume': stock_details['volume'],
                 'week_52_high': stock_details['week_52_high'],
                 'week_52_low': stock_details['week_52_low'],
-                'average_volume': stock_details['average_volume']
+                # 'average_volume': stock_details['average_volume']
             }
             stocks.append(stock_response)
     return jsonify(stocks), 200

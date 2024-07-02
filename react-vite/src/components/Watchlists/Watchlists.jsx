@@ -76,7 +76,7 @@ const Watchlist = () => {
                                 <ul>
                                     {stocksByWatchlistId[watchlist.id]?.map((stock) => (
                                         <li key={stock.id}>
-                                            {stock.stock_symbol} - Added Price: ${stock.added_price}, Current Price: ${stock.current_price}
+                                            {stock.stock_symbol} - Current Price: ${stock.current_price}
                                             <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
                                                 {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
                                             </button>

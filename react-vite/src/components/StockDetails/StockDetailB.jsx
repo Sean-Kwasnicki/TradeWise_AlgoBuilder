@@ -4,11 +4,10 @@ import { fetchStock } from '../../redux/stock';
 import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portfolio';
 import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
-import TradingViewWidget from '../SmartChart/TradingViewWidget';
+import TradingViewWidgetB from '../SmartChart/TradingViewWidgetB';
 import './StockDetail.css';
 
-const StockDetails = ({ detailType }) => {
-    const [symbol, setSymbol] = useState('');
+const StockDetailB = ({ symbol, detailType, isWinner }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
@@ -16,21 +15,15 @@ const StockDetails = ({ detailType }) => {
     const watchlists = useSelector((state) => state.watchlist.watchlists);
 
     useEffect(() => {
-        dispatch(getAllPortfoliosThunk());
-        dispatch(getAllWatchlistsThunk());
-    }, [dispatch]);
-
-    const handleInputChange = (e) => {
-        setSymbol(e.target.value.toUpperCase());
-    };
-
-    const handleFetchDetails = async () => {
         if (symbol) {
-            setLoading(true);
-            await dispatch(fetchStock(symbol));
-            setLoading(false);
+            const fetchData = async () => {
+                setLoading(true);
+                await dispatch(fetchStock(symbol));
+                setLoading(false);
+            };
+            fetchData();
         }
-    };
+    }, [dispatch, symbol]);
 
     const handleAddToPortfolio = async () => {
         const quantity = prompt('Enter quantity:');
@@ -67,14 +60,7 @@ const StockDetails = ({ detailType }) => {
     };
 
     return (
-        <div className={`stock-detail stock-detail-${detailType}`}>
-            <input
-                type="text"
-                value={symbol}
-                onChange={handleInputChange}
-                placeholder="Enter stock symbol"
-            />
-            <button onClick={handleFetchDetails}>Get Stock Details</button>
+        <div className={`stock-detail ${isWinner ? 'winner' : ''} stock-detail-${detailType}`}>
             {loading ? (
                 <div>
                     <FaSpinner className="spinner" />
@@ -91,13 +77,13 @@ const StockDetails = ({ detailType }) => {
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                    <TradingViewWidget symbol={stock.symbol} />
+                    <TradingViewWidgetB symbol={stock.symbol} />
                 </div>
             ) : (
-                <p>No stock details available. Enter a valid symbol and fetch the details.</p>
+                <p>No stock details available for {symbol}. Enter a valid symbol and fetch the details.</p>
             )}
         </div>
     );
 };
 
-export default StockDetails;
+export default StockDetailB;

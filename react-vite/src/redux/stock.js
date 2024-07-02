@@ -39,31 +39,25 @@ const clearStockError = () => ({
 
 // Thunks
 export const fetchStock = (symbol) => async (dispatch) => {
-  dispatch(clearStockError());
-  try {
-      const response = await fetch(`/api/stocks/symbol/${symbol}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      });
-
-      if (response.ok) {
-          const stock = await response.json();
-          if (stock.volume > 0) {
-              dispatch(getStock(stock));
-          } else {
-              dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
-          }
-      } else {
-          const errorData = await response.json();
-          console.error('Failed to fetch stock data:', errorData);
-          dispatch(setStockError('Failed to fetch stock data. Please try again.'));
-      }
-  } catch (error) {
-      console.error('Error fetching stock data:', error);
-      dispatch(setStockError('Error fetching stock data. Please try again.'));
-  }
+    dispatch(clearStockError());
+    const response = await fetch(`/api/stocks/symbol/${symbol}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        const stock = await response.json();
+        console.log('Stock fetched from API:', stock);
+        if (stock) {
+            dispatch(getStock(stock));
+        } else {
+            dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
+        }
+    } else {
+        console.error('Failed to fetch stock data');
+        dispatch(setStockError('Failed to fetch stock data. Please try again.'));
+    }
 };
 
 
@@ -130,6 +124,7 @@ const initialState = {
 export default function stockReducer(state = initialState, action) {
     switch (action.type) {
         case GET_STOCK:
+            console.log('GET_STOCK action:', action.stock);
             return {
                 ...state,
                 stocks: {

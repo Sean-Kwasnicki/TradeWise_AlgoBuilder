@@ -70,7 +70,7 @@ def get_stock_details(symbol):
             return {
                 'week_52_high': metric.get('52WeekHigh'),
                 'week_52_low': metric.get('52WeekLow'),
-                'average_volume': metric.get('10DayAverageTradingVolume')
+                # 'average_volume': metric.get('10DayAverageTradingVolume')
             }
     except requests.exceptions.RequestException as e:
         print(f"Error fetching stock details for {symbol}: {e}")

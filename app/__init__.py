@@ -45,7 +45,12 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
+<<<<<<< HEAD
 CORS(app, resources={r"/*": {"origins": "*"}})  
+=======
+CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app)
+>>>>>>> StockvsStock
 
 # # Application Security
 # CORS(app)

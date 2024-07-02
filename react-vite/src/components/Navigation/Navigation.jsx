@@ -15,6 +15,9 @@ function Navigation() {
         <NavLink to="/watchlists">Watchlist</NavLink>
       </li>
       <li>
+        <NavLink to="/stocks">Compare Stocks</NavLink>
+      </li>
+      <li>
         <ProfileButton />
       </li>
     </ul>
