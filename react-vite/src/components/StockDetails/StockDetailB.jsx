@@ -4,10 +4,10 @@ import { fetchStock } from '../../redux/stock';
 import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portfolio';
 import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
-import TradingViewWidget from '../SmartChart/TradingViewWidget';
+import TradingViewWidgetB from '../SmartChart/TradingViewWidgetB';
 import './StockDetail.css';
 
-const StockDetailB = ({ symbol }) => {
+const StockDetailB = ({ symbol, detailType, isWinner }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
@@ -60,7 +60,7 @@ const StockDetailB = ({ symbol }) => {
     };
 
     return (
-        <div className={`stock-detail stock-detail-B`}>
+        <div className={`stock-detail ${isWinner ? 'winner' : ''} stock-detail-${detailType}`}>
             {loading ? (
                 <div>
                     <FaSpinner className="spinner" />
@@ -77,7 +77,7 @@ const StockDetailB = ({ symbol }) => {
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                    <TradingViewWidget symbol={stock.symbol} />
+                    <TradingViewWidgetB symbol={stock.symbol} />
                 </div>
             ) : (
                 <p>No stock details available for {symbol}. Enter a valid symbol and fetch the details.</p>

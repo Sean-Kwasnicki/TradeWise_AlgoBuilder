@@ -13,6 +13,7 @@ import portfolioReducer from "./portfolio";
 import stockReducer from "./stock";
 import userReducer from "./user";
 import watchlistReducer from "./watchlist";
+import stockHistoricalReducer from "./stock_historical";
 
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   backtest: backtestReducer,
   portfolio: portfolioReducer,
   stocks: stockReducer,
+  stockHistorical: stockHistoricalReducer,
   user: userReducer,
   watchlist: watchlistReducer,
 });

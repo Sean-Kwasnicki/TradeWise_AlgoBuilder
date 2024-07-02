@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from app.api.finnhub_client import get_stock_price, get_stock_details
 from app.api.yahoo_finance_client import get_historical_prices
+from app.api.twelvedata_client import get_historical_prices_twelvedata
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -40,7 +41,7 @@ def get_stock_by_symbol(symbol):
 @stock_routes.route('/symbol/<string:symbol>/historical_prices', methods=['GET'])
 @login_required
 def get_historical_prices_by_symbol(symbol):
-    historical_prices = get_historical_prices(symbol)
+    historical_prices = get_historical_prices_twelvedata(symbol)
     if historical_prices is None:
         return jsonify({"errors": "Failed to fetch historical prices"}), 404
     return jsonify(historical_prices), 200
