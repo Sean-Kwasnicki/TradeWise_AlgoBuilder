@@ -7,6 +7,7 @@ import StockDetails from '../components/StockDetails/StockDetails';
 import StockDetailsVs from '../components/StockDetails/StockDetailsVs';
 import Portfolio from '../components/Portfolios/Portfolios';
 import Watchlist from '../components/Watchlists/Watchlists';
+import LandingPage from '../components/LandingPage/LandingPage';
 
 
 export const router = createBrowserRouter([
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "research",
         element: <StockDetails />,
       },
       {
