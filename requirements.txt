@@ -28,5 +28,5 @@ yfinance==0.1.62
 finnhub-python==2.4.3
 # pandas==1.3.3
 # numpy==1.21.2
-newsdataapi==1.0.0
+newsdataapi
 twelvedata==1.5.0
