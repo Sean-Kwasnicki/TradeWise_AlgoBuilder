@@ -17,7 +17,7 @@ def get_historical_prices_twelvedata(symbol):
         'interval': '1day',
         'start_date': start_date,
         'end_date': end_date,
-        'apikey': TWELVE_DATA_API_KEY
+        'apikey': '33695a3505064f6f85348c917a26ffaf'
     }
 
     response = requests.get(base_url, params=params)
