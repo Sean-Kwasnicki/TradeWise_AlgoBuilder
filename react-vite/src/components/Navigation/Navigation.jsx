@@ -23,6 +23,9 @@ function Navigation() {
           <NavLink to="/research">Research</NavLink>
         </li>
         <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+        <li>
           <ProfileButton />
         </li>
       </ul>

@@ -28,12 +28,12 @@
 
 .roi-box.winner {
   border: 2px solid green;
-  background-color: #346734;
+  background-color: rgb(8,153,128);
 }
 
 .roi-box.loser {
   border: 2px solid red;
-  background-color: #ffe6e6;
+  background-color: rgb(242,54,68);
 }
 
 .roi-box h3 {
@@ -90,26 +90,26 @@
 
 .roi-box.winner {
   border: 2px solid green;
-  background-color: #e6ffe6;
-  color: black;
+  background-color: rgb(8,153,128);
+  color: white;
 }
 
 .roi-box.loser {
   border: 2px solid red;
-  background-color: #ffe6e6;
-  color: black;
+  background-color: rgb(242,54,68);
+  color: white;
 }
 
 .roi-box h3 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: black;
+  color: white;
 }
 
 .roi-box p {
   margin: 5px 0;
   font-size: 16px;
-  color: black;
+  color: white;
 }
 
 .roi-box:hover {

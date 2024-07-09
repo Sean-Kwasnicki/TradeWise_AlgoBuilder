@@ -12,7 +12,7 @@ const TradingViewWidgetB = ({ symbol }) => {
                     container_id: 'tradingview_widget',
                     interval: 'D', // Set the interval to 1-day
                     autosize: true,
-                    theme: 'light',
+                    theme: 'dark',
                     style: '1',
                     locale: 'en',
                     toolbar_bg: '#f1f3f6',

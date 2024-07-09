@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHistoricalPrice } from '../../redux/stock_historical';
-import './RoiComparison.css';
+import './ROIComparison.css';
 
 const RoiComparison = ({ symbolA, symbolB, onSetWinner }) => {
     const dispatch = useDispatch();
