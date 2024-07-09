@@ -5,15 +5,16 @@
   align-items: center;
   margin-top: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: black;
+  color: white;
 }
 
 .roi-comparison h2 {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
+  color: white
 }
 
 .roi-box {
@@ -27,7 +28,7 @@
 
 .roi-box.winner {
   border: 2px solid green;
-  background-color: #e6ffe6;
+  background-color: #346734;
 }
 
 .roi-box.loser {
@@ -38,13 +39,12 @@
 .roi-box h3 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: #333;
+  color: white;
 }
 
 .roi-box p {
   margin: 5px 0;
   font-size: 16px;
-  color: #666;
 }
 
 .roi-box:hover {
@@ -59,7 +59,6 @@
 .roi-comparison h2 {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
 }
 
 .roi-container {
@@ -92,23 +91,25 @@
 .roi-box.winner {
   border: 2px solid green;
   background-color: #e6ffe6;
+  color: black;
 }
 
 .roi-box.loser {
   border: 2px solid red;
   background-color: #ffe6e6;
+  color: black;
 }
 
 .roi-box h3 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: #333;
+  color: black;
 }
 
 .roi-box p {
   margin: 5px 0;
   font-size: 16px;
-  color: #666;
+  color: black;
 }
 
 .roi-box:hover {

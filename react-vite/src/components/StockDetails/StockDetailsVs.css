@@ -50,6 +50,7 @@
   background-color: #e6ffe6;
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+  color: black;
 }
 
 .stock-detail h2 {

@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'BasiqueProBold';
+  src: url('/fonts/BasiqueProBold.woff2') format('woff2'),
+       url('/fonts/BasiqueProBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 .profile-dropdown {
   position: absolute;
 }
@@ -30,4 +39,5 @@
   text-decoration: none;
   font-size: 18px;
   opacity: 1;
+  font-family: 'BasiqueProBold', sans-serif;
 }

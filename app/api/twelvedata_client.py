@@ -22,7 +22,7 @@ def get_historical_prices_twelvedata(symbol):
 
     response = requests.get(base_url, params=params)
     data = response.json()
-    print(f"API response: {data}") 
+    print(f"API response: {data}")
 
     if 'values' in data:
         last_year_data = data['values'][-1]

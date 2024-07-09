@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: black;
   color: white;
-  font-family: Arial, sans-serif;
 }
 
 .landing-page {
@@ -15,6 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  font-family: 'Nunito';
 }
 
 .nav-bar {

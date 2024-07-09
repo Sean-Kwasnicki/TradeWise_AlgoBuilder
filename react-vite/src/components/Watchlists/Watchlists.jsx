@@ -9,6 +9,7 @@ import {
 } from '../../redux/watchlist';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
+import './Watchlists.css'
 
 const Watchlist = () => {
     const dispatch = useDispatch();
@@ -55,32 +56,36 @@ const Watchlist = () => {
     };
 
     return (
-        <div>
+        <div className="watchlist-container">
             <h1>Watchlists</h1>
-            <button onClick={handleCreateWatchlist}>Create Watchlist</button>
-            <ul>
+            <button className="create-watchlist-btn" onClick={handleCreateWatchlist}>Create Watchlist</button>
+            <ul className="watchlist-list">
                 {watchlists.map((watchlist) => (
-                    <li key={watchlist.id}>
+                    <li key={watchlist.id} className="watchlist-item">
                         <h2>{watchlist.name}</h2>
-                        <button onClick={() => handleViewStocks(watchlist.id)}>
-                            {visibleStocks[watchlist.id] ? 'Hide Stocks' : 'View Stocks'}
-                        </button>
-                        <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete Watchlist</button>
+                        <div className="watchlist-buttons">
+                            <button onClick={() => handleViewStocks(watchlist.id)}>
+                                {visibleStocks[watchlist.id] ? 'Hide Stocks' : 'View Stocks'}
+                            </button>
+                            <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete Watchlist</button>
+                        </div>
                         {loading[watchlist.id] ? (
-                            <div>
+                            <div className="loading-container">
                                 <FaSpinner className="spinner" />
                                 <p>Loading...</p>
                             </div>
                         ) : (
                             visibleStocks[watchlist.id] && (
-                                <ul>
+                                <ul className="stocks-list">
                                     {stocksByWatchlistId[watchlist.id]?.map((stock) => (
-                                        <li key={stock.id}>
+                                        <li key={stock.id} className="stock-item">
                                             {stock.stock_symbol} - Current Price: ${stock.current_price}
-                                            <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
-                                                {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
-                                            </button>
-                                            <button onClick={() => handleDeleteStock(watchlist.id, stock.id)}>Delete Stock</button>
+                                            <div className="stock-buttons">
+                                                <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
+                                                    {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                                </button>
+                                                <button onClick={() => handleDeleteStock(watchlist.id, stock.id)}>Delete Stock</button>
+                                            </div>
                                             {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] && (
                                                 <TradingViewMiniWidget
                                                     symbol={stock.stock_symbol}
