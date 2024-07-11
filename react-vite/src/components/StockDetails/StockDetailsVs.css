@@ -52,7 +52,13 @@
   background-color: rgb(8,153,128);
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
-  color: white;
+  color: white; /* Set the text color to white */
+    text-shadow:
+        -1px -1px 0 black,
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black; /* Add shadows to create a border effect */
+    font-size: 2em; /* Adjust the font size as needed */
 }
 
 .stock-detail h2 {

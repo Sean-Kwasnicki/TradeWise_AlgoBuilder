@@ -28,16 +28,29 @@
   padding: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .nav-bar ul li {
   margin: 0 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-bar ul li a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
   opacity: 1;
   font-family: 'BasiqueProBold', sans-serif;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.nav-bar .nav-icon {
+  width: 125px; /* Adjust the size as needed */
+  height: auto; /* Maintain aspect ratio */
+  vertical-align: middle;
+  margin-bottom: 8px;
+  margin-left: 10px;
 }

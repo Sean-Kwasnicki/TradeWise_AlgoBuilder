@@ -26,7 +26,7 @@ def create_watchlist():
 
 # Get Watchlist
 @watchlist_routes.route('/<int:id>', methods=['GET'])
-@login_required
+# @login_required
 def get_watchlist(id):
     watchlist = Watchlist.query.get(id)
     if not watchlist or watchlist.user_id != current_user.id:
@@ -88,7 +88,7 @@ def add_stock_to_watchlist(watchlist_id):
         watchlist_stock = WatchlistStock(
         watchlist_id=watchlist_id,
         stock_symbol=stock_symbol,
-        current_price=stock_price_info['price']  
+        current_price=stock_price_info['price']
         )
         db.session.add(watchlist_stock)
         db.session.commit()

@@ -11,7 +11,7 @@ stock_routes = Blueprint('stocks', __name__)
 looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
 
 @stock_routes.route('/company_news/<string:company_name>', methods=['GET'])
-@login_required
+# @login_required
 def get_news_by_company(company_name):
     news = get_news_by_company_name(company_name)
     if news:
@@ -21,7 +21,7 @@ def get_news_by_company(company_name):
 
 # Get Stock by Symbol
 @stock_routes.route('/symbol/<string:symbol>', methods=['GET'])
-@login_required
+# @login_required
 def get_stock_by_symbol(symbol):
     stock_data = get_stock_price(symbol)
     stock_details = get_stock_details(symbol)

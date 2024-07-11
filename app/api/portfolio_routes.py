@@ -38,7 +38,7 @@ def create_portfolio():
 
 # Get Portfolio
 @portfolio_routes.route('/<int:id>', methods=['GET'])
-@login_required
+# @login_required
 def get_portfolio(id):
     portfolio = Portfolio.query.get(id)
     if portfolio is None:

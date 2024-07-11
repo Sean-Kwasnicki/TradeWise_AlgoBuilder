@@ -92,12 +92,24 @@
   border: 2px solid green;
   background-color: rgb(8,153,128);
   color: white;
+    text-shadow:
+        -1px -1px 0 black,
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+    font-size: 2em;
 }
 
 .roi-box.loser {
   border: 2px solid red;
   background-color: rgb(242,54,68);
   color: white;
+    text-shadow:
+        -1px -1px 0 black,
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+    font-size: 2em;
 }
 
 .roi-box h3 {
