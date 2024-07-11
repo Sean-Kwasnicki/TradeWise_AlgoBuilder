@@ -11,7 +11,11 @@ const LandingPage = () => {
             </div>
             <div className="info-links">
                 <ul>
-                    <li><Link to="/about">About</Link></li>
+                    <li>
+                        <a href="https://github.com/Sean-Kwasnicki/TradeWise_AlgoBuilder" target="_blank" rel="noopener noreferrer">
+                            About
+                        </a>
+                    </li>
                     <li><Link to="/features">Features</Link></li>
                     <li><Link to="/contact">Contact</Link></li>
                 </ul>

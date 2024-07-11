@@ -10,7 +10,7 @@
 }
 
 .login-form h1 {
-  color: #ffcc00;
+  color:  rgb(28,193,201);
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
@@ -33,21 +33,24 @@
 
 .login-form input:focus {
   outline: none;
-  border-color: #ffcc00;
+  border-color:  rgb(28,193,201);
 }
 
-.login-form button {
-  width: 100%;
+.login-form-button {
+  display: block;
+  width: 58%;
   padding: 10px;
-  background-color: #ffcc00;
-  color: #000;
+  margin: 10px 0;
+  font-size: 15px;
+  background-color: rgb(28,193,201);
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-left: 20px;
 }
 
-.login-form button:hover {
+.login-form-button:hover {
   background-color: #e6b800;
 }
 

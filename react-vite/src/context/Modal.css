@@ -61,11 +61,12 @@
   padding: 10px;
   margin: 20px 0;
   font-size: 16px;
-  background-color: #ffcc00;
-  color: #000;
+  background-color: rgb(28,193,201);
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 #modal-content form button:hover {
