@@ -1,0 +1,148 @@
+.research-page {
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 700px;
+}
+
+.search-bar-research {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.search-bar-research input {
+  width: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-bar-research button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid rgb(8,153,128);
+  background-color: rgb(8,153,128);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-bar-research button:hover {
+  background-color: #ffdd33;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 700px;
+}
+
+.chart-container {
+  width: 70%;
+  text-align: center;
+  height: 700px;
+}
+
+.stock-details-section,
+.stocknews-container {
+  width: 25%;
+  background-color: #111;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+.stock-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 75px;
+}
+
+.stock-details p {
+  margin: 5px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.buttons button {
+  width: 45%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: rgb(8,153,128);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #ffdd33;
+}
+
+.stocknews-container h2 {
+  color: white;
+}
+
+.stocknews-container ul {
+  list-style: none;
+  padding: 0;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.stocknews-container li {
+  background-color: #222;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.stocknews-container a {
+  color: white;
+  text-decoration: none;
+}
+
+.stocknews-container a:hover {
+  text-decoration: underline;
+}
+
+.loading-section-research {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.spinner-research {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.loading-section-research p {
+  font-size: 1.5rem;
+}
+
+.spinner-research {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

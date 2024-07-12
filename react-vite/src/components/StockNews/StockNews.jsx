@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import { FaSpinner } from 'react-icons/fa';
+import './StockNews.css';
 
 const StockNews = ({ symbol }) => {
     const [news, setNews] = useState([]);
@@ -21,12 +22,10 @@ const StockNews = ({ symbol }) => {
                 setCompanyName(data.name);
                 fetchNews(data.name);
             } else {
-                const err = await response.json();
-                setError(err.errors || 'Failed to fetch stock details');
-                setLoading(false);
+                throw new Error('Invalid symbol');
             }
         } catch (error) {
-            setError('Failed to fetch stock details');
+            setError('Invalid symbol');
             setLoading(false);
         }
     };
@@ -39,24 +38,26 @@ const StockNews = ({ symbol }) => {
                 setNews(data);
                 setError(null);
             } else {
-                const err = await response.json();
-                setError(err.errors || 'Failed to fetch news');
+                throw new Error('Invalid symbol');
             }
         } catch (error) {
-            setError('Failed to fetch news');
+            setError('Invalid symbol');
         }
         setLoading(false);
     };
 
     return (
         <div className="stock-news">
-            <h2>Latest News for {companyName || symbol}</h2>
             {loading ? (
-                <p>Loading news...</p>
+                <div className="loading-section-news">
+                    <FaSpinner className="spinner" />
+                    <p>Loading news...</p>
+                </div>
             ) : error ? (
                 <p>{error}</p>
             ) : (
                 <div className="news-container">
+                    <h2>{error ? 'Invalid symbol' : `Latest News for ${companyName || symbol}`}</h2>
                     <ul>
                         {news.map((article, index) => (
                             <li key={index}>

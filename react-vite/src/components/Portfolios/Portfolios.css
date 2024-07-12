@@ -10,6 +10,8 @@ body {
   padding: 20px;
   text-align: center;
   margin-top: 50px;
+  position: relative;
+  z-index: 1;
 }
 
 .create-portfolio-btn {
@@ -97,4 +99,19 @@ body {
 
 .stock-buttons button:hover {
   background-color: #0056b3;
+}
+
+.background-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500%;
+  background-image: url('../../../../images/tradewise_logo.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
 }

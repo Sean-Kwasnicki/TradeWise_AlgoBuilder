@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const TradingViewWidget = ({ symbol }) => {
+const DashboardTradingViewWidget = ({ symbol }) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = 'https://s3.tradingview.com/tv.js';
@@ -31,7 +31,7 @@ const TradingViewWidget = ({ symbol }) => {
         };
     }, [symbol]);
 
-    return <div id="tradingview_widget" style={{ height: '700px', width: '100%' }} />;
+    return <div id="tradingview_widget" style={{ height: '500px', width: '100%' }} />;
 };
 
-export default TradingViewWidget;
+export default DashboardTradingViewWidget;

@@ -41,7 +41,7 @@
   background-color: #ffaa00;
 }
 
-.chart-container {
+.dashboard-chart-container {
   width: 100%;
   height: 400px;
   background-color: #111;
@@ -50,7 +50,7 @@
   margin-bottom: 100px;
 }
 
-.news-container {
+.dashboard-news-container {
   background-color: #111;
   color: #fff;
   padding: 20px;
@@ -58,27 +58,27 @@
   border: 2px solid #444;
 }
 
-.news-container h2 {
+.dashboard-news-container h2 {
   color: white;
 }
 
-.news-container ul {
+.dashboard-news-container ul {
   list-style: none;
   padding: 0;
 }
 
-.news-container li {
+.dashboard-news-container li {
   background-color: #222;
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
 }
 
-.news-container a {
+.dash-board-news-container a {
   color: white;
   text-decoration: none;
 }
 
-.news-container a:hover {
+.dashboard-news-container a:hover {
   text-decoration: underline;
 }

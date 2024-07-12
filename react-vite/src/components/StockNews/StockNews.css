@@ -1,0 +1,31 @@
+.news-container {
+  background-color: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #444;
+  overflow-y: auto;
+  height: 500px;
+}
+
+.news-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-container li {
+  background-color: #222;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.news-container a {
+  color: white;
+  text-decoration: none;
+}
+
+.news-container a:hover {
+  text-decoration: underline;
+}

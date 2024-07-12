@@ -9,8 +9,8 @@ const getHistoricalPrice = (symbol, price) => ({
 });
 
 // Thunks
-export const fetchHistoricalPrice = (symbol) => async (dispatch) => {
-    const response = await fetch(`/api/stocks/symbol/${symbol}/historical_prices`, {
+export const fetchHistoricalPrice = (symbol, date) => async (dispatch) => {
+    const response = await fetch(`/api/stocks/symbol/${symbol}/historical_prices?date=${date}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

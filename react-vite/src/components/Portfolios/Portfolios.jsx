@@ -81,7 +81,9 @@ const Portfolio = () => {
 
     return (
         <div className="portfolio-container">
+            <div className="background-logo"></div>
             <h1>Portfolios</h1>
+            
             <button className="create-portfolio-btn" onClick={handleCreatePortfolio}>Create Portfolio</button>
             <ul className="portfolio-list">
                 {portfolios.map((portfolio) => (

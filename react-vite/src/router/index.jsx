@@ -9,6 +9,7 @@ import Portfolio from '../components/Portfolios/Portfolios';
 import Watchlist from '../components/Watchlists/Watchlists';
 import LandingPage from '../components/LandingPage/LandingPage';
 import Dashboard from '../components/Dashboard/Dashboard';
+import ResearchPage from '../components/Research/ResearchPage';
 
 
 export const router = createBrowserRouter([
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "research",
-        element: <StockDetails />,
+        element: <ResearchPage />,
       },
       {
         path: "dashboard",

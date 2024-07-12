@@ -1,12 +1,3 @@
-@font-face {
-  font-family: 'BasiqueProBold';
-  src: url('/fonts/BasiqueProBold.woff2') format('woff2'),
-       url('/fonts/BasiqueProBold.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
 .profile-dropdown {
   position: absolute;
 }
@@ -41,15 +32,14 @@
   color: white;
   text-decoration: none;
   opacity: 1;
-  font-family: 'BasiqueProBold', sans-serif;
   align-items: center;
   justify-content: center;
   font-weight: bold;
 }
 
 .nav-bar .nav-icon {
-  width: 125px; /* Adjust the size as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: 125px;
+  height: auto;
   vertical-align: middle;
   margin-bottom: 8px;
   margin-left: 10px;
