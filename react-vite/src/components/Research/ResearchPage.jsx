@@ -128,6 +128,7 @@ const ResearchPage = () => {
 
   return (
     <div className="research-page">
+      <div className="background-logo-compare"></div>
       <div className="search-bar-research">
         <input
           type="text"

@@ -54,6 +54,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
+            <div className="background-logo-compare"></div>
             <div className="sidebar">
                 {user && (
                     <Portfolio />

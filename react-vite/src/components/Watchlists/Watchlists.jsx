@@ -79,6 +79,7 @@ const Watchlist = () => {
 
     return (
         <div className="watchlist-container">
+            <div className="background-logo-compare"></div>
             <h1>Watchlists</h1>
             <button className="create-watchlist-btn" onClick={handleCreateWatchlist}>Create Watchlist</button>
             <ul className="watchlist-list">

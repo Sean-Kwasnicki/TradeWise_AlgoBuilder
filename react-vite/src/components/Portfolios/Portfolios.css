@@ -11,7 +11,6 @@ body {
   padding: 20px;
   text-align: center;
   margin-top: 50px;
-  position: relative;
   z-index: 1;
 }
 
@@ -33,6 +32,7 @@ body {
 .portfolio-list {
   list-style-type: none;
   padding: 0;
+  z-index: 1;
 }
 
 .portfolio-item {
@@ -108,7 +108,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 180%;
+  height: 100%;
   background-image: url('../../../../images/tradewise_logo.jpg');
   background-size: contain;
   background-position: center;

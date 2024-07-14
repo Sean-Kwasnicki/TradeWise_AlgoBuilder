@@ -133,7 +133,7 @@ const Portfolio = () => {
 
     return (
         <div className="portfolio-container">
-            <div className="background-logo"></div>
+            <div className="background-logo-compare"></div>
             <h1>Portfolios</h1>
             <button className="create-portfolio-btn" onClick={handleCreatePortfolio}>Create Portfolio</button>
             <ul className="portfolio-list">
