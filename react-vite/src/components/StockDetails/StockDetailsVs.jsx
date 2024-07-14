@@ -27,6 +27,7 @@ const StockDetailsVs = () => {
 
     return (
         <div className="stock-details-vs">
+            <div className="background-logo-compare"></div>
             <h1>Compare Stocks</h1>
             <input
                 type="text"
