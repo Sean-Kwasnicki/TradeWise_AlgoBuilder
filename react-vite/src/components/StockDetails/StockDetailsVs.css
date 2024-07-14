@@ -22,13 +22,11 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
 }
 
-.vs-divider {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0 20px;
-  margin-top: 150px;
+.roi-comparison {
+  width: 100%;
 }
 
 .stock-details {
@@ -36,7 +34,21 @@
   justify-content: space-around;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.stock-detail-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.vs-divider {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 20px;
+  align-self: center;
 }
 
 .stock-detail {
@@ -49,16 +61,12 @@
 
 .stock-detail.winner {
   border: 2px solid green;
-  background-color: rgb(8,153,128);
+  background-color: rgb(8, 153, 128);
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
-  color: white; /* Set the text color to white */
-    text-shadow:
-        -1px -1px 0 black,
-         1px -1px 0 black,
-        -1px  1px 0 black,
-         1px  1px 0 black; /* Add shadows to create a border effect */
-    font-size: 2em; /* Adjust the font size as needed */
+  color: white;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  font-size: 2em;
 }
 
 .stock-detail h2 {

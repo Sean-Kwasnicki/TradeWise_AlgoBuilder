@@ -42,12 +42,14 @@ const StockDetailsVs = () => {
                 placeholder="Enter second stock symbol"
                 disabled={showComparison}
             />
-            <button onClick={handleCompare} disabled={showComparison}>Compare</button>
-            <button onClick={handleReset}>Reset</button>
+            <button className="button" onClick={handleCompare} disabled={showComparison}>Compare</button>
+            <button className="button" onClick={handleReset}>Reset</button>
             {showComparison && (
                 <div className="comparison-container">
-                    <RoiComparison symbolA={symbolA} symbolB={symbolB} onSetWinner={handleSetWinner} />
-                    <div className="stock-details">
+                    <div className="roi-comparison">
+                        <RoiComparison symbolA={symbolA} symbolB={symbolB} onSetWinner={handleSetWinner} />
+                    </div>
+                    <div className="stock-detail-wrapper">
                         <StockDetailA symbol={symbolA} detailType="A" isWinner={winner === symbolA} />
                         <div className="vs-divider">VS</div>
                         <StockDetailB symbol={symbolB} detailType="B" isWinner={winner === symbolB} />

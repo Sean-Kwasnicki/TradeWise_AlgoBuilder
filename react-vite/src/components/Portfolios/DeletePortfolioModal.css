@@ -1,0 +1,48 @@
+.delete-portfolio-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+.delete-portfolio-modal h1 {
+  color: rgb(28,193,201);
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.delete-portfolio-modal p {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.delete-portfolio-modal button {
+  display: block;
+  width: 58%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 15px;
+  background-color: rgb(28,193,201);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.delete-portfolio-modal button:hover {
+  background-color: #e6b800;
+}
+
+.delete-portfolio-modal .cancel-button {
+  background-color: #666;
+}
+
+.delete-portfolio-modal .cancel-button:hover {
+  background-color: #888;
+}

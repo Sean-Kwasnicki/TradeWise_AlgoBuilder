@@ -40,23 +40,15 @@ def seed_portfolio_stocks():
             stock_purchase_price = stock.current_price
 
 
-            total_purchase_value = stock_purchase_price * stock_quantity
-            if total_purchase_value > portfolio.free_capital:
-                continue
-
             portfolio_stock = PortfolioStock(
                 portfolio_id=portfolio.id,
-                 stock_symbol=stock.symbol,
+                stock_symbol=stock.symbol,
                 quantity=stock_quantity,
                 purchase_price=stock_purchase_price,
                 current_price=stock.current_price
             )
             db.session.add(portfolio_stock)
 
-            # Update portfolio values
-            portfolio.current_value += stock.current_price * stock_quantity
-            portfolio.profit_loss = portfolio.current_value - portfolio.initial_balance
-            portfolio.free_capital -= total_purchase_value
 
     db.session.commit()
 

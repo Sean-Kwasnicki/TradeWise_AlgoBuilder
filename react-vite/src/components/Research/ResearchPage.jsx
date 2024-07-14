@@ -8,6 +8,10 @@ import { FaSpinner } from 'react-icons/fa';
 import TradingViewWidget from '../SmartChart/TradingViewWidget';
 import StockNews from '../StockNews/StockNews';
 import './ResearchPage.css';
+import { useModal } from '../../context/Modal';
+import AddToPortfolioModal from './AddToPortfolioModal';
+import AddToWatchlistModal from './AddToWatchlistModal';
+import RoiComparison from '../ROIComparison/ROIComparison';
 
 const ResearchPage = () => {
   const [symbol, setSymbol] = useState('AAPL');
@@ -21,6 +25,7 @@ const ResearchPage = () => {
   const historicalPrice = useSelector((state) => state.stockHistorical.historicalPrices[symbol]?.close_price);
   const portfolios = useSelector((state) => state.portfolio.portfolios);
   const watchlists = useSelector((state) => state.watchlist.watchlists);
+  const { setModalContent } = useModal();
 
   useEffect(() => {
     dispatch(fetchStock('AAPL'));
@@ -68,43 +73,51 @@ const ResearchPage = () => {
     }
   };
 
-  const handleAddToPortfolio = async () => {
-    const quantity = prompt('Enter quantity:');
-    const purchasePrice = prompt('Enter purchase price:');
-    if (quantity && purchasePrice) {
-      const portfolioName = prompt('Enter portfolio name:');
-      const portfolio = portfolios.find((p) => p.name === portfolioName);
-      if (portfolio) {
-        const result = await dispatch(
-          addPortfolioStockThunk(portfolio.id, {
-            stock_symbol: symbol,
-            quantity: parseFloat(quantity),
-            purchase_price: parseFloat(purchasePrice),
-          })
-        );
-        if (result.error) {
-          alert('Failed to add stock to portfolio: ' + result.error);
-        }
-      } else {
-        alert('Portfolio not found');
-      }
-    }
+  // const handleAddToPortfolio = async () => {
+  //   const quantity = prompt('Enter quantity:');
+  //   const purchasePrice = prompt('Enter purchase price:');
+  //   if (quantity && purchasePrice) {
+  //     const portfolioName = prompt('Enter portfolio name:');
+  //     const portfolio = portfolios.find((p) => p.name === portfolioName);
+  //     if (portfolio) {
+  //       const result = await dispatch(
+  //         addPortfolioStockThunk(portfolio.id, {
+  //           stock_symbol: symbol,
+  //           quantity: parseFloat(quantity),
+  //           purchase_price: parseFloat(purchasePrice),
+  //         })
+  //       );
+  //       if (result.error) {
+  //         alert('Failed to add stock to portfolio: ' + result.error);
+  //       }
+  //     } else {
+  //       alert('Portfolio not found');
+  //     }
+  //   }
+  // };
+
+  const handleAddToPortfolio = () => {
+    setModalContent(<AddToPortfolioModal symbol={symbol} />);
   };
 
   const handleAddToWatchlist = () => {
-    const watchlistName = prompt('Enter watchlist name:');
-    const watchlist = watchlists.find((w) => w.name === watchlistName);
-    if (watchlist) {
-      dispatch(
-        addWatchlistStockThunk(watchlist.id, {
-          stock_symbol: symbol,
-          current_price: stock.current_price,
-        })
-      );
-    } else {
-      alert('Watchlist not found');
-    }
+    setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stock.current_price} />);
   };
+
+  // const handleAddToWatchlist = () => {
+  //   const watchlistName = prompt('Enter watchlist name:');
+  //   const watchlist = watchlists.find((w) => w.name === watchlistName);
+  //   if (watchlist) {
+  //     dispatch(
+  //       addWatchlistStockThunk(watchlist.id, {
+  //         stock_symbol: symbol,
+  //         current_price: stock.current_price,
+  //       })
+  //     );
+  //   } else {
+  //     alert('Watchlist not found');
+  //   }
+  // };
 
   const calculatePercentageGain = (currentPrice, historicalPrice) => {
     if (currentPrice && historicalPrice) {

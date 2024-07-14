@@ -25,9 +25,9 @@ def create_portfolio():
         portfolio = Portfolio(
             user_id=current_user.id,
             name=data['name'],
-            initial_balance=data['initial_balance'],
-            current_value=data['initial_balance'],
-            free_capital=data['initial_balance'],
+            # initial_balance=data['initial_balance'],
+            current_value=0.00,
+            # free_capital=data['initial_balance'],
             profit_loss=0.00
         )
         db.session.add(portfolio)
@@ -38,7 +38,7 @@ def create_portfolio():
 
 # Get Portfolio
 @portfolio_routes.route('/<int:id>', methods=['GET'])
-# @login_required
+@login_required
 def get_portfolio(id):
     portfolio = Portfolio.query.get(id)
     if portfolio is None:
@@ -107,10 +107,7 @@ def add_stock_to_portfolio(portfolio_id):
         return jsonify({"errors": "Stock not found"}), 404
 
     stock_current_price = Decimal(stock_price_info['price'])
-    total_purchase_value = stock_purchase_price * Decimal(stock_quantity)
 
-    if total_purchase_value > portfolio.free_capital:
-        return jsonify({"errors": "Not enough free capital"}), 400
 
     portfolio_stock = PortfolioStock(
         portfolio_id=portfolio_id,
@@ -121,9 +118,6 @@ def add_stock_to_portfolio(portfolio_id):
     )
     db.session.add(portfolio_stock)
 
-    portfolio.current_value += total_purchase_value
-    portfolio.profit_loss = portfolio.current_value - portfolio.initial_balance
-    portfolio.free_capital -= total_purchase_value
 
     db.session.commit()
     return jsonify({

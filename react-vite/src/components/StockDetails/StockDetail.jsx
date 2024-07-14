@@ -79,7 +79,7 @@ const StockDetail = ({ symbol, detailType }) => {
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                     <TradingViewWidget symbol={stock.symbol} />
-                    <StockNews symbol={stock.symbol} /> 
+                    <StockNews symbol={stock.symbol} />
                 </div>
             ) : (
                 <p>No stock details available for {symbol}. Enter a valid symbol and fetch the details.</p>

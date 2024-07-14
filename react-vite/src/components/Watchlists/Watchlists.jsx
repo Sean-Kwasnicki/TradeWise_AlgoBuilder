@@ -9,7 +9,12 @@ import {
 } from '../../redux/watchlist';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
-import './Watchlists.css'
+import './Watchlists.css';
+import { useModal } from '../../context/Modal';
+import WatchlistModal from './WatchlistModal';
+import UpdateWatchlistModal from './UpdateWatchlistModal';
+import DeleteWatchlistModal from './DeleteWatchlistModal';
+import DeleteWatchlistStockModal from './DeleteWatchlistStockModal';
 
 const Watchlist = () => {
     const dispatch = useDispatch();
@@ -18,6 +23,7 @@ const Watchlist = () => {
     const [loading, setLoading] = useState({});
     const [visibleStocks, setVisibleStocks] = useState({});
     const [visibleCharts, setVisibleCharts] = useState({});
+    const { setModalContent } = useModal();
 
     useEffect(() => {
         dispatch(getAllWatchlistsThunk());
@@ -42,17 +48,33 @@ const Watchlist = () => {
         }));
     };
 
+    // const handleDeleteStock = (watchlistId, stockId) => {
+    //     dispatch(deleteWatchlistStockThunk(watchlistId, stockId));
+    // };
+
     const handleDeleteStock = (watchlistId, stockId) => {
-        dispatch(deleteWatchlistStockThunk(watchlistId, stockId));
+        setModalContent(<DeleteWatchlistStockModal watchlistId={watchlistId} stockId={stockId} />);
     };
+
+    // const handleDeleteWatchlist = (watchlistId) => {
+    //     dispatch(deleteWatchlistThunk(watchlistId));
+    // };
 
     const handleDeleteWatchlist = (watchlistId) => {
-        dispatch(deleteWatchlistThunk(watchlistId));
+        setModalContent(<DeleteWatchlistModal watchlistId={watchlistId} />);
     };
 
+    // const handleCreateWatchlist = () => {
+    //     const name = prompt('Enter watchlist name:');
+    //     dispatch(createWatchlistThunk({ name }));
+    // };
+
     const handleCreateWatchlist = () => {
-        const name = prompt('Enter watchlist name:');
-        dispatch(createWatchlistThunk({ name }));
+        setModalContent(<WatchlistModal />);
+    };
+
+    const handleUpdateWatchlist = (watchlistId, currentName) => {
+        setModalContent(<UpdateWatchlistModal watchlistId={watchlistId} currentName={currentName} />);
     };
 
     return (
@@ -67,6 +89,7 @@ const Watchlist = () => {
                             <button onClick={() => handleViewStocks(watchlist.id)}>
                                 {visibleStocks[watchlist.id] ? 'Hide Stocks' : 'View Stocks'}
                             </button>
+                            <button onClick={() => handleUpdateWatchlist(watchlist.id, watchlist.name)}>Edit Watchlist</button>
                             <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete Watchlist</button>
                         </div>
                         {loading[watchlist.id] ? (

@@ -25,7 +25,7 @@ const Dashboard = () => {
         if (inputSymbol) {
             setLoading(true);
             setError(null);
-            setDataFetched(false); 
+            setDataFetched(false);
 
             try {
                 const chartPromise = new Promise((resolve, reject) => {

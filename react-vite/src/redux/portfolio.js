@@ -59,21 +59,27 @@ const deletePortfolioStock = (portfolioId, stockId) => ({
 
 // Thunks
 export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
-    const response = await fetch('/api/portfolios/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(portfolioData)
-    });
+    try {
+        const response = await fetch('/api/portfolios/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(portfolioData)
+        });
 
-    if (response.ok) {
-        const portfolio = await response.json();
-        dispatch(createPortfolio(portfolio));
-        return portfolio;
-    } else {
-        const errors = await response.json();
-        return errors;
+        if (response.ok) {
+            const portfolio = await response.json();
+            dispatch(createPortfolio(portfolio));
+            return portfolio;
+        } else {
+            const errors = await response.json();
+            console.error('Failed to create portfolio:', errors); // Log errors for debugging
+            return errors;
+        }
+    } catch (error) {
+        console.error('Error creating portfolio:', error); // Log any unexpected errors
+        return { error: 'Failed to create portfolio' };
     }
 };
 
