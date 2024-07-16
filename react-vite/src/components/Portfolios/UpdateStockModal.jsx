@@ -8,11 +8,24 @@ function UpdateStockModal({ portfolioId, stock }) {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(stock.quantity);
     const [purchasePrice, setPurchasePrice] = useState(stock.purchase_price);
-    // const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({}); 
     const { closeModal } = useModal();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const newErrors = {};
+        if (isNaN(quantity) || quantity <= 0) {
+            newErrors.quantity = "Quantity must be a positive number.";
+        }
+        if (isNaN(purchasePrice) || purchasePrice <= 0) {
+            newErrors.purchase_price = "Purchase price must be a positive number.";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         const serverResponse = await dispatch(updatePortfolioStockThunk(portfolioId, stock.id, {
             quantity: parseFloat(quantity),
@@ -21,8 +34,8 @@ function UpdateStockModal({ portfolioId, stock }) {
         }));
 
         if (serverResponse) {
-        //     setErrors(serverResponse);
-        // } else {
+            setErrors(serverResponse);
+        } else {
             dispatch(getPortfolioStocksThunk(portfolioId));
             closeModal();
         }
@@ -41,7 +54,7 @@ function UpdateStockModal({ portfolioId, stock }) {
                         required
                     />
                 </label>
-                {/* {errors.quantity && <p className="error">{errors.quantity}</p>} */}
+                {errors.quantity && <p className="error">{errors.quantity}</p>}
                 <label>
                     Purchase Price
                     <input
@@ -51,7 +64,7 @@ function UpdateStockModal({ portfolioId, stock }) {
                         required
                     />
                 </label>
-                {/* {errors.purchase_price && <p className="error">{errors.purchase_price}</p>} */}
+                {errors.purchase_price && <p className="error">{errors.purchase_price}</p>}
                 <button className="portfolio-form-button" type="submit">Update</button>
             </form>
         </div>

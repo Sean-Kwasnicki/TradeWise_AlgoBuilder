@@ -31,34 +31,16 @@ const Portfolio = () => {
         dispatch(getAllPortfoliosThunk());
     }, [dispatch]);
 
-    // const handleCreatePortfolio = () => {
-    //     const name = prompt('Enter portfolio name:');
-    //     // const initialBalance = prompt('Enter initial balance:');
-    //     dispatch(createPortfolioThunk({ name }));
-    // };
 
     const handleCreatePortfolio = () => {
         setModalContent(<PortfolioFormModal />);
     };
 
-    // const handleUpdatePortfolio = (id) => {
-    //     const name = prompt('Enter new portfolio name:');
-    //     if (name) {
-    //         dispatch(updatePortfolioThunk(id, { name }));
-    //     }
-    // };
 
     const handleUpdatePortfolio = (id, currentName) => {
         setModalContent(<UpdatePortfolioModal portfolioId={id} currentName={currentName} />);
     };
 
-
-    // const handleDeletePortfolio = (id) => {
-    //     const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
-    //     if (confirmDelete) {
-    //         dispatch(deletePortfolioThunk(id));
-    //     }
-    // };
 
     const handleDeletePortfolio = (id) => {
         setModalContent(<DeletePortfolioModal portfolioId={id}/>);
@@ -83,27 +65,10 @@ const Portfolio = () => {
         }));
     };
 
-    // const handleDeleteStock = (portfolioId, stockId) => {
-    //     dispatch(deletePortfolioStockThunk(portfolioId, stockId)).then(() => {
-    //         dispatch(getPortfolioStocksThunk(portfolioId));
-    //     });
-    // };
 
     const handleDeleteStock = (portfolioId, stockId) => {
         setModalContent(<DeleteStockModal portfolioId={portfolioId} stockId={stockId} />);
     };
-    // const handleUpdateStock = (portfolioId, stock) => {
-    //     const quantity = prompt('Enter new quantity:', stock.quantity);
-    //     if (quantity && quantity !== stock.quantity) {
-    //         dispatch(updatePortfolioStockThunk(portfolioId, stock.id, {
-    //             quantity: parseFloat(quantity),
-    //             purchase_price: stock.purchase_price,
-    //             current_price: stock.current_price
-    //         })).then(() => {
-    //             dispatch(getPortfolioStocksThunk(portfolioId));
-    //         });
-    //     }
-    // };
 
     const handleUpdateStock = (portfolioId, stock) => {
         setModalContent(<UpdateStockModal portfolioId={portfolioId} stock={stock} />);

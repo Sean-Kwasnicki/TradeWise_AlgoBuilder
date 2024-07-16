@@ -18,6 +18,7 @@ const StockDetailB = ({ symbol, detailType, isWinner }) => {
     const stockB = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
     const portfolios = useSelector((state) => state.portfolio.portfolios);
     const watchlists = useSelector((state) => state.watchlist.watchlists);
+    const user = useSelector((state) => state.session.user);
     const { setModalContent } = useModal();
 
     useEffect(() => {
@@ -31,26 +32,6 @@ const StockDetailB = ({ symbol, detailType, isWinner }) => {
         }
     }, [dispatch, symbol]);
 
-    // const handleAddToPortfolio = async () => {
-    //     const quantity = prompt('Enter quantity:');
-    //     const purchasePrice = prompt('Enter purchase price:');
-    //     if (quantity && purchasePrice) {
-    //         const portfolioName = prompt('Enter portfolio name:');
-    //         const portfolio = portfolios.find(p => p.name === portfolioName);
-    //         if (portfolio) {
-    //             const result = await dispatch(addPortfolioStockThunk(portfolio.id, {
-    //                 stock_symbol: symbol,
-    //                 quantity: parseFloat(quantity),
-    //                 purchase_price: parseFloat(purchasePrice)
-    //             }));
-    //             if (result.error) {
-    //                 alert('Failed to add stock to portfolio: ' + result.error);
-    //             }
-    //         } else {
-    //             alert('Portfolio not found');
-    //         }
-    //     }
-    // };
 
     const handleAddToPortfolio = () => {
         setModalContent(<AddToPortfolioModal symbol={symbol} />);
@@ -60,18 +41,6 @@ const StockDetailB = ({ symbol, detailType, isWinner }) => {
         setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stockB.current_price} />);
       };
 
-    // const handleAddToWatchlist = () => {
-    //     const watchlistName = prompt('Enter watchlist name:');
-    //     const watchlist = watchlists.find(w => w.name === watchlistName);
-    //     if (watchlist) {
-    //         dispatch(addWatchlistStockThunk(watchlist.id, {
-    //             stock_symbol: symbol,
-    //             current_price: stockB.current_price,
-    //         }));
-    //     } else {
-    //         alert('Watchlist not found');
-    //     }
-    // };
 
     const toggleChartVisibility = (symbol) => {
         setVisibleCharts((prev) => ({
@@ -97,8 +66,12 @@ const StockDetailB = ({ symbol, detailType, isWinner }) => {
                     <p>52 Week High: ${stockB.week_52_high}</p>
                     <p>52 Week Low: ${stockB.week_52_low}</p>
                     <div className="buttons">
-                      <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
-                      <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                    { user && (
+                        <>
+                            <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
+                            <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                        </>
+                    )}
                       <button onClick={() => toggleChartVisibility(stockB.symbol)}>
                         {visibleCharts[stockB.symbol] ? 'Hide Chart' : 'View Chart'}
                       </button>

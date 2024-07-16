@@ -3,9 +3,9 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px;
-  background-color: #000;
-  color: #fff;
+  color: white;
   margin-top: 100px;
+  z-index: 1;
 }
 
 .sidebar {

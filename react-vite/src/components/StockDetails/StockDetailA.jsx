@@ -15,6 +15,7 @@ const StockDetailA = ({ symbol, detailType, isWinner }) => {
     const [visibleCharts, setVisibleCharts] = useState({});
     const dispatch = useDispatch();
     const stockA = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
+    const user = useSelector((state) => state.session.user);
     const { setModalContent, closeModal } = useModal();
 
     useEffect(() => {
@@ -62,8 +63,12 @@ const StockDetailA = ({ symbol, detailType, isWinner }) => {
                     <p>52 Week High: ${stockA.week_52_high}</p>
                     <p>52 Week Low: ${stockA.week_52_low}</p>
                     <div className="buttons">
-                      <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
-                      <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                    { user && (
+                        <>
+                            <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
+                            <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                        </>
+                    )}
                       <button onClick={() => toggleChartVisibility(stockA.symbol)}>
                         {visibleCharts[stockA.symbol] ? 'Hide Chart' : 'View Chart'}
                       </button>
@@ -76,7 +81,7 @@ const StockDetailA = ({ symbol, detailType, isWinner }) => {
                     )}
                 </div>
             ) : (
-                <p>No stock details available for {symbol}. Enter a valid symbol and fetch the details.</p>
+                <p>No stock details available for {symbol}. Please try again and enter a valid symbol.</p>
             )}
         </div>
     );

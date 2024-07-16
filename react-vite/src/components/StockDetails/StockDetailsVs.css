@@ -6,16 +6,31 @@
 }
 
 .stock-details-vs input {
-  margin: 10px;
-  padding: 10px;
-  font-size: 16px;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1;
+
+}
+
+.reset-button:hover {
+  background-color: red;
+  color: white;
 }
 
 .stock-details-vs button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+  background-color: rgb(8,153,128);
+  color: #ffffff;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 20px;
+  z-index: 1;
 }
 
 .comparison-container {
@@ -28,6 +43,7 @@
 
 .roi-comparison {
   width: 100%;
+  margin-left: 50px;
 }
 
 .stock-details {
@@ -99,12 +115,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 120%;
   background-image: url('../../../../images/tradewise_logo.jpg');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.1;
-  z-index: 0;
+  z-index: -100000;
   pointer-events: none;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createWatchlistThunk } from "../../redux/watchlist";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
@@ -9,15 +9,24 @@ function WatchlistModal() {
     const [name, setName] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+    const watchlists = useSelector((state) => state.watchlist.watchlists);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const serverResponse = await dispatch(createWatchlistThunk({ name }));
+        const trimmedName = name.trim();
+        if (watchlists.some((watchlist) => watchlist.name === trimmedName)) {
+            setErrors({ name: "Watchlist name already exists. Please choose a different name." });
+            return;
+        }
+        if (trimmedName.length === 0 || !/^[\w\s]+$/.test(name)) {
+            setErrors({ name: "Watchlist name cannot be empty or only spaces." });
+            return;
+        }
+
+        const serverResponse = await dispatch(createWatchlistThunk({ name: trimmedName }));
 
         if (serverResponse) {
-        //     setErrors(serverResponse);
-        // } else {
             closeModal();
         }
     };

@@ -8,11 +8,22 @@ function AddToWatchlistModal({ symbol, currentPrice }) {
     const dispatch = useDispatch();
     const watchlists = useSelector((state) => state.watchlist.watchlists);
     const [watchlistId, setWatchlistId] = useState("");
-    // const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const newErrors = {};
+
+        if(!watchlistId) {
+            newErrors.watchlistId = "Please select a watchlist."
+        }
+
+        if(Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         const serverResponse = await dispatch(
             addWatchlistStockThunk(watchlistId, {
@@ -22,8 +33,6 @@ function AddToWatchlistModal({ symbol, currentPrice }) {
         );
 
         if (serverResponse) {
-        //     setErrors(serverResponse);
-        // } else {
             closeModal();
         }
     };
@@ -47,7 +56,7 @@ function AddToWatchlistModal({ symbol, currentPrice }) {
                         ))}
                     </select>
                 </label>
-                {/* {errors.watchlistId && <p className="error">{errors.watchlistId}</p>} */}
+                {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
                 <button className="login-form-button" type="submit">Add to Watchlist</button>
             </form>
         </div>

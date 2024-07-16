@@ -49,7 +49,7 @@ def get_stock_by_symbol(symbol):
 
 # Get Historical Prices by Symbol
 @stock_routes.route('/symbol/<string:symbol>/historical_prices', methods=['GET'])
-@login_required
+# @login_required
 def get_historical_prices_by_symbol(symbol):
     historical_prices = get_historical_prices_twelvedata(symbol)
     if historical_prices is None:

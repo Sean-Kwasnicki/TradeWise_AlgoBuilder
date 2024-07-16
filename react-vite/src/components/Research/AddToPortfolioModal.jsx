@@ -10,11 +10,30 @@ function AddToPortfolioModal({ symbol }) {
     const [quantity, setQuantity] = useState("");
     const [purchasePrice, setPurchasePrice] = useState("");
     const [portfolioId, setPortfolioId] = useState("");
-    // const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const newErrors = {};
+
+        if (!quantity || isNaN(quantity) || parseFloat(quantity) <= 0) {
+            newErrors.quantity = "Quantity must be a positive number.";
+        }
+
+        if (!purchasePrice || isNaN(purchasePrice) || parseFloat(purchasePrice) <= 0) {
+            newErrors.purchasePrice = "Purchase price must be a positive number.";
+        }
+
+        if (!portfolioId) {
+            newErrors.portfolioId = "Please select a portfolio.";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         const serverResponse = await dispatch(
             addPortfolioStockThunk(portfolioId, {
@@ -25,8 +44,6 @@ function AddToPortfolioModal({ symbol }) {
         );
 
         if (serverResponse) {
-        //     setErrors(serverResponse);
-        // } else {
             closeModal();
         }
     };
@@ -44,7 +61,7 @@ function AddToPortfolioModal({ symbol }) {
                         required
                     />
                 </label>
-                {/* {errors.quantity && <p className="error">{errors.quantity}</p>} */}
+                {errors.quantity && <p className="error">{errors.quantity}</p>}
                 <label>
                     Purchase Price
                     <input
@@ -54,7 +71,7 @@ function AddToPortfolioModal({ symbol }) {
                         required
                     />
                 </label>
-                {/* {errors.purchasePrice && <p className="error">{errors.purchasePrice}</p>} */}
+                {errors.purchasePrice && <p className="error">{errors.purchasePrice}</p>}
                 <label>
                     Portfolio
                     <select
@@ -70,7 +87,7 @@ function AddToPortfolioModal({ symbol }) {
                         ))}
                     </select>
                 </label>
-                {/* {errors.portfolioId && <p className="error">{errors.portfolioId}</p>} */}
+                {errors.portfolioId && <p className="error">{errors.portfolioId}</p>}
                 <button className="login-form-button" type="submit">Add to Portfolio</button>
             </form>
         </div>

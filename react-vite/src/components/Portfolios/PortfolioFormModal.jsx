@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPortfolioThunk } from "../../redux/portfolio";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css"
@@ -9,8 +9,22 @@ function PortfolioFormModal() {
     const [name, setName] = useState("");
     const { closeModal } = useModal();
 
+    const [errors, setErrors] = useState({});
+    const portfolios = useSelector((state) => state.portfolio.portfolios);
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const trimmedName = name.trim();
+        if (portfolios.some((portfolio) => portfolio.name === trimmedName)) {
+            setErrors({ name: "Portfolio name already exists. Please choose a different name." });
+            return;
+        }
+        if (trimmedName.length === 0 || !/^[\w\s]+$/.test(name)) {
+            setErrors({ name: "Portfolio name cannot be empty or only spaces." });
+            return;
+        }
 
         const serverResponse = await dispatch(createPortfolioThunk({ name }));
 
@@ -32,7 +46,7 @@ function PortfolioFormModal() {
                         required
                     />
                 </label>
-                {/* {errors.name && <p className="error">{errors.name}</p>} */}
+                {errors.name && <p className="error">{errors.name}</p>}
                 <button className="portfolio-form-button" type="submit">Create</button>
             </form>
         </div>

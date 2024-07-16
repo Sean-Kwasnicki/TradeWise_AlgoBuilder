@@ -15,7 +15,7 @@ import RoiComparison from '../ROIComparison/ROIComparison';
 
 const ResearchPage = () => {
   const [symbol, setSymbol] = useState('AAPL');
-  const [inputSymbol, setInputSymbol] = useState('AAPL');
+  const [inputSymbol, setInputSymbol] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [dataFetched, setDataFetched] = useState(false);
@@ -25,6 +25,7 @@ const ResearchPage = () => {
   const historicalPrice = useSelector((state) => state.stockHistorical.historicalPrices[symbol]?.close_price);
   const portfolios = useSelector((state) => state.portfolio.portfolios);
   const watchlists = useSelector((state) => state.watchlist.watchlists);
+  const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
 
   useEffect(() => {
@@ -73,29 +74,6 @@ const ResearchPage = () => {
     }
   };
 
-  // const handleAddToPortfolio = async () => {
-  //   const quantity = prompt('Enter quantity:');
-  //   const purchasePrice = prompt('Enter purchase price:');
-  //   if (quantity && purchasePrice) {
-  //     const portfolioName = prompt('Enter portfolio name:');
-  //     const portfolio = portfolios.find((p) => p.name === portfolioName);
-  //     if (portfolio) {
-  //       const result = await dispatch(
-  //         addPortfolioStockThunk(portfolio.id, {
-  //           stock_symbol: symbol,
-  //           quantity: parseFloat(quantity),
-  //           purchase_price: parseFloat(purchasePrice),
-  //         })
-  //       );
-  //       if (result.error) {
-  //         alert('Failed to add stock to portfolio: ' + result.error);
-  //       }
-  //     } else {
-  //       alert('Portfolio not found');
-  //     }
-  //   }
-  // };
-
   const handleAddToPortfolio = () => {
     setModalContent(<AddToPortfolioModal symbol={symbol} />);
   };
@@ -103,21 +81,6 @@ const ResearchPage = () => {
   const handleAddToWatchlist = () => {
     setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stock.current_price} />);
   };
-
-  // const handleAddToWatchlist = () => {
-  //   const watchlistName = prompt('Enter watchlist name:');
-  //   const watchlist = watchlists.find((w) => w.name === watchlistName);
-  //   if (watchlist) {
-  //     dispatch(
-  //       addWatchlistStockThunk(watchlist.id, {
-  //         stock_symbol: symbol,
-  //         current_price: stock.current_price,
-  //       })
-  //     );
-  //   } else {
-  //     alert('Watchlist not found');
-  //   }
-  // };
 
   const calculatePercentageGain = (currentPrice, historicalPrice) => {
     if (currentPrice && historicalPrice) {
@@ -163,10 +126,14 @@ const ResearchPage = () => {
                     <p>Market Cap: ${stock.market_cap}</p>
                     <p>PE Ratio: {stock.pe_ratio}</p>
                     <p>Dividend Yield: {stock.dividend_yield}</p>
-                    <div className="buttons">
-                      <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
-                      <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                    </div>
+                      {user && (
+                        <>
+                        <div className="buttons">
+                         <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
+                         <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                        </div>
+                        </>
+                      )}
                   </div>
                 </div>
                 <div className="chart-container">

@@ -48,26 +48,15 @@ const Watchlist = () => {
         }));
     };
 
-    // const handleDeleteStock = (watchlistId, stockId) => {
-    //     dispatch(deleteWatchlistStockThunk(watchlistId, stockId));
-    // };
-
     const handleDeleteStock = (watchlistId, stockId) => {
         setModalContent(<DeleteWatchlistStockModal watchlistId={watchlistId} stockId={stockId} />);
     };
 
-    // const handleDeleteWatchlist = (watchlistId) => {
-    //     dispatch(deleteWatchlistThunk(watchlistId));
-    // };
 
     const handleDeleteWatchlist = (watchlistId) => {
         setModalContent(<DeleteWatchlistModal watchlistId={watchlistId} />);
     };
 
-    // const handleCreateWatchlist = () => {
-    //     const name = prompt('Enter watchlist name:');
-    //     dispatch(createWatchlistThunk({ name }));
-    // };
 
     const handleCreateWatchlist = () => {
         setModalContent(<WatchlistModal />);
