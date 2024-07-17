@@ -13,11 +13,20 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email.includes("@")) {
       return setErrors({ email: "Please enter a valid email address with an '@' symbol" });
+    }
+
+    if (!validateEmail(email)) {
+      return setErrors({ email: "Please enter a valid email address" });
     }
 
     if (password !== confirmPassword) {
