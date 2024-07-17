@@ -8,8 +8,8 @@ function DeleteStockModal({ portfolioId, stockId }) {
     const { closeModal } = useModal();
 
     const handleDelete = async () => {
-        await dispatch(deletePortfolioStockThunk(portfolioId, stockId));
-        dispatch(getPortfolioStocksThunk(portfolioId));
+        dispatch(deletePortfolioStockThunk(portfolioId, stockId));
+        dispatch(getPortfolioStocksThunk(portfolioId))
         closeModal();
     };
 

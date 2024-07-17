@@ -10,7 +10,7 @@ const DashboardTradingViewWidget = ({ symbol }) => {
                 new window.TradingView.widget({
                     symbol: symbol,
                     container_id: 'tradingview_widget',
-                    interval: 'D', // Set the interval to 1-day
+                    interval: 'D', 
                     autosize: true,
                     theme: 'dark',
                     style: '1',

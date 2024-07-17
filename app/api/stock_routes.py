@@ -1,23 +1,27 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.api.finnhub_client import get_stock_price, get_stock_details
+from app.api.finnhub_client import get_stock_price, get_stock_details, get_company_news
 from app.api.yahoo_finance_client import get_historical_prices
 from app.api.twelvedata_client import get_historical_prices_twelvedata
 from app.api.newsdata_client import get_news_by_company_name
+from datetime import datetime, timedelta
 
 stock_routes = Blueprint('stocks', __name__)
 
 
 looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
 
-@stock_routes.route('/company_news/<string:company_name>', methods=['GET'])
+
+@stock_routes.route('/company_news/<string:symbol>', methods=['GET'])
 # @login_required
-def get_news_by_company(company_name):
-    news = get_news_by_company_name(company_name)
+def get_news_by_symbol(symbol):
+    today = datetime.now().strftime('%Y-%m-%d')
+    week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    news = get_company_news(symbol, week_ago, today)
     if news:
         return jsonify(news), 200
     else:
-        return jsonify({"errors": "Failed to fetch news"}), 404
+        return jsonify({"error": "Failed to fetch news"}), 404
 
 # Get Stock by Symbol
 @stock_routes.route('/symbol/<string:symbol>', methods=['GET'])
@@ -58,7 +62,7 @@ def get_historical_prices_by_symbol(symbol):
 
 # Update Stock Price
 @stock_routes.route('/update/<string:symbol>', methods=['GET'])
-@login_required
+# @login_required
 def update_stock(symbol):
     stock_data = get_stock_price(symbol)
     if stock_data is None:
@@ -83,7 +87,7 @@ def update_stock(symbol):
 
 # Get All Stocks
 @stock_routes.route('/', methods=['GET'])
-@login_required
+# @login_required
 def get_all_stocks():
     stocks = []
     for symbol in looked_up_symbols:

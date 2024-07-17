@@ -14,10 +14,15 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email.trim() || !password.trim()) {
+      setErrors({ form: "Fields cannot be empty or contain only spaces" });
+      return;
+    }
+
     const serverResponse = await dispatch(
       thunkLogin({
-        email,
-        password,
+        email: email.trim(),
+        password: password.trim(),
       })
     );
 
