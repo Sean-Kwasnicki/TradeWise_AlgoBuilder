@@ -60,16 +60,16 @@ const ResearchPage = () => {
         if (stockPromise) {
           setSymbol(inputSymbol);
         } else {
-          throw new Error('Invalid symbol');
+          throw new Error('Failed to fetch data, Please try a Valid Symbol');
         }
       } catch (err) {
-        setError('Invalid symbol');
+        setError('Failed to fetch data, Please try a Valid Symbol');
       } finally {
         setLoading(false);
         setDataFetched(true);
       }
     } else {
-      setError('Invalid symbol');
+      setError('Failed to fetch data, Please try a Valid Symbol');
       setDataFetched(true);
     }
   };
@@ -146,7 +146,11 @@ const ResearchPage = () => {
                 </div>
               </>
             ) : (
-              dataFetched && <p>Invalid Symbol</p>
+              dataFetched && (
+              <div className="error-message">
+              <p>Failed to fetch data, Please try a Valid Symbol</p>
+            </div>
+              )
             )}
           </>
         )}

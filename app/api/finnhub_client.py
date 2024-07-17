@@ -52,10 +52,21 @@ def get_stock_price(symbol):
             'name': profile.get('name', symbol),
             'market_cap': profile.get('market_cap', 0),
             'pe_ratio': financials.get('pe_ratio', 0),
-            'dividend_yield': financials.get('dividend_yield', 0)  
+            'dividend_yield': financials.get('dividend_yield', 0)
         }
     except Exception as e:
         print(f"Error fetching data for {symbol}: {e}")  # Error handling
+        return None
+
+def get_company_news(symbol, from_date, to_date):
+    url = f"{BASE_URL}/company-news?symbol={symbol}&from={from_date}&to={to_date}&token={API_KEY}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        news_items = response.json()
+        return news_items
+    except Exception as e:
+        print(f"Error fetching company news for {symbol}: {e}")
         return None
 
 
@@ -75,6 +86,7 @@ def get_stock_details(symbol):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching stock details for {symbol}: {e}")
         return None
+
 
 
 # Function to get historical prices including volume
@@ -103,6 +115,10 @@ def get_historical_prices(symbol):
         return None
 
 if __name__ == "__main__":
-    symbols = ['AAPL', 'GOOGL', 'MSFT']
+    symbols = ['PPL']
     for symbol in symbols:
         print(get_stock_price(symbol))
+        news = get_company_news(symbol, "2024-07-10", "2024-07-16")
+        print(f"News for {symbol}:")
+        for item in news:
+            print(f"{item['datetime']} - {item['headline']}")

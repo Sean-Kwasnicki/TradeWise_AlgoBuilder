@@ -299,15 +299,16 @@ export default function portfolioReducer(state = initialState, action) {
                     )
                 }
             };
-        case DELETE_PORTFOLIO_STOCK:
-            return {
-                ...state,
-                stocksByPortfolioId: {
-                    [action.portfolioId]: state.stocksByPortfolioId[action.portfolioId].filter(
-                        (stock) => stock.id !== action.stockId
-                    )
-                }
-            };
+            case DELETE_PORTFOLIO_STOCK:
+                return {
+                    ...state,
+                    stocksByPortfolioId: {
+                        ...state.stocksByPortfolioId,
+                        [action.portfolioId]: state.stocksByPortfolioId[action.portfolioId].filter(
+                            (stock) => stock.id !== action.stockId
+                        )
+                    }
+                };
         default:
             return state;
     }

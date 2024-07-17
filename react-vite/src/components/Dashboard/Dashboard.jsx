@@ -5,60 +5,65 @@ import Watchlist from '../Watchlists/Watchlists';
 import DashboardTradingViewWidget from '../SmartChart/DashboardChart';
 import StockNews from '../StockNews/StockNews';
 import { FaSpinner } from 'react-icons/fa';
+import { fetchStock } from '../../redux/stock';
 import './Dashboard.css';
 
 const Dashboard = () => {
     const [inputSymbol, setInputSymbol] = useState('');
-    const [symbol, setSymbol] = useState('SPY');
+    const [symbol, setSymbol] = useState('AAPL');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [dataFetched, setDataFetched] = useState(false);
-    const user = useSelector((state) => state.session.user);
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
 
+    // Preload data for 'AAPL' on component mount
+    useEffect(() => {
+        fetchData('AAPL');
+    }, []);
+
     const handleInputChange = (e) => {
-        const trimmedValue = e.target.value.toUpperCase().trim();
-        setInputSymbol(trimmedValue);
+        setInputSymbol(e.target.value.toUpperCase().trim());
     };
 
-    const handleUpdateClick = async () => {
-        if (inputSymbol) {
-            setLoading(true);
-            setError(null);
-            setDataFetched(false);
+    const fetchData = async (symbolToFetch) => {
+        setLoading(true);
+        setDataFetched(false);
+        setError(null);
 
-            try {
-                const chartPromise = new Promise((resolve, reject) => {
-                    resolve(<DashboardTradingViewWidget symbol={inputSymbol} />);
-                });
+        try {
+            const stockPromise = dispatch(fetchStock(symbolToFetch));
+            const newsResponse = await fetch(`/api/stocks/company_news/${symbolToFetch}`);
 
-                const newsPromise = new Promise((resolve, reject) => {
-                    resolve(<StockNews symbol={inputSymbol} />);
-                });
-
-                await Promise.all([chartPromise, newsPromise]);
-
-                setSymbol(inputSymbol);
-                setDataFetched(true);
-            } catch (err) {
-                setError('Invalid symbol');
-                setDataFetched(true);
-            } finally {
-                setLoading(false);
+            if (!newsResponse.ok) {
+                throw new Error('Failed to fetch data, Please try a Valid Symbol');
             }
-        } else {
-            setError('Invalid symbol');
+
+            const newsData = await newsResponse.json();
+            await stockPromise;
+
+            if (stockPromise.error || !newsData) {
+                throw new Error('Failed to fetch data, Please try a Valid Symbol');
+            }
+
+            setSymbol(symbolToFetch);
             setDataFetched(true);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleUpdateClick = () => {
+        fetchData(inputSymbol);
     };
 
     return (
         <div className="dashboard">
             <div className="background-logo-compare"></div>
             <div className="sidebar">
-                {user && (
-                    <Portfolio />
-                )}
+                {user && <Portfolio />}
             </div>
             <div className="main-content">
                 <div className="search-bar">
@@ -68,46 +73,30 @@ const Dashboard = () => {
                         value={inputSymbol}
                         onChange={handleInputChange}
                     />
-                    <button
-                        onClick={handleUpdateClick}
-                        disabled={!inputSymbol}
-                    >
+                    <button onClick={handleUpdateClick}>
                         Search
                     </button>
                 </div>
-                <div className="dashboard-chart-container">
-                    {loading ? (
-                        <div className="loading-section-dashboard">
-                            <FaSpinner className="spinner-dashboard" />
-                            <p>Loading...</p>
-                        </div>
-                    ) : (
-                        dataFetched && error ? (
-                            <p>{error}</p>
-                        ) : (
+                {loading ? (
+                    <div className="loading-section-research">
+                        <FaSpinner className="spinner-research" />
+                        <p>Loading...</p>
+                    </div>
+                ) : error ? (
+                    <p>{error}</p>
+                ) : dataFetched && (
+                    <>
+                        <div className="dashboard-chart-container">
                             <DashboardTradingViewWidget symbol={symbol} />
-                        )
-                    )}
-                </div>
-                <div className="dashboard-news-container">
-                    {loading ? (
-                        <div className="loading-section-dashboard">
-                            <FaSpinner className="spinner-dashboard" />
-                            <p>Loading...</p>
                         </div>
-                    ) : (
-                        dataFetched && error ? (
-                            <p>{error}</p>
-                        ) : (
+                        <div className="dashboard-news-container">
                             <StockNews symbol={symbol} />
-                        )
-                    )}
-                </div>
+                        </div>
+                    </>
+                )}
             </div>
             <div className="sidebar">
-                {user && (
-                    <Watchlist />
-                )}
+                {user && <Watchlist />}
             </div>
         </div>
     );

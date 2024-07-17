@@ -142,6 +142,16 @@
   animation: spin 1s linear infinite;
 }
 
+.error-message {
+  display: flex;
+  justify-content: center; /* Centers horizontally in the flex container */
+  /* align-items: center;     Centers vertically in the flex container */
+  /* height: 100%;            Takes full height of the container */
+  width: 100%;             /* Full width to center text horizontally */
+  text-align: center;      /* Ensures text within is centered if it wraps */
+}
+
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

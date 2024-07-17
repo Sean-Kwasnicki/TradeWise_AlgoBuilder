@@ -34,7 +34,7 @@ function PortfolioFormModal() {
     };
 
     return (
-        <div className="portfolio-form">
+        <div className="login-form">
             <h1>Create Portfolio</h1>
             <form onSubmit={handleSubmit}>
                 <label>
@@ -47,7 +47,7 @@ function PortfolioFormModal() {
                     />
                 </label>
                 {errors.name && <p className="error">{errors.name}</p>}
-                <button className="portfolio-form-button" type="submit">Create</button>
+                <button className="login-form" type="submit">Create</button>
             </form>
         </div>
     );
