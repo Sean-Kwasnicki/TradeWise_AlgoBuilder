@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
 import { fetchHistoricalPrice } from '../../redux/stock_historical';
-import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portfolio';
-import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
+import { addPortfolioStockThunk, getAllPortfoliosThunk, getPortfolioStocksThunk } from '../../redux/portfolio';
+import { addWatchlistStockThunk, getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
 import TradingViewWidget from '../SmartChart/TradingViewWidget';
 import StockNews from '../StockNews/StockNews';
@@ -24,19 +24,21 @@ const ResearchPage = () => {
   const stock = useSelector((state) => state.stocks.stocks && state.stocks.stocks[symbol]);
   const historicalPrice = useSelector((state) => state.stockHistorical.historicalPrices[symbol]?.close_price);
   const portfolios = useSelector((state) => state.portfolio.portfolios);
+  const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
   const watchlists = useSelector((state) => state.watchlist.watchlists);
+  const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
   const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
 
   useEffect(() => {
     dispatch(fetchStock('AAPL'));
-    dispatch(getAllPortfoliosThunk());
-    dispatch(getAllWatchlistsThunk());
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     const formattedDate = oneYearAgo.toISOString().split('T')[0];
     dispatch(fetchHistoricalPrice('AAPL', formattedDate));
   }, [dispatch]);
+
+  
 
   const handleInputChange = (e) => {
     setInputSymbol(e.target.value.toUpperCase().trim());

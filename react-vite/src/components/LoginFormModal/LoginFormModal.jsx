@@ -14,11 +14,21 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
-      setErrors({ form: "Fields cannot be empty or contain only spaces" });
-      return;
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const validationErrors = {};
+
+    if (!trimmedEmail) {
+      validationErrors.email = "Email cannot be empty or contain only spaces.";
+    }
+    if (!trimmedPassword) {
+      validationErrors.password = "Password cannot be empty or contain only spaces.";
     }
 
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     const serverResponse = await dispatch(
       thunkLogin({
         email: email.trim(),
@@ -64,7 +74,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.email && <p className="error">{errors.email}</p>}
+        {errors.email && <p className="login-error">{errors.email}</p>}
         <label>
           Password
           <input
@@ -74,10 +84,10 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.password && <p className="error">{errors.password}</p>}
+        {errors.password && <p className="login-error">{errors.password}</p>}
         <button className="login-form-button" type="submit">Log In</button>
+        <button className="login-form-button" onClick={handleDemoLogin}>Demo User</button>
       </form>
-      <button className="login-form-button" onClick={handleDemoLogin}>Demo User</button>
     </div>
   );
 }

@@ -74,11 +74,11 @@ export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
             return portfolio;
         } else {
             const errors = await response.json();
-            console.error('Failed to create portfolio:', errors); // Log errors for debugging
+            console.error('Failed to create portfolio:', errors);
             return errors;
         }
     } catch (error) {
-        console.error('Error creating portfolio:', error); // Log any unexpected errors
+        console.error('Error creating portfolio:', error); 
         return { error: 'Failed to create portfolio' };
     }
 };

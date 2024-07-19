@@ -5,7 +5,8 @@ import {
     getPortfolioStocksThunk,
     deletePortfolioStockThunk,
     deletePortfolioThunk,
-    createPortfolioThunk
+    createPortfolioThunk,
+    addOrUpdateStockThunk // Import the new thunk
 } from '../../redux/portfolio';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
@@ -99,47 +100,49 @@ const Portfolio = () => {
                     return (
                         <li key={portfolio.id} className="portfolio-item">
                             <h2>{portfolio.name}</h2>
-                            {hasStocks && (
-                                <>
-                                    <p>Current Value: ${currentValue}</p>
-                                    <p>Purchase Value: ${purchaseValue}</p>
-                                    <p>Profit/Loss: ${profitLoss} ({profitLossPercentage}%)</p>
-                                </>
-                            )}
-                            <div className="portfolio-buttons">
-                                <button onClick={() => handleUpdatePortfolio(portfolio.id, portfolio.name)}>Edit Portfolio</button>
-                                <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete Portfolio</button>
-                            </div>
                             {loading[portfolio.id] ? (
                                 <div className="loading-container">
                                     <FaSpinner className="spinner" />
                                     <p>Loading...</p>
                                 </div>
                             ) : (
-                                hasStocks ? (
-                                    <ul className="stocks-list">
-                                        {stocksByPortfolioId[portfolio.id]?.map((stock) => (
-                                            <li key={stock.id} className="stock-item">
-                                                {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
-                                                <div className="stock-buttons">
-                                                    <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
-                                                        {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
-                                                    </button>
-                                                    <button onClick={() => handleUpdateStock(portfolio.id, stock)}>Edit Stock</button>
-                                                    <button onClick={() => handleDeleteStock(portfolio.id, stock.id)}>Delete Stock</button>
-                                                </div>
-                                                {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] && (
-                                                    <TradingViewMiniWidget
-                                                        symbol={stock.stock_symbol}
-                                                        containerId={`tradingview_widget_${portfolio.id}_${stock.stock_symbol}`}
-                                                    />
-                                                )}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p>Please add to portfolio</p>
-                                )
+                                <>
+                                    {hasStocks && (
+                                        <>
+                                            <p>Current Value: ${currentValue}</p>
+                                            <p>Purchase Value: ${purchaseValue}</p>
+                                            <p>Profit/Loss: ${profitLoss} ({profitLossPercentage}%)</p>
+                                        </>
+                                    )}
+                                    <div className="portfolio-buttons">
+                                        <button onClick={() => handleUpdatePortfolio(portfolio.id, portfolio.name)}>Edit Portfolio</button>
+                                        <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete Portfolio</button>
+                                    </div>
+                                    {hasStocks ? (
+                                        <ul className="stocks-list">
+                                            {stocksByPortfolioId[portfolio.id]?.map((stock) => (
+                                                <li key={stock.id} className="stock-item">
+                                                    {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
+                                                    <div className="stock-buttons">
+                                                        <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
+                                                            {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                                        </button>
+                                                        <button onClick={() => handleUpdateStock(portfolio.id, stock)}>Edit Stock</button>
+                                                        <button onClick={() => handleDeleteStock(portfolio.id, stock.id)}>Delete Stock</button>
+                                                    </div>
+                                                    {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] && (
+                                                        <TradingViewMiniWidget
+                                                            symbol={stock.stock_symbol}
+                                                            containerId={`tradingview_widget_${portfolio.id}_${stock.stock_symbol}`}
+                                                        />
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>Please add to portfolio</p>
+                                    )}
+                                </>
                             )}
                         </li>
                     );

@@ -54,7 +54,7 @@
   background-color: #e6b800;
 }
 
-.error {
-  color: #ff0000;
+.login-error {
+  color: red;
   font-size: 14px;
 }

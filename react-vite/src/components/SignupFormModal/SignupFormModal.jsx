@@ -21,26 +21,44 @@ function SignupFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.includes("@")) {
-      return setErrors({ email: "Please enter a valid email address with an '@' symbol" });
+    const trimmedEmail = email.trim();
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+    const trimmedConfirmPassword = confirmPassword.trim();
+    const validationErrors = {};
+
+    if (!trimmedEmail) {
+      validationErrors.email = "Email cannot be empty or contain only spaces.";
+    } else if (!validateEmail(trimmedEmail)) {
+      validationErrors.email = "Please enter a valid email address.";
     }
 
-    if (!validateEmail(email)) {
-      return setErrors({ email: "Please enter a valid email address" });
+    if (!trimmedUsername) {
+      validationErrors.username = "Username cannot be empty or contain only spaces.";
     }
 
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
+    if (!trimmedPassword) {
+      validationErrors.password = "Password cannot be empty or contain only spaces.";
+    }
+
+    if (!trimmedConfirmPassword) {
+      validationErrors.confirmPassword = "Password cannot be empty or contain only spaces.";
+    }
+
+    if (trimmedPassword !== trimmedConfirmPassword) {
+      validationErrors.confirmPassword = "Passwords must match, please try again.";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
 
     const serverResponse = await dispatch(
       thunkSignup({
-        email,
-        username,
-        password,
+        email: trimmedEmail,
+        username: trimmedUsername,
+        password: trimmedPassword,
       })
     );
 

@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPortfolioStockThunk } from "../../redux/portfolio";
+import { addPortfolioStockThunk, getPortfolioStocksThunk, getAllPortfoliosThunk, updatePortfolioStockThunk} from "../../redux/portfolio";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 
 function AddToPortfolioModal({ symbol }) {
     const dispatch = useDispatch();
     const portfolios = useSelector((state) => state.portfolio.portfolios);
+    const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
     const [quantity, setQuantity] = useState("");
     const [purchasePrice, setPurchasePrice] = useState("");
     const [portfolioId, setPortfolioId] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+
+    useEffect(() => {
+        dispatch(getAllPortfoliosThunk());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (portfolioId) {
+            dispatch(getPortfolioStocksThunk(portfolioId));
+        }
+    }, [dispatch, portfolioId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,6 +39,8 @@ function AddToPortfolioModal({ symbol }) {
 
         if (!portfolioId) {
             newErrors.portfolioId = "Please select a portfolio.";
+        } else if (stocksByPortfolioId[portfolioId]?.some(stock => stock.stock_symbol === symbol)) {
+            newErrors.portfolioId = "Stock is already in portfolio.";
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -35,16 +48,20 @@ function AddToPortfolioModal({ symbol }) {
             return;
         }
 
-        const serverResponse = await dispatch(
-            addPortfolioStockThunk(portfolioId, {
-                stock_symbol: symbol,
-                quantity: parseFloat(quantity),
-                purchase_price: parseFloat(purchasePrice),
-            })
-        );
+        const stockData = {
+            stock_symbol: symbol,
+            quantity: parseFloat(quantity),
+            purchase_price: parseFloat(purchasePrice),
+        };
 
-        if (serverResponse) {
+        const serverResponse = await dispatch(addPortfolioStockThunk(portfolioId, stockData));
+
+        if (!serverResponse.errors) {
+            // Update the state directly to reflect the changes immediately
+            dispatch(updatePortfolioStockThunk(portfolioId, stockData));
             closeModal();
+        } else {
+            setErrors(serverResponse.errors);
         }
     };
 
