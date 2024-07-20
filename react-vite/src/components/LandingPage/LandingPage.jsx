@@ -9,21 +9,21 @@ import { getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watc
 const LandingPage = () => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const portfolios = await dispatch(getAllPortfoliosThunk());
-            portfolios.forEach(portfolio => {
-                dispatch(getPortfolioStocksThunk(portfolio.id));
-            });
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const portfolios = await dispatch(getAllPortfoliosThunk());
+    //         portfolios.forEach(portfolio => {
+    //             dispatch(getPortfolioStocksThunk(portfolio.id));
+    //         });
 
-            const watchlists = await dispatch(getAllWatchlistsThunk());
-            watchlists.forEach(watchlist => {
-                dispatch(getWatchlistStocksThunk(watchlist.id));
-            });
-        };
+    //         const watchlists = await dispatch(getAllWatchlistsThunk());
+    //         watchlists.forEach(watchlist => {
+    //             dispatch(getWatchlistStocksThunk(watchlist.id));
+    //         });
+    //     };
 
-        fetchData();
-    }, [dispatch]);
+    //     fetchData();
+    // }, [dispatch]);
 
     return (
         <div className="landing-page">

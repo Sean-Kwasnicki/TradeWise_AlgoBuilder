@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPortfolioStockThunk, getPortfolioStocksThunk, getAllPortfoliosThunk, updatePortfolioStockThunk} from "../../redux/portfolio";
+import { addPortfolioStockThunk, getPortfolioStocksThunk, getAllPortfoliosThunk } from "../../redux/portfolio";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 
-function AddToPortfolioModal({ symbol }) {
+function AddToPortfolioModal({ symbol, addedStocks }) {
     const dispatch = useDispatch();
     const portfolios = useSelector((state) => state.portfolio.portfolios);
     const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
@@ -20,7 +20,6 @@ function AddToPortfolioModal({ symbol }) {
 
     useEffect(() => {
         if (portfolioId) {
-            // Fetch stocks for the selected portfolio
             dispatch(getPortfolioStocksThunk(portfolioId));
         }
     }, [dispatch, portfolioId]);
@@ -42,6 +41,8 @@ function AddToPortfolioModal({ symbol }) {
             newErrors.portfolioId = "Please select a portfolio.";
         } else if (stocksByPortfolioId[portfolioId]?.some(stock => stock.stock_symbol === symbol)) {
             newErrors.portfolioId = "Stock is already in portfolio.";
+        } else if (addedStocks.has(`${portfolioId}-${symbol}`)) {
+            newErrors.portfolioId = "Stock is already added to this portfolio.";
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -58,8 +59,8 @@ function AddToPortfolioModal({ symbol }) {
         const serverResponse = dispatch(addPortfolioStockThunk(portfolioId, stockData));
 
         if (!serverResponse.errors) {
-            // Update the state directly to reflect the changes immediately
-            dispatch(getPortfolioStocksThunk(portfolioId, stockData));
+            // Add to the set to prevent adding it again
+            addedStocks.add(`${portfolioId}-${symbol}`);
             closeModal();
         } else {
             setErrors(serverResponse.errors);

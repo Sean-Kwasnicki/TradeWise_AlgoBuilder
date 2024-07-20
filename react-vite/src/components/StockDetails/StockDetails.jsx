@@ -85,15 +85,15 @@ const StockDetails = ({ detailType }) => {
                 <div>
                     <h2>Stock Details for {stock.name}: {stock.symbol}</h2>
                     <p>Current Price: ${stock.current_price}</p>
-                    <p>Market Cap: ${stock.market_cap}</p>
+                    {/* <p>Market Cap: ${stock.market_cap}</p>
                     <p>PE Ratio: {stock.pe_ratio}</p>
-                    <p>Dividend Yield: {stock.dividend_yield}</p>
+                    <p>Dividend Yield: {stock.dividend_yield}</p> */}
                     <p>52 Week High: ${stock.week_52_high}</p>
                     <p>52 Week Low: ${stock.week_52_low}</p>
                     <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
                     <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                     <TradingViewWidget symbol={stock.symbol} />
-                    <StockNews symbol={stock.symbol} /> 
+                    <StockNews symbol={stock.symbol} />
                 </div>
             ) : (
                 <p>No stock details available. Enter a valid symbol and fetch the details.</p>

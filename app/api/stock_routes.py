@@ -16,7 +16,7 @@ looked_up_symbols = ['AAPL', 'GOOGL', 'MSFT']
 # @login_required
 def get_news_by_symbol(symbol):
     today = datetime.now().strftime('%Y-%m-%d')
-    week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    week_ago = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     news = get_company_news(symbol, week_ago, today)
     if news:
         return jsonify(news), 200
@@ -36,9 +36,9 @@ def get_stock_by_symbol(symbol):
         'symbol': stock_data['symbol'],
         'name': stock_data['name'],
         'current_price': stock_data['price'],
-        'market_cap': stock_data['market_cap'],
-        'pe_ratio': stock_data['pe_ratio'],
-        'dividend_yield': stock_data['dividend_yield'],
+        # 'market_cap': stock_data['market_cap'],
+        # 'pe_ratio': stock_data['pe_ratio'],
+        # 'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         # 'average_volume': stock_details['average_volume']
@@ -76,9 +76,9 @@ def update_stock(symbol):
         'symbol': stock_data['symbol'],
         'name': stock_data['name'],
         'current_price': stock_data['price'],
-        'market_cap': stock_data['market_cap'],
-        'pe_ratio': stock_data['pe_ratio'],
-        'dividend_yield': stock_data['dividend_yield'],
+        # 'market_cap': stock_data['market_cap'],
+        # 'pe_ratio': stock_data['pe_ratio'],
+        # 'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
         'week_52_low': stock_details['week_52_low'],
         # 'average_volume': stock_details['average_volume']
@@ -98,9 +98,9 @@ def get_all_stocks():
                 'symbol': stock_data['symbol'],
                 'name': stock_data['name'],
                 'current_price': stock_data['price'],
-                'market_cap': stock_data['market_cap'],
-                'pe_ratio': stock_data['pe_ratio'],
-                'dividend_yield': stock_data['dividend_yield'],
+                # 'market_cap': stock_data['market_cap'],
+                # 'pe_ratio': stock_data['pe_ratio'],
+                # 'dividend_yield': stock_data['dividend_yield'],
                 'week_52_high': stock_details['week_52_high'],
                 'week_52_low': stock_details['week_52_low'],
                 # 'average_volume': stock_details['average_volume']

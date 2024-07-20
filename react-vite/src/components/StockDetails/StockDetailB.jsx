@@ -60,9 +60,9 @@ const StockDetailB = ({ symbol, detailType, isWinner }) => {
                 <div>
                     <h2>Stock Details for {stockB.name}: {stockB.symbol}</h2>
                     <p>Current Price: ${stockB.current_price}</p>
-                    <p>Market Cap: ${stockB.market_cap}</p>
+                    {/* <p>Market Cap: ${stockB.market_cap}</p>
                     <p>PE Ratio: {stockB.pe_ratio}</p>
-                    <p>Dividend Yield: {stockB.dividend_yield}</p>
+                    <p>Dividend Yield: {stockB.dividend_yield}</p> */}
                     <p>52 Week High: ${stockB.week_52_high}</p>
                     <p>52 Week Low: ${stockB.week_52_low}</p>
                     <div className="buttons">

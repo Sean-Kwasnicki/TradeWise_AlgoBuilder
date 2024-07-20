@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
 import { fetchHistoricalPrice } from '../../redux/stock_historical';
-import { addPortfolioStockThunk, getAllPortfoliosThunk, getPortfolioStocksThunk } from '../../redux/portfolio';
-import { addWatchlistStockThunk, getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
+import { getAllPortfoliosThunk, getPortfolioStocksThunk } from '../../redux/portfolio';
+import { getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
 import TradingViewWidget from '../SmartChart/TradingViewWidget';
 import StockNews from '../StockNews/StockNews';
@@ -12,6 +12,9 @@ import { useModal } from '../../context/Modal';
 import AddToPortfolioModal from './AddToPortfolioModal';
 import AddToWatchlistModal from './AddToWatchlistModal';
 import RoiComparison from '../ROIComparison/ROIComparison';
+
+const stockCache = {};
+const addedStocks = new Set();
 
 const ResearchPage = () => {
   const [symbol, setSymbol] = useState('AAPL');
@@ -26,7 +29,6 @@ const ResearchPage = () => {
   const portfolios = useSelector((state) => state.portfolio.portfolios);
   const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
   const watchlists = useSelector((state) => state.watchlist.watchlists);
-  const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
   const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
 
@@ -40,7 +42,6 @@ const ResearchPage = () => {
     dispatch(getAllWatchlistsThunk());
   }, [dispatch]);
 
-
   useEffect(() => {
     portfolios.forEach((portfolio) => {
       dispatch(getPortfolioStocksThunk(portfolio.id));
@@ -49,8 +50,6 @@ const ResearchPage = () => {
       dispatch(getWatchlistStocksThunk(watchlist.id));
     });
   }, [dispatch, portfolios, watchlists]);
-
-
 
   const handleInputChange = (e) => {
     setInputSymbol(e.target.value.toUpperCase().trim());
@@ -61,6 +60,15 @@ const ResearchPage = () => {
       setLoading(true);
       setError(null);
       setDataFetched(false);
+
+      // Check if the stock data is already in cache
+      if (stockCache[inputSymbol]) {
+        setSymbol(inputSymbol);
+        setLoading(false);
+        setDataFetched(true);
+        return;
+      }
+
       const oneYearAgo = new Date();
       oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
       const formattedDate = oneYearAgo.toISOString().split('T')[0];
@@ -72,6 +80,8 @@ const ResearchPage = () => {
         await Promise.all([stockPromise, historicalPricePromise]);
 
         if (stockPromise) {
+          // Store the fetched stock data in cache
+          stockCache[inputSymbol] = true;
           setSymbol(inputSymbol);
         } else {
           throw new Error('Failed to fetch data, Please try a Valid Symbol');
@@ -89,7 +99,7 @@ const ResearchPage = () => {
   };
 
   const handleAddToPortfolio = () => {
-    setModalContent(<AddToPortfolioModal symbol={symbol} />);
+    setModalContent(<AddToPortfolioModal symbol={symbol} addedStocks={addedStocks} />);
   };
 
   const handleAddToWatchlist = () => {
@@ -137,17 +147,12 @@ const ResearchPage = () => {
                     )}
                     <p>52 Week High: ${stock.week_52_high}</p>
                     <p>52 Week Low: ${stock.week_52_low}</p>
-                    <p>Market Cap: ${stock.market_cap}</p>
-                    <p>PE Ratio: {stock.pe_ratio}</p>
-                    <p>Dividend Yield: {stock.dividend_yield}</p>
-                      {user && (
-                        <>
-                        <div className="buttons">
-                         <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
-                         <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                        </div>
-                        </>
-                      )}
+                    {user && (
+                      <div className="buttons">
+                        <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
+                        <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="chart-container">
@@ -161,9 +166,9 @@ const ResearchPage = () => {
               </>
             ) : (
               dataFetched && (
-              <div className="error-message">
-              <p>Failed to fetch data, Please try a Valid Symbol</p>
-            </div>
+                <div className="error-message">
+                  <p>Failed to fetch data, Please try a Valid Symbol</p>
+                </div>
               )
             )}
           </>
