@@ -10,6 +10,9 @@ import AddToPortfolioModal from '../Research/AddToPortfolioModal';
 import AddToWatchlistModal from '../Research/AddToWatchlistModal';
 import { useModal } from '../../context/Modal';
 
+// const stockCache = {};
+const addedStocksPort = new Set();
+const addedStocksWL = new Set();
 
 const StockDetailA = ({ symbol, detailType, isWinner }) => {
     const [loading, setLoading] = useState(false);
@@ -34,11 +37,10 @@ const StockDetailA = ({ symbol, detailType, isWinner }) => {
 
 
     const handleAddToPortfolio = () => {
-        setModalContent(<AddToPortfolioModal symbol={symbol} />);
+        setModalContent(<AddToPortfolioModal symbol={symbol} addedStocksPort={addedStocksPort} />);
       };
-
       const handleAddToWatchlist = () => {
-        setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stockA.current_price} />);
+        setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stockA.current_price} addedStocksWL={addedStocksWL}/>);
       };
 
 

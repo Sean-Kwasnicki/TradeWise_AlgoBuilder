@@ -4,7 +4,7 @@ import { addPortfolioStockThunk, getPortfolioStocksThunk, getAllPortfoliosThunk 
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 
-function AddToPortfolioModal({ symbol, addedStocks }) {
+function AddToPortfolioModal({ symbol, addedStocksPort }) {
     const dispatch = useDispatch();
     const portfolios = useSelector((state) => state.portfolio.portfolios);
     const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
@@ -41,7 +41,7 @@ function AddToPortfolioModal({ symbol, addedStocks }) {
             newErrors.portfolioId = "Please select a portfolio.";
         } else if (stocksByPortfolioId[portfolioId]?.some(stock => stock.stock_symbol === symbol)) {
             newErrors.portfolioId = "Stock is already in portfolio.";
-        } else if (addedStocks.has(`${portfolioId}-${symbol}`)) {
+        } else if (addedStocksPort.has(`${portfolioId}-${symbol}`)) {
             newErrors.portfolioId = "Stock is already added to this portfolio.";
         }
 
@@ -58,9 +58,9 @@ function AddToPortfolioModal({ symbol, addedStocks }) {
 
         const serverResponse = dispatch(addPortfolioStockThunk(portfolioId, stockData));
 
-        if (!serverResponse.errors) {
+        if (serverResponse) {
             // Add to the set to prevent adding it again
-            addedStocks.add(`${portfolioId}-${symbol}`);
+            addedStocksPort.add(`${portfolioId}-${symbol}`);
             closeModal();
         } else {
             setErrors(serverResponse.errors);

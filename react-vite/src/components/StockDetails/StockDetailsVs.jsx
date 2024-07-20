@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaSpinner } from 'react-icons/fa'; // Importing spinner icon
 import { fetchStock } from '../../redux/stock';
 import { fetchHistoricalPrice } from '../../redux/stock_historical';
 import StockDetailA from './StockDetailA';
 import StockDetailB from './StockDetailB';
 import RoiComparison from '../ROIComparison/ROIComparison';
+import { getAllPortfoliosThunk, getPortfolioStocksThunk } from '../../redux/portfolio';
+import { getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import './StockDetailsVs.css';
 
 const StockDetailsVs = () => {
@@ -21,6 +23,13 @@ const StockDetailsVs = () => {
     const [compareDisabled, setCompareDisabled] = useState(false);
 
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(getAllPortfoliosThunk());
+        dispatch(getAllWatchlistsThunk());
+      }, [dispatch]);
+
 
     const handleInputChangeA = (e) => {
         setInputSymbolA(e.target.value.toUpperCase().trim());

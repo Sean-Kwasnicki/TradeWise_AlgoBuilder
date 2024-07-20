@@ -4,7 +4,7 @@ import { addWatchlistStockThunk, getWatchlistStocksThunk, getAllWatchlistsThunk 
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 
-function AddToWatchlistModal({ symbol, currentPrice }) {
+function AddToWatchlistModal({ symbol, currentPrice, addedStocksWL }) {
     const dispatch = useDispatch();
     const watchlists = useSelector((state) => state.watchlist.watchlists);
     const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
@@ -47,6 +47,8 @@ function AddToWatchlistModal({ symbol, currentPrice }) {
         );
 
         if (!serverResponse.errors) {
+            // Add to the set to prevent adding it again
+            addedStocksWL.add(`${watchlistId}-${symbol}`);
             closeModal();
         } else {
             setErrors(serverResponse.errors);

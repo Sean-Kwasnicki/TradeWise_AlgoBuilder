@@ -13,8 +13,9 @@ import AddToPortfolioModal from './AddToPortfolioModal';
 import AddToWatchlistModal from './AddToWatchlistModal';
 import RoiComparison from '../ROIComparison/ROIComparison';
 
-const stockCache = {};
-const addedStocks = new Set();
+// const stockCache = {};
+const addedStocksPort = new Set();
+const addedStocksWL = new Set();
 
 const ResearchPage = () => {
   const [symbol, setSymbol] = useState('AAPL');
@@ -37,7 +38,7 @@ const ResearchPage = () => {
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     const formattedDate = oneYearAgo.toISOString().split('T')[0];
-    dispatch(fetchHistoricalPrice('AAPL', formattedDate));
+    // dispatch(fetchHistoricalPrice('AAPL', formattedDate));
     dispatch(getAllPortfoliosThunk());
     dispatch(getAllWatchlistsThunk());
   }, [dispatch]);
@@ -61,13 +62,13 @@ const ResearchPage = () => {
       setError(null);
       setDataFetched(false);
 
-      // Check if the stock data is already in cache
-      if (stockCache[inputSymbol]) {
-        setSymbol(inputSymbol);
-        setLoading(false);
-        setDataFetched(true);
-        return;
-      }
+      // // Check if the stock data is already in cache
+      // if (stockCache[inputSymbol]) {
+      //   setSymbol(inputSymbol);
+      //   setLoading(false);
+      //   setDataFetched(true);
+      //   return;
+      // }
 
       const oneYearAgo = new Date();
       oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -80,8 +81,8 @@ const ResearchPage = () => {
         await Promise.all([stockPromise, historicalPricePromise]);
 
         if (stockPromise) {
-          // Store the fetched stock data in cache
-          stockCache[inputSymbol] = true;
+          // // Store the fetched stock data in cache
+          // stockCache[inputSymbol] = true;
           setSymbol(inputSymbol);
         } else {
           throw new Error('Failed to fetch data, Please try a Valid Symbol');
@@ -99,11 +100,11 @@ const ResearchPage = () => {
   };
 
   const handleAddToPortfolio = () => {
-    setModalContent(<AddToPortfolioModal symbol={symbol} addedStocks={addedStocks} />);
+    setModalContent(<AddToPortfolioModal symbol={symbol} addedStocksPort={addedStocksPort} />);
   };
-
+  
   const handleAddToWatchlist = () => {
-    setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stock.current_price} />);
+    setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stock.current_price} addedStocksWL={addedStocksWL}/>);
   };
 
   const calculatePercentageGain = (currentPrice, historicalPrice) => {
