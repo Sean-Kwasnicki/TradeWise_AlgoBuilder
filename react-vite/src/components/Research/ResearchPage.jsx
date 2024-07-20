@@ -160,9 +160,9 @@ const ResearchPage = () => {
                     <TradingViewWidget symbol={symbol} />
                   </div>
                 </div>
-                <div className="stocknews-container">
+                {/* <div className="stocknews-container">
                   <StockNews symbol={symbol} />
-                </div>
+                </div> */}
               </>
             ) : (
               dataFetched && (

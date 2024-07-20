@@ -29,7 +29,7 @@ function Navigation() {
           <NavLink to="/stocks">Compare Stocks</NavLink>
         </li>
         <li>
-          <NavLink to="/research">Research</NavLink>
+          <NavLink to="/research">Search</NavLink>
         </li>
         <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
