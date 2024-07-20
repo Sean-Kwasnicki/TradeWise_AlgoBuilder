@@ -1,46 +1,37 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPortfolioStockThunk, getPortfolioStocksThunk, getAllPortfoliosThunk } from "../../redux/portfolio";
+import { addWatchlistStockThunk, getWatchlistStocksThunk, getAllWatchlistsThunk } from "../../redux/watchlist";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 
-function AddToPortfolioModal({ symbol }) {
+function AddToWatchlistModal({ symbol, currentPrice }) {
     const dispatch = useDispatch();
-    const portfolios = useSelector((state) => state.portfolio.portfolios);
-    const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
-    const [quantity, setQuantity] = useState("");
-    const [purchasePrice, setPurchasePrice] = useState("");
-    const [portfolioId, setPortfolioId] = useState("");
+    const watchlists = useSelector((state) => state.watchlist.watchlists);
+    const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
+    const [watchlistId, setWatchlistId] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
     useEffect(() => {
-        dispatch(getAllPortfoliosThunk());
+        dispatch(getAllWatchlistsThunk());
     }, [dispatch]);
 
+
     useEffect(() => {
-        if (portfolioId) {
-            dispatch(getPortfolioStocksThunk(portfolioId));
+        if (watchlistId) {
+            dispatch(getWatchlistStocksThunk(watchlistId));
         }
-    }, [dispatch, portfolioId]);
+    }, [dispatch, watchlistId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = {};
 
-        if (!quantity || isNaN(quantity) || parseFloat(quantity) <= 0) {
-            newErrors.quantity = "Quantity must be a positive number.";
-        }
-
-        if (!purchasePrice || isNaN(purchasePrice) || parseFloat(purchasePrice) <= 0) {
-            newErrors.purchasePrice = "Purchase price must be a positive number.";
-        }
-
-        if (!portfolioId) {
-            newErrors.portfolioId = "Please select a portfolio.";
-        } else if (stocksByPortfolioId[portfolioId]?.some(stock => stock.stock_symbol === symbol)) {
-            newErrors.portfolioId = "Stock is already in portfolio.";
+        if (!watchlistId) {
+            newErrors.watchlistId = "Please select a watchlist.";
+        } else if (stocksByWatchlistId[watchlistId]?.some(stock => stock.stock_symbol === symbol)) {
+            newErrors.watchlistId = "Stock is already in watchlist.";
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -48,13 +39,12 @@ function AddToPortfolioModal({ symbol }) {
             return;
         }
 
-        const stockData = {
-            stock_symbol: symbol,
-            quantity: parseFloat(quantity),
-            purchase_price: parseFloat(purchasePrice),
-        };
-
-        const serverResponse = await dispatch(addPortfolioStockThunk(portfolioId, stockData));
+        const serverResponse = dispatch(
+            addWatchlistStockThunk(watchlistId, {
+                stock_symbol: symbol,
+                current_price: currentPrice,
+            })
+        );
 
         if (!serverResponse.errors) {
             closeModal();
@@ -65,48 +55,28 @@ function AddToPortfolioModal({ symbol }) {
 
     return (
         <div className="login-form">
-            <h1>Add to Portfolio</h1>
+            <h1>Add to Watchlist</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Quantity
-                    <input
-                        type="number"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        required
-                    />
-                </label>
-                {errors.quantity && <p className="error">{errors.quantity}</p>}
-                <label>
-                    Purchase Price
-                    <input
-                        type="number"
-                        value={purchasePrice}
-                        onChange={(e) => setPurchasePrice(e.target.value)}
-                        required
-                    />
-                </label>
-                {errors.purchasePrice && <p className="error">{errors.purchasePrice}</p>}
-                <label>
-                    Portfolio
+                    Watchlist
                     <select
-                        value={portfolioId}
-                        onChange={(e) => setPortfolioId(e.target.value)}
+                        value={watchlistId}
+                        onChange={(e) => setWatchlistId(e.target.value)}
                         required
                     >
-                        <option value="">Select Portfolio</option>
-                        {portfolios.map((portfolio) => (
-                            <option key={portfolio.id} value={portfolio.id}>
-                                {portfolio.name}
+                        <option value="">Select Watchlist</option>
+                        {watchlists.map((watchlist) => (
+                            <option key={watchlist.id} value={watchlist.id}>
+                                {watchlist.name}
                             </option>
                         ))}
                     </select>
                 </label>
-                {errors.portfolioId && <p className="error">{errors.portfolioId}</p>}
-                <button className="login-form-button" type="submit">Add to Portfolio</button>
+                {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
+                <button className="login-form-button" type="submit">Add to Watchlist</button>
             </form>
         </div>
     );
 }
 
-export default AddToPortfolioModal;
+export default AddToWatchlistModal;
