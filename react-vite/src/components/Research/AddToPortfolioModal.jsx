@@ -20,6 +20,7 @@ function AddToPortfolioModal({ symbol }) {
 
     useEffect(() => {
         if (portfolioId) {
+            // Fetch stocks for the selected portfolio
             dispatch(getPortfolioStocksThunk(portfolioId));
         }
     }, [dispatch, portfolioId]);
@@ -54,11 +55,11 @@ function AddToPortfolioModal({ symbol }) {
             purchase_price: parseFloat(purchasePrice),
         };
 
-        const serverResponse = await dispatch(addPortfolioStockThunk(portfolioId, stockData));
+        const serverResponse = dispatch(addPortfolioStockThunk(portfolioId, stockData));
 
         if (!serverResponse.errors) {
             // Update the state directly to reflect the changes immediately
-            dispatch(updatePortfolioStockThunk(portfolioId, stockData));
+            dispatch(getPortfolioStocksThunk(portfolioId, stockData));
             closeModal();
         } else {
             setErrors(serverResponse.errors);

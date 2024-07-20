@@ -36,9 +36,21 @@ const ResearchPage = () => {
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     const formattedDate = oneYearAgo.toISOString().split('T')[0];
     dispatch(fetchHistoricalPrice('AAPL', formattedDate));
+    dispatch(getAllPortfoliosThunk());
+    dispatch(getAllWatchlistsThunk());
   }, [dispatch]);
 
-  
+
+  useEffect(() => {
+    portfolios.forEach((portfolio) => {
+      dispatch(getPortfolioStocksThunk(portfolio.id));
+    });
+    watchlists.forEach((watchlist) => {
+      dispatch(getWatchlistStocksThunk(watchlist.id));
+    });
+  }, [dispatch, portfolios, watchlists]);
+
+
 
   const handleInputChange = (e) => {
     setInputSymbol(e.target.value.toUpperCase().trim());
