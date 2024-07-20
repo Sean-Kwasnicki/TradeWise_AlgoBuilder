@@ -76,9 +76,9 @@ const StockDetailA = ({ symbol, detailType, isWinner }) => {
                         {visibleCharts[stockA.symbol] ? 'Hide Chart' : 'View Chart'}
                       </button>
                     </div>
-                    {visibleCharts[stockB.symbol] && (
+                    {visibleCharts[stockA.symbol] && (
                         <TradingViewMiniWidget
-                            symbol={stockB.symbol}
+                            symbol={stockA.symbol}
                             containerId={`tradingview_widget_${detailType}_${stockA.symbol}`}
                         />
                     )}
