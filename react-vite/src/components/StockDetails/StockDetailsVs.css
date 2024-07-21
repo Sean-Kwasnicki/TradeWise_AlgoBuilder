@@ -120,7 +120,8 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.1;
+  opacity: 0.33;
   z-index: -100000;
   pointer-events: none;
+  margin-top: 20px;
 }

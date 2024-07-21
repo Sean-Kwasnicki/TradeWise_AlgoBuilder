@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Watchlist, WatchlistStock, Stock, db
 from app.forms.watchlist_form import WatchlistForm
 from app.forms.watchlist_stock_form import WatchlistStockForm
-from app.api.finnhub_client import get_stock_price
+# from app.api.finnhub_client import get_stock_price
 
 watchlist_routes = Blueprint('watchlists', __name__)
 
@@ -81,14 +81,14 @@ def add_stock_to_watchlist(watchlist_id):
 
     if form.validate_on_submit():
         stock_symbol = form.stock_symbol.data
-        stock_price_info = get_stock_price(stock_symbol)
-        if not stock_price_info:
-            return jsonify({"errors": "Stock not found"}), 404
+        # stock_price_info = get_stock_price(stock_symbol)
+        # if not stock_price_info:
+        #     return jsonify({"errors": "Stock not found"}), 404
 
         watchlist_stock = WatchlistStock(
         watchlist_id=watchlist_id,
         stock_symbol=stock_symbol,
-        current_price=stock_price_info['price']
+        # current_price=stock_price_info['price']
         )
         db.session.add(watchlist_stock)
         db.session.commit()
@@ -108,9 +108,9 @@ def get_watchlist_stocks(watchlist_id):
     # Fetch current prices for each stock
     updated_stocks = []
     for stock in stocks:
-        stock_data = get_stock_price(stock.stock_symbol)
-        if stock_data:
-            stock.current_price = stock_data['price']
+        # stock_data = get_stock_price(stock.stock_symbol)
+        # if stock_data:
+        #     stock.current_price = stock_data['price']
             updated_stocks.append(stock)
 
     db.session.commit()

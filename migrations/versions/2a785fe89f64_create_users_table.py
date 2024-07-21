@@ -131,7 +131,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('watchlist_id', sa.Integer(), nullable=False),
     sa.Column('stock_symbol', sa.String(length=10), nullable=False),  # Use stock symbol instead of stock ID
-    sa.Column('current_price', sa.Numeric(precision=15, scale=2), nullable=False),
+    # sa.Column('current_price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['watchlist_id'], ['watchlists.id'], ),

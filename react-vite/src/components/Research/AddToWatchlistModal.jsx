@@ -1,84 +1,77 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addWatchlistStockThunk, getWatchlistStocksThunk, getAllWatchlistsThunk } from "../../redux/watchlist";
-import { useModal } from "../../context/Modal";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addWatchlistStockThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
+import { useModal } from '../../context/Modal';
 import "../LoginFormModal/LoginForm.css";
 
-function AddToWatchlistModal({ symbol, currentPrice, addedStocksWL }) {
-    const dispatch = useDispatch();
-    const watchlists = useSelector((state) => state.watchlist.watchlists);
-    const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
-    const [watchlistId, setWatchlistId] = useState("");
-    const [errors, setErrors] = useState({});
-    const { closeModal } = useModal();
+function AddToWatchlistModal({ symbol, watchlists, stocksByWatchlistId, addedStocksWL }) {
+  const dispatch = useDispatch();
+  const [watchlistId, setWatchlistId] = useState("");
+  const [errors, setErrors] = useState({});
+  const { closeModal } = useModal();
 
-    useEffect(() => {
-        dispatch(getAllWatchlistsThunk());
-    }, [dispatch]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const newErrors = {};
 
-    useEffect(() => {
-        if (watchlistId) {
-            dispatch(getWatchlistStocksThunk(watchlistId));
-        }
-    }, [dispatch, watchlistId]);
+    if (!watchlistId) {
+      newErrors.watchlistId = "Please select a watchlist.";
+    } else {
+      const stocksInWatchlist = stocksByWatchlistId[watchlistId] || [];
+      if (stocksInWatchlist.length >= 5) {
+        newErrors.watchlistId = "Watchlist cannot have more than 5 stocks.";
+      } else if (stocksInWatchlist.some(stock => stock.stock_symbol === symbol)) {
+        newErrors.watchlistId = "Stock is already in watchlist.";
+      } else if (addedStocksWL.has(`${watchlistId}-${symbol}`)) {
+        newErrors.watchlistId = "Stock is already added to this watchlist.";
+      }
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-        const newErrors = {};
-
-        if (!watchlistId) {
-            newErrors.watchlistId = "Please select a watchlist.";
-        } else if (stocksByWatchlistId[watchlistId]?.some(stock => stock.stock_symbol === symbol)) {
-            newErrors.watchlistId = "Stock is already in watchlist.";
-        }
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
-
-        const serverResponse = dispatch(
-            addWatchlistStockThunk(watchlistId, {
-                stock_symbol: symbol,
-                current_price: currentPrice,
-            })
-        );
-
-        if (!serverResponse.errors) {
-            // Add to the set to prevent adding it again
-            addedStocksWL.add(`${watchlistId}-${symbol}`);
-            closeModal();
-        } else {
-            setErrors(serverResponse.errors);
-        }
+    const stockData = {
+      stock_symbol: symbol,
     };
 
-    return (
-        <div className="login-form">
-            <h1>Add to Watchlist</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Watchlist
-                    <select
-                        value={watchlistId}
-                        onChange={(e) => setWatchlistId(e.target.value)}
-                        required
-                    >
-                        <option value="">Select Watchlist</option>
-                        {watchlists.map((watchlist) => (
-                            <option key={watchlist.id} value={watchlist.id}>
-                                {watchlist.name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
-                <button className="login-form-button" type="submit">Add to Watchlist</button>
-            </form>
-        </div>
-    );
+    const serverResponse = dispatch(addWatchlistStockThunk(watchlistId, stockData));
+
+    if (!serverResponse.errors) {
+      addedStocksWL.add(`${watchlistId}-${symbol}`);
+      dispatch(getWatchlistStocksThunk(watchlistId));
+      closeModal();
+    } else {
+      setErrors(serverResponse.errors);
+    }
+  };
+
+  return (
+    <div className="login-form">
+      <h1>Add to Watchlist</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Watchlist
+          <select
+            value={watchlistId}
+            onChange={(e) => setWatchlistId(e.target.value)}
+            required
+          >
+            <option value="">Select Watchlist</option>
+            {watchlists.map((watchlist) => (
+              <option key={watchlist.id} value={watchlist.id}>
+                {watchlist.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
+        <button className="login-form-button" type="submit">Add to Watchlist</button>
+      </form>
+    </div>
+  );
 }
 
 export default AddToWatchlistModal;

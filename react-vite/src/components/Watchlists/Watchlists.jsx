@@ -64,6 +64,7 @@ const Watchlist = () => {
         <div className="watchlist-container">
             <div className="background-logo-compare"></div>
             <h1>Watchlists</h1>
+            <h3>Limit 5 stocks per Watchlist</h3>
             <button className="create-watchlist-btn" onClick={handleCreateWatchlist}>Create Watchlist</button>
             <ul className="watchlist-list">
                 {watchlists.map((watchlist) => {
@@ -86,7 +87,7 @@ const Watchlist = () => {
                                     <ul className="stocks-list">
                                         {stocksByWatchlistId[watchlist.id]?.map((stock) => (
                                             <li key={stock.id} className="stock-item">
-                                                {stock.stock_symbol} - Current Price: ${stock.current_price}
+                                                {stock.stock_symbol}
                                                 <div className="stock-buttons">
                                                     <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
                                                         {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}

@@ -13,12 +13,11 @@ import AddToPortfolioModal from './AddToPortfolioModal';
 import AddToWatchlistModal from './AddToWatchlistModal';
 import RoiComparison from '../ROIComparison/ROIComparison';
 
-// const stockCache = {};
 const addedStocksPort = new Set();
 const addedStocksWL = new Set();
 
 const ResearchPage = () => {
-  const [symbol, setSymbol] = useState('AAPL');
+  const [symbol, setSymbol] = useState('');
   const [inputSymbol, setInputSymbol] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,27 +29,42 @@ const ResearchPage = () => {
   const portfolios = useSelector((state) => state.portfolio.portfolios);
   const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
   const watchlists = useSelector((state) => state.watchlist.watchlists);
+  const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
   const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
 
   useEffect(() => {
-    dispatch(fetchStock('AAPL'));
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    const formattedDate = oneYearAgo.toISOString().split('T')[0];
-    // dispatch(fetchHistoricalPrice('AAPL', formattedDate));
-    dispatch(getAllPortfoliosThunk());
-    dispatch(getAllWatchlistsThunk());
+    const fetchInitialData = async () => {
+      setLoading(true);
+      await dispatch(getAllPortfoliosThunk());
+      await dispatch(getAllWatchlistsThunk());
+      setLoading(false);
+    };
+
+    fetchInitialData();
+
+    // Reset the sets when navigating away
+    return () => {
+      addedStocksPort.clear();
+      addedStocksWL.clear();
+    };
   }, [dispatch]);
 
   useEffect(() => {
-    portfolios.forEach((portfolio) => {
-      dispatch(getPortfolioStocksThunk(portfolio.id));
-    });
-    watchlists.forEach((watchlist) => {
-      dispatch(getWatchlistStocksThunk(watchlist.id));
-    });
-  }, [dispatch, portfolios, watchlists]);
+    if (portfolios.length > 0) {
+      portfolios.forEach(portfolio => {
+        dispatch(getPortfolioStocksThunk(portfolio.id));
+      });
+    }
+  }, [dispatch, portfolios]);
+
+  useEffect(() => {
+    if (watchlists.length > 0) {
+      watchlists.forEach(watchlist => {
+        dispatch(getWatchlistStocksThunk(watchlist.id));
+      });
+    }
+  }, [dispatch, watchlists]);
 
   const handleInputChange = (e) => {
     setInputSymbol(e.target.value.toUpperCase().trim());
@@ -61,14 +75,6 @@ const ResearchPage = () => {
       setLoading(true);
       setError(null);
       setDataFetched(false);
-
-      // // Check if the stock data is already in cache
-      // if (stockCache[inputSymbol]) {
-      //   setSymbol(inputSymbol);
-      //   setLoading(false);
-      //   setDataFetched(true);
-      //   return;
-      // }
 
       const oneYearAgo = new Date();
       oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -81,8 +87,6 @@ const ResearchPage = () => {
         await Promise.all([stockPromise, historicalPricePromise]);
 
         if (stockPromise) {
-          // // Store the fetched stock data in cache
-          // stockCache[inputSymbol] = true;
           setSymbol(inputSymbol);
         } else {
           throw new Error('Failed to fetch data, Please try a Valid Symbol');
@@ -100,11 +104,25 @@ const ResearchPage = () => {
   };
 
   const handleAddToPortfolio = () => {
-    setModalContent(<AddToPortfolioModal symbol={symbol} addedStocksPort={addedStocksPort} />);
+    setModalContent(
+      <AddToPortfolioModal
+        symbol={symbol}
+        portfolios={portfolios}
+        stocksByPortfolioId={stocksByPortfolioId}
+        addedStocksPort={addedStocksPort}
+      />
+    );
   };
-  
+
   const handleAddToWatchlist = () => {
-    setModalContent(<AddToWatchlistModal symbol={symbol} currentPrice={stock.current_price} addedStocksWL={addedStocksWL}/>);
+    setModalContent(
+      <AddToWatchlistModal
+        symbol={symbol}
+        watchlists={watchlists}
+        stocksByWatchlistId={stocksByWatchlistId}
+        addedStocksWL={addedStocksWL}
+      />
+    );
   };
 
   const calculatePercentageGain = (currentPrice, historicalPrice) => {

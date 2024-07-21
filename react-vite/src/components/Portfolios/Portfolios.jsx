@@ -101,6 +101,7 @@ const Portfolio = () => {
         <div className="portfolio-container">
             <div className="background-logo-compare"></div>
             <h1>Portfolios</h1>
+            <h3>Limit 5 stocks per Portfolio</h3>
             <button className="create-portfolio-btn" onClick={handleCreatePortfolio}>Create Portfolio</button>
             <ul className="portfolio-list">
                 {portfolios.map((portfolio) => {
