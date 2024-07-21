@@ -5,8 +5,7 @@ import {
     getPortfolioStocksThunk,
     deletePortfolioStockThunk,
     deletePortfolioThunk,
-    createPortfolioThunk,
-    addOrUpdateStockThunk // Import the new thunk
+    createPortfolioThunk
 } from '../../redux/portfolio';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import { FaSpinner } from 'react-icons/fa';
