@@ -35,10 +35,8 @@ const ResearchPage = () => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      setLoading(true);
       await dispatch(getAllPortfoliosThunk());
       await dispatch(getAllWatchlistsThunk());
-      setLoading(false);
     };
 
     fetchInitialData();
