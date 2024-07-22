@@ -23,25 +23,28 @@ const Portfolio = () => {
     const stocksByPortfolioId = useSelector((state) => state.portfolio.stocksByPortfolioId);
     const [loading, setLoading] = useState({});
     const [visibleCharts, setVisibleCharts] = useState({});
+    const [stocksVisible, setStocksVisible] = useState({});
     const { setModalContent, closeModal } = useModal();
 
     useEffect(() => {
         dispatch(getAllPortfoliosThunk());
     }, [dispatch]);
 
-    useEffect(() => {
-        const fetchStocksForPortfolios = async () => {
-            setLoading({});
-            await Promise.all(portfolios.map(async (portfolio) => {
-                setLoading(prev => ({ ...prev, [portfolio.id]: true }));
-                await dispatch(getPortfolioStocksThunk(portfolio.id));
-                setLoading(prev => ({ ...prev, [portfolio.id]: false }));
-            }));
-        };
-        if (portfolios.length) {
-            fetchStocksForPortfolios();
-        }
-    }, [portfolios, dispatch]);
+    const fetchStocksForPortfolio = async (portfolioId) => {
+        setLoading((prev) => ({ ...prev, [portfolioId]: true }));
+        await dispatch(getPortfolioStocksThunk(portfolioId));
+        setLoading((prev) => ({ ...prev, [portfolioId]: false }));
+    };
+
+    const toggleStockVisibility = (portfolioId) => {
+        setStocksVisible((prev) => {
+            const isVisible = !prev[portfolioId];
+            if (isVisible && !stocksByPortfolioId[portfolioId]) {
+                fetchStocksForPortfolio(portfolioId);
+            }
+            return { ...prev, [portfolioId]: isVisible };
+        });
+    };
 
     const toggleChartVisibility = (portfolioId, stockSymbol) => {
         setVisibleCharts((prev) => ({
@@ -112,43 +115,44 @@ const Portfolio = () => {
                                 </div>
                             ) : (
                                 <>
-                                    {hasStocks && (
+                                    <div className="portfolio-buttons">
+                                        <button className="toggle-stocks-btn" onClick={() => toggleStockVisibility(portfolio.id)}>
+                                            {stocksVisible[portfolio.id] ? 'Hide Portfolio' : 'View Portfolio'}
+                                        </button>
+                                    </div>
+                                    {stocksVisible[portfolio.id] && hasStocks && (
                                         <>
                                             <p>Current Value: ${currentValue}</p>
                                             <p>Purchase Value: ${purchaseValue}</p>
                                             <p>Profit/Loss: ${profitLoss} ({profitLossPercentage}%)</p>
+                                            <ul className="stocks-list">
+                                                {stocksByPortfolioId[portfolio.id]?.map((stock) => (
+                                                    <li key={stock.id} className="stock-item">
+                                                        {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
+                                                        <div className="stock-buttons">
+                                                            <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
+                                                                {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                                            </button>
+                                                            <button onClick={() => handleUpdateStock(portfolio.id, stock)}>Edit Stock</button>
+                                                            <button onClick={() => handleDeleteStock(portfolio.id, stock.id)}>Delete Stock</button>
+                                                        </div>
+                                                        {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] && (
+                                                            <TradingViewMiniWidget
+                                                                symbol={stock.stock_symbol}
+                                                                containerId={`tradingview_widget_${portfolio.id}_${stock.stock_symbol}`}
+                                                            />
+                                                        )}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </>
-                                    )}
-                                    <div className="portfolio-buttons">
-                                        <button onClick={() => handleUpdatePortfolio(portfolio.id, portfolio.name)}>Edit Portfolio</button>
-                                        <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete Portfolio</button>
-                                    </div>
-                                    {hasStocks ? (
-                                        <ul className="stocks-list">
-                                            {stocksByPortfolioId[portfolio.id]?.map((stock) => (
-                                                <li key={stock.id} className="stock-item">
-                                                    {stock.stock_symbol} - Quantity: {stock.quantity}, Current Price: ${stock.current_price}, Purchase Price: ${stock.purchase_price}
-                                                    <div className="stock-buttons">
-                                                        <button onClick={() => toggleChartVisibility(portfolio.id, stock.stock_symbol)}>
-                                                            {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
-                                                        </button>
-                                                        <button onClick={() => handleUpdateStock(portfolio.id, stock)}>Edit Stock</button>
-                                                        <button onClick={() => handleDeleteStock(portfolio.id, stock.id)}>Delete Stock</button>
-                                                    </div>
-                                                    {visibleCharts[`${portfolio.id}-${stock.stock_symbol}`] && (
-                                                        <TradingViewMiniWidget
-                                                            symbol={stock.stock_symbol}
-                                                            containerId={`tradingview_widget_${portfolio.id}_${stock.stock_symbol}`}
-                                                        />
-                                                    )}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>Please add to portfolio</p>
                                     )}
                                 </>
                             )}
+                            <div className="portfolio-buttons">
+                                <button onClick={() => handleUpdatePortfolio(portfolio.id, portfolio.name)}>Edit Portfolio</button>
+                                <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete Portfolio</button>
+                            </div>
                         </li>
                     );
                 })}
