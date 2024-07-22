@@ -114,7 +114,7 @@ const Watchlist = () => {
                                             ))}
                                         </ul>
                                     ) : (
-                                        <p>Please add to watchlist</p>
+                                        <p>Please add stocks to this watchlist</p>
                                     )
                                 )
                             )}
