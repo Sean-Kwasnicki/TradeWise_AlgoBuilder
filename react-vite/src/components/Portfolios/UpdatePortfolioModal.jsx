@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePortfolioThunk } from "../../redux/portfolio";
 import { useModal } from "../../context/Modal";
-import "../LoginFormModal/LoginForm.css"
+import "../LoginFormModal/LoginForm.css";
 
 function UpdatePortfolioModal({ portfolioId, currentName }) {
     const dispatch = useDispatch();
     const [name, setName] = useState(currentName);
-
+    const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+    const portfolios = useSelector((state) => state.portfolio.portfolios);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
 
         const trimmedName = name.trim();
         if (portfolios.some((portfolio) => portfolio.name === trimmedName && portfolio.id !== portfolioId)) {
@@ -44,7 +44,8 @@ function UpdatePortfolioModal({ portfolioId, currentName }) {
                         required
                     />
                 </label>
-                <button className="login-form" type="submit">Update</button>
+                {errors.name && <p className="error">{errors.name}</p>}
+                <button className="login-form-button" type="submit">Update</button>
             </form>
         </div>
     );
