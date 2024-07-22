@@ -15,9 +15,9 @@ function Navigation() {
         <li>
           <NavLink to="/">TradeWise</NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink to="/stocks">Compare Stocks</NavLink>
         </li>

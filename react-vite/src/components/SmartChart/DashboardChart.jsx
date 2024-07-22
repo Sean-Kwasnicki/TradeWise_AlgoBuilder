@@ -31,7 +31,7 @@ const DashboardTradingViewWidget = ({ symbol }) => {
         };
     }, [symbol]);
 
-    return <div id="tradingview_widget" style={{ height: '500px', width: '100%' }} />;
+    return <div id="tradingview_widget" style={{ height: '750px', width: '100%' }} />;
 };
 
 export default DashboardTradingViewWidget;

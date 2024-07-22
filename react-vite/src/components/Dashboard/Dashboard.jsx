@@ -33,16 +33,16 @@ const Dashboard = () => {
 
         try {
             const stockPromise = dispatch(fetchStock(symbolToFetch));
-            const newsResponse = await fetch(`/api/stocks/company_news/${symbolToFetch}`);
+            // const newsResponse = await fetch(`/api/stocks/company_news/${symbolToFetch}`);
 
-            if (!newsResponse.ok) {
-                throw new Error('Failed to fetch data, Please try a Valid Symbol');
-            }
+            // if (!newsResponse.ok) {
+            //     throw new Error('Failed to fetch data, Please try a Valid Symbol');
+            // }
 
-            const newsData = await newsResponse.json();
+            // const newsData = await newsResponse.json();
             await stockPromise;
 
-            if (stockPromise.error || !newsData) {
+            if (stockPromise.error) {
                 throw new Error('Failed to fetch data, Please try a Valid Symbol');
             }
 
@@ -89,9 +89,9 @@ const Dashboard = () => {
                         <div className="dashboard-chart-container">
                             <DashboardTradingViewWidget symbol={symbol} />
                         </div>
-                        <div className="dashboard-news-container">
+                        {/* <div className="dashboard-news-container">
                             <StockNews symbol={symbol} />
-                        </div>
+                        </div> */}
                     </>
                 )}
             </div>
