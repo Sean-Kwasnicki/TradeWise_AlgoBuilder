@@ -19,7 +19,7 @@ const TradingViewWidget = ({ symbol }) => {
                     enable_publishing: false,
                     withdateranges: true,
                     hide_side_toolbar: false,
-                    allow_symbol_change: true,
+                    allow_symbol_change: false,
                     save_image: false,
                 });
             }

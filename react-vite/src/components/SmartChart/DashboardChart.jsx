@@ -10,7 +10,7 @@ const DashboardTradingViewWidget = ({ symbol }) => {
                 new window.TradingView.widget({
                     symbol: symbol,
                     container_id: 'tradingview_widget',
-                    interval: 'D', 
+                    interval: 'D',
                     autosize: true,
                     theme: 'dark',
                     style: '1',
@@ -19,7 +19,7 @@ const DashboardTradingViewWidget = ({ symbol }) => {
                     enable_publishing: false,
                     withdateranges: true,
                     hide_side_toolbar: false,
-                    allow_symbol_change: true,
+                    allow_symbol_change: false,
                     save_image: false,
                 });
             }
