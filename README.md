@@ -1,6 +1,40 @@
-# Flask React Project
+Welcome to the TradeWise_AlgoBuilder.
 
-This is the starter for the Flask React project.
+TradeWise is an innovative financial technology platform designed to empower users with comprehensive tools for stock research, portfolio management, and investment analysis. The website offers a wide range of features that cater to both novice investors and seasoned traders, providing them with the necessary resources to make informed financial decisions.
+
+Key Features and User Capabilities
+
+Stock Research:
+
+Detailed Stock Information: Users can access in-depth details about various stocks.
+
+Historical Data: The platform provides historical price data, allowing users to analyze the performance of stocks over time and calculate percentage gains or losses.
+
+Real-Time Data: Integration with the TradingView widget ensures that users receive up-to-date information and real-time stock charts for precise market analysis.
+
+Stock News: A dedicated section for stock news keeps users informed about the latest market trends, company announcements, and other relevant financial news.
+
+Portfolio Management:
+
+Create and Manage Portfolios: Users can create multiple portfolios to organize and manage their investments efficiently. Each portfolio can track the performance of individual stocks and overall portfolio value.
+
+Add and Update Stocks: The platform allows users to add stocks to their portfolios with details like quantity and purchase price. Users can also update stock information to reflect changes in their investment strategy.
+
+Performance Metrics: TradeWise calculates key performance metrics such as current portfolio value, purchase value, profit/loss, and percentage gain/loss, providing users with a clear view of their investment performance.
+
+Watchlist Management:
+
+Create and Manage Watchlists: Users can create and manage watchlists to monitor stocks they are interested in. This feature helps users keep an eye on potential investment opportunities.
+
+Add Stocks to Watchlists: Users can easily add stocks to their watchlists, enabling quick access to real-time data and performance analysis for those stocks.
+
+User-Friendly Interface:
+
+Intuitive Design: TradeWise boasts a user-friendly interface with a clean and organized layout, making it easy for users to navigate and access the features they need.
+
+TradeWise is designed to be a one-stop solution for investors looking to enhance their stock research and portfolio management capabilities. By offering detailed stock information, real-time data, comprehensive portfolio tracking, and a user-friendly interface, TradeWise empowers users to make informed investment decisions and achieve their financial goals.
+
+
 
 ## Getting started
 
@@ -41,92 +75,9 @@ This is the starter for the Flask React project.
    flask run
    ```
 
-7. The React frontend has no styling applied. Copy the __.css__ files from your
-   Authenticate Me project into the corresponding locations in the
-   __react-vite__ folder to give your project a unique look.
-
-8. To run the React frontend in development, `cd` into the __react-vite__
+7. To run the React frontend in development, `cd` into the __react-vite__
    directory and run `npm i` to install dependencies. Next, run `npm run build`
    to create the `dist` folder. The starter has modified the `npm run build`
    command to include the `--watch` flag. This flag will rebuild the __dist__
    folder whenever you change your code, keeping the production version up to
    date.
-
-## Deployment through Render.com
-
-First, recall that Vite is a development dependency, so it will not be used in
-production. This means that you must already have the __dist__ folder located in
-the root of your __react-vite__ folder when you push to GitHub. This __dist__
-folder contains your React code and all necessary dependencies minified and
-bundled into a smaller footprint, ready to be served from your Python API.
-
-Begin deployment by running `npm run build` in your __react-vite__ folder and
-pushing any changes to GitHub.
-
-Refer to your Render.com deployment articles for more detailed instructions
-about getting started with [Render.com], creating a production database, and
-deployment debugging tips.
-
-From the Render [Dashboard], click on the "New +" button in the navigation bar,
-and click on "Web Service" to create the application that will be deployed.
-
-Select that you want to "Build and deploy from a Git repository" and click
-"Next". On the next page, find the name of the application repo you want to
-deploy and click the "Connect" button to the right of the name.
-
-Now you need to fill out the form to configure your app. Most of the setup will
-be handled by the __Dockerfile__, but you do need to fill in a few fields.
-
-Start by giving your application a name.
-
-Make sure the Region is set to the location closest to you, the Branch is set to
-"main", and Runtime is set to "Docker". You can leave the Root Directory field
-blank. (By default, Render will run commands from the root directory.)
-
-Select "Free" as your Instance Type.
-
-### Add environment variables
-
-In the development environment, you have been securing your environment
-variables in a __.env__ file, which has been removed from source control (i.e.,
-the file is gitignored). In this step, you will need to input the keys and
-values for the environment variables you need for production into the Render
-GUI.
-
-Add the following keys and values in the Render GUI form:
-
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
-
-Add the following keys and values:
-
-- DATABASE_URL (copy value from the **External Database URL** field)
-
-**Note:** Add any other keys and values that may be present in your local
-__.env__ file. As you work to further develop your project, you may need to add
-more environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment.
-
-### Deploy
-
-Now you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your Dockerfile
-commands being executed and any errors that occur.
-
-When deployment is complete, open your deployed site and check to see that you
-have successfully deployed your Flask application to Render! You can find the
-URL for your site just below the name of the Web Service at the top of the page.
-
-**Note:** By default, Render will set Auto-Deploy for your project to true. This
-setting will cause Render to re-deploy your application every time you push to
-main, always keeping it up to date.
-
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
-# TradeWise_AlgoBuilder
