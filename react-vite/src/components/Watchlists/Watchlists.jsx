@@ -22,20 +22,28 @@ const Watchlist = () => {
     const stocksByWatchlistId = useSelector((state) => state.watchlist.stocksByWatchlistId);
     const [loading, setLoading] = useState({});
     const [visibleCharts, setVisibleCharts] = useState({});
+    const [stocksVisible, setStocksVisible] = useState({});
     const { setModalContent } = useModal();
 
     useEffect(() => {
         dispatch(getAllWatchlistsThunk());
     }, [dispatch]);
 
-    useEffect(() => {
-        watchlists.forEach(watchlist => {
-            setLoading((prev) => ({ ...prev, [watchlist.id]: true }));
-            dispatch(getWatchlistStocksThunk(watchlist.id)).then(() => {
-                setLoading((prev) => ({ ...prev, [watchlist.id]: false }));
-            });
+    const fetchStocksForWatchlist = async (watchlistId) => {
+        setLoading((prev) => ({ ...prev, [watchlistId]: true }));
+        await dispatch(getWatchlistStocksThunk(watchlistId));
+        setLoading((prev) => ({ ...prev, [watchlistId]: false }));
+    };
+
+    const toggleStockVisibility = (watchlistId) => {
+        setStocksVisible((prev) => {
+            const isVisible = !prev[watchlistId];
+            if (isVisible && !stocksByWatchlistId[watchlistId]) {
+                fetchStocksForWatchlist(watchlistId);
+            }
+            return { ...prev, [watchlistId]: isVisible };
         });
-    }, [watchlists, dispatch]);
+    };
 
     const toggleChartVisibility = (watchlistId, stockSymbol) => {
         setVisibleCharts((prev) => ({
@@ -69,44 +77,51 @@ const Watchlist = () => {
             <ul className="watchlist-list">
                 {watchlists.map((watchlist) => {
                     const hasStocks = stocksByWatchlistId[watchlist.id] && stocksByWatchlistId[watchlist.id].length > 0;
-
                     return (
                         <li key={watchlist.id} className="watchlist-item">
                             <h2>{watchlist.name}</h2>
-                            <div className="watchlist-buttons">
-                                <button onClick={() => handleUpdateWatchlist(watchlist.id, watchlist.name)}>Edit Watchlist</button>
-                                <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete Watchlist</button>
-                            </div>
+
+                                <div className='watchlist-buttons'>
+                                <button className="toggle-stocks-btn" onClick={() => toggleStockVisibility(watchlist.id)}>
+                                    {stocksVisible[watchlist.id] ? 'Hide Watchlist' : 'View Watchlist'}
+                                </button>
+                                </div>
                             {loading[watchlist.id] ? (
                                 <div className="loading-container">
                                     <FaSpinner className="spinner" />
                                     <p>Loading...</p>
                                 </div>
                             ) : (
-                                hasStocks ? (
-                                    <ul className="stocks-list">
-                                        {stocksByWatchlistId[watchlist.id]?.map((stock) => (
-                                            <li key={stock.id} className="stock-item">
-                                                {stock.stock_symbol}
-                                                <div className="stock-buttons">
-                                                    <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
-                                                        {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
-                                                    </button>
-                                                    <button onClick={() => handleDeleteStock(watchlist.id, stock.id)}>Delete Stock</button>
-                                                </div>
-                                                {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] && (
-                                                    <TradingViewMiniWidget
-                                                        symbol={stock.stock_symbol}
-                                                        containerId={`tradingview_widget_${watchlist.id}_${stock.stock_symbol}`}
-                                                    />
-                                                )}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p>Please add to watchlist</p>
+                                stocksVisible[watchlist.id] && (
+                                    hasStocks ? (
+                                        <ul className="stocks-list">
+                                            {stocksByWatchlistId[watchlist.id]?.map((stock) => (
+                                                <li key={stock.id} className="stock-item">
+                                                    {stock.stock_symbol}
+                                                    <div className="stock-buttons">
+                                                        <button onClick={() => toggleChartVisibility(watchlist.id, stock.stock_symbol)}>
+                                                            {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] ? 'Hide Chart' : 'View Chart'}
+                                                        </button>
+                                                        <button onClick={() => handleDeleteStock(watchlist.id, stock.id)}>Delete Stock</button>
+                                                    </div>
+                                                    {visibleCharts[`${watchlist.id}-${stock.stock_symbol}`] && (
+                                                        <TradingViewMiniWidget
+                                                            symbol={stock.stock_symbol}
+                                                            containerId={`tradingview_widget_${watchlist.id}_${stock.stock_symbol}`}
+                                                        />
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>Please add to watchlist</p>
+                                    )
                                 )
                             )}
+                            <div className="watchlist-buttons">
+                                <button onClick={() => handleUpdateWatchlist(watchlist.id, watchlist.name)}>Edit Watchlist</button>
+                                <button onClick={() => handleDeleteWatchlist(watchlist.id)}>Delete Watchlist</button>
+                            </div>
                         </li>
                     );
                 })}
