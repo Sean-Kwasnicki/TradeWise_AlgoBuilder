@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStock } from '../../redux/stock';
-import { addPortfolioStockThunk, getAllPortfoliosThunk } from '../../redux/portfolio';
-import { addWatchlistStockThunk, getAllWatchlistsThunk } from '../../redux/watchlist';
+import { addPortfolioStockThunk, getPortfolioStocksThunk } from '../../redux/portfolio';
+import { addWatchlistStockThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import { FaSpinner } from 'react-icons/fa';
 import TradingViewMiniWidget from '../SmartChart/TradingViewMiniWidget';
 import './StockDetail.css';
@@ -10,11 +10,9 @@ import AddToPortfolioModal from '../Research/AddToPortfolioModal';
 import AddToWatchlistModal from '../Research/AddToWatchlistModal';
 import { useModal } from '../../context/Modal';
 
-// const stockCache = {};
-const addedStocksPort = new Set();
-const addedStocksWL = new Set();
+const MAX_STOCKS = 5;
 
-const StockDetailA = ({ symbol, detailType, portfolios, stocksByPortfolioId, watchlists, stocksByWatchlistId, addedStocksPort, addedStocksWL }) => {
+const StockDetailA = ({ symbol, detailType, portfolios, stocksByPortfolioId, watchlists, stocksByWatchlistId, addedStocksPort, addedStocksWL, stockCount, setStockCount }) => {
   const [loading, setLoading] = useState(false);
   const [visibleCharts, setVisibleCharts] = useState({});
   const dispatch = useDispatch();
@@ -33,26 +31,27 @@ const StockDetailA = ({ symbol, detailType, portfolios, stocksByPortfolioId, wat
     }
   }, [dispatch, symbol]);
 
-  const handleAddToPortfolio = () => {
-    setModalContent(
-      <AddToPortfolioModal
-        symbol={symbol}
-        portfolios={portfolios}
-        stocksByPortfolioId={stocksByPortfolioId}
-        addedStocksPort={addedStocksPort}
-      />
-    );
+  const handleAddToPortfolio = (portfolioId) => {
+    if (stockCount < MAX_STOCKS) {
+      addedStocksPort.add(symbol);
+      dispatch(addPortfolioStockThunk(portfolioId, { symbol })).then(() => {
+        setStockCount(stockCount + 1);
+        dispatch(getPortfolioStocksThunk(portfolioId));
+      });
+    } else {
+      alert(`Cannot add more than ${MAX_STOCKS} stocks to the portfolio.`);
+    }
   };
 
-  const handleAddToWatchlist = () => {
-    setModalContent(
-      <AddToWatchlistModal
-        symbol={symbol}
-        watchlists={watchlists}
-        stocksByWatchlistId={stocksByWatchlistId}
-        addedStocksWL={addedStocksWL}
-      />
-    );
+  const handleAddToWatchlist = (watchlistId) => {
+    if (addedStocksWL.size < MAX_STOCKS) {
+      addedStocksWL.add(symbol);
+      dispatch(addWatchlistStockThunk(watchlistId, { symbol })).then(() => {
+        dispatch(getWatchlistStocksThunk(watchlistId));
+      });
+    } else {
+      alert(`Cannot add more than ${MAX_STOCKS} stocks to the watchlist.`);
+    }
   };
 
   const toggleChartVisibility = (symbol) => {
@@ -78,8 +77,8 @@ const StockDetailA = ({ symbol, detailType, portfolios, stocksByPortfolioId, wat
           <div className="buttons">
             {user && (
               <>
-                <button onClick={handleAddToPortfolio}>Add to Portfolio</button>
-                <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                <button onClick={() => setModalContent(<AddToPortfolioModal symbol={symbol} portfolios={portfolios} stocksByPortfolioId={stocksByPortfolioId} addedStocksPort={addedStocksPort} handleAddToPortfolio={handleAddToPortfolio} />)}>Add to Portfolio</button>
+                <button onClick={() => setModalContent(<AddToWatchlistModal symbol={symbol} watchlists={watchlists} stocksByWatchlistId={stocksByWatchlistId} addedStocksWL={addedStocksWL} handleAddToWatchlist={handleAddToWatchlist} />)}>Add to Watchlist</button>
               </>
             )}
             <button onClick={() => toggleChartVisibility(stockA.symbol)}>

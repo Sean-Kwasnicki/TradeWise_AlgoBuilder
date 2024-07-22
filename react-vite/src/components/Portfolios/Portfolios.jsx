@@ -17,9 +17,6 @@ import DeletePortfolioModal from './DeletePortfolioModal';
 import UpdateStockModal from './UpdateStockModal';
 import DeleteStockModal from './DeleteStockModal';
 
-// Simple cache to store fetched stocks by portfolio ID
-const stocksCache = {};
-
 const Portfolio = () => {
     const dispatch = useDispatch();
     const portfolios = useSelector((state) => state.portfolio.portfolios);
@@ -32,21 +29,19 @@ const Portfolio = () => {
         dispatch(getAllPortfoliosThunk());
     }, [dispatch]);
 
-    const fetchStocksForPortfolio = useCallback((portfolioId) => {
-        if (!stocksCache[portfolioId]) {
-            setLoading((prev) => ({ ...prev, [portfolioId]: true }));
-            dispatch(getPortfolioStocksThunk(portfolioId)).then(() => {
-                stocksCache[portfolioId] = true;
-                setLoading((prev) => ({ ...prev, [portfolioId]: false }));
-            });
-        }
-    }, [dispatch]);
-
     useEffect(() => {
-        portfolios.forEach(portfolio => {
-            fetchStocksForPortfolio(portfolio.id);
-        });
-    }, [portfolios, fetchStocksForPortfolio]);
+        const fetchStocksForPortfolios = async () => {
+            setLoading({});
+            await Promise.all(portfolios.map(async (portfolio) => {
+                setLoading(prev => ({ ...prev, [portfolio.id]: true }));
+                await dispatch(getPortfolioStocksThunk(portfolio.id));
+                setLoading(prev => ({ ...prev, [portfolio.id]: false }));
+            }));
+        };
+        if (portfolios.length) {
+            fetchStocksForPortfolios();
+        }
+    }, [portfolios, dispatch]);
 
     const toggleChartVisibility = (portfolioId, stockSymbol) => {
         setVisibleCharts((prev) => ({

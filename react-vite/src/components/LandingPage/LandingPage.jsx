@@ -7,23 +7,6 @@ import { getAllPortfoliosThunk, getPortfolioStocksThunk } from '../../redux/port
 import { getAllWatchlistsThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 
 const LandingPage = () => {
-    const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const portfolios = await dispatch(getAllPortfoliosThunk());
-    //         portfolios.forEach(portfolio => {
-    //             dispatch(getPortfolioStocksThunk(portfolio.id));
-    //         });
-
-    //         const watchlists = await dispatch(getAllWatchlistsThunk());
-    //         watchlists.forEach(watchlist => {
-    //             dispatch(getWatchlistStocksThunk(watchlist.id));
-    //         });
-    //     };
-
-    //     fetchData();
-    // }, [dispatch]);
 
     return (
         <div className="landing-page">
