@@ -24,7 +24,7 @@ function UpdateWatchlistModal({ watchlistId, currentName }) {
             return;
         }
 
-        const serverResponse = await dispatch(updateWatchlistThunk(watchlistId, { name }));
+        const serverResponse = dispatch(updateWatchlistThunk(watchlistId, { name }));
 
         if (serverResponse) {
             closeModal();

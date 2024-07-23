@@ -24,7 +24,7 @@ function UpdatePortfolioModal({ portfolioId, currentName }) {
             return;
         }
 
-        const serverResponse = await dispatch(updatePortfolioThunk(portfolioId, { name }));
+        const serverResponse = dispatch(updatePortfolioThunk(portfolioId, { name }));
 
         if (serverResponse) {
             closeModal();

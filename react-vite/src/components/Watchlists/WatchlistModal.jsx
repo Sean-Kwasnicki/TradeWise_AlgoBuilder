@@ -24,7 +24,7 @@ function WatchlistModal() {
             return;
         }
 
-        const serverResponse = await dispatch(createWatchlistThunk({ name: trimmedName }));
+        const serverResponse = dispatch(createWatchlistThunk({ name: trimmedName }));
 
         if (serverResponse) {
             closeModal();

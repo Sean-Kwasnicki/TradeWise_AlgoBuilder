@@ -26,7 +26,7 @@ function PortfolioFormModal() {
             return;
         }
 
-        const serverResponse = await dispatch(createPortfolioThunk({ name }));
+        const serverResponse = dispatch(createPortfolioThunk({ name }));
 
         if (serverResponse) {
             closeModal();
