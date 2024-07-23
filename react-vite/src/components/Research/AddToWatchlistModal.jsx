@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addWatchlistStockThunk, getWatchlistStocksThunk } from '../../redux/watchlist';
 import { useModal } from '../../context/Modal';
+import { FaSpinner } from 'react-icons/fa';
 import "../LoginFormModal/LoginForm.css";
 
 function AddToWatchlistModal({ symbol, watchlists, stocksByWatchlistId, addedStocksWL }) {
   const dispatch = useDispatch();
   const [watchlistId, setWatchlistId] = useState("");
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
   const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
@@ -33,43 +35,56 @@ function AddToWatchlistModal({ symbol, watchlists, stocksByWatchlistId, addedSto
       return;
     }
 
+    setSubmitting(true);
+
     const stockData = {
       stock_symbol: symbol,
     };
 
-    const serverResponse = dispatch(addWatchlistStockThunk(watchlistId, stockData));
+    const serverResponse = await dispatch(addWatchlistStockThunk(watchlistId, stockData));
 
     if (!serverResponse.errors) {
       addedStocksWL.add(`${watchlistId}-${symbol}`);
-      dispatch(getWatchlistStocksThunk(watchlistId));
+      await dispatch(getWatchlistStocksThunk(watchlistId));
       closeModal();
     } else {
       setErrors(serverResponse.errors);
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="login-form">
-      <h1>Add to Watchlist</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Watchlist
-          <select
-            value={watchlistId}
-            onChange={(e) => setWatchlistId(e.target.value)}
-            required
-          >
-            <option value="">Select Watchlist</option>
-            {watchlists.map((watchlist) => (
-              <option key={watchlist.id} value={watchlist.id}>
-                {watchlist.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
-        <button className="login-form-button" type="submit">Add to Watchlist</button>
-      </form>
+      {submitting ? (
+        <div className="loading-container">
+          <FaSpinner className="spinner" />
+          <p>Adding stock...</p>
+        </div>
+      ) : (
+        <>
+          <h1>Add to Watchlist</h1>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Watchlist
+              <select
+                value={watchlistId}
+                onChange={(e) => setWatchlistId(e.target.value)}
+                required
+                disabled={submitting}
+              >
+                <option value="">Select Watchlist</option>
+                {watchlists.map((watchlist) => (
+                  <option key={watchlist.id} value={watchlist.id}>
+                    {watchlist.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {errors.watchlistId && <p className="error">{errors.watchlistId}</p>}
+            <button className="login-form-button" type="submit" disabled={submitting}>Add to Watchlist</button>
+          </form>
+        </>
+      )}
     </div>
   );
 }
