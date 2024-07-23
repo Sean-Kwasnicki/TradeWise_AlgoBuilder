@@ -231,9 +231,11 @@ export default function watchlistReducer(state = initialState, action) {
                 )
             };
         case DELETE_WATCHLIST:
+            const { [action.watchlistId]: _, ...newStocksByWatchlistId } = state.stocksByWatchlistId;
             return {
                 ...state,
-                watchlists: state.watchlists.filter((watchlist) => watchlist.id !== action.watchlistId)
+                watchlists: state.watchlists.filter((watchlist) => watchlist.id !== action.watchlistId),
+                stocksByWatchlistId: newStocksByWatchlistId
             };
         case ADD_WATCHLIST_STOCK:
             return {

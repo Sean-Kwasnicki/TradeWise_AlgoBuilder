@@ -78,7 +78,7 @@ export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
             return errors;
         }
     } catch (error) {
-        console.error('Error creating portfolio:', error); 
+        console.error('Error creating portfolio:', error);
         return { error: 'Failed to create portfolio' };
     }
 };
@@ -269,9 +269,11 @@ export default function portfolioReducer(state = initialState, action) {
                 )
             };
         case DELETE_PORTFOLIO:
+            const { [action.portfolioId]: _, ...newStocksByPortfolioId } = state.stocksByPortfolioId;
             return {
                 ...state,
-                portfolios: state.portfolios.filter((portfolio) => portfolio.id !== action.portfolioId)
+                portfolios: state.portfolios.filter((portfolio) => portfolio.id !== action.portfolioId),
+                stocksByPortfolioId: newStocksByPortfolioId
             };
         case ADD_PORTFOLIO_STOCK:
             return {
