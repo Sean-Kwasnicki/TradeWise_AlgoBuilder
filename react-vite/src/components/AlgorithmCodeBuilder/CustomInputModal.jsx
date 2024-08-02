@@ -30,6 +30,8 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
     requiredFields.forEach((field) => {
       if (!formData[field] || formData[field].trim() === '') {
         newErrors[field] = 'This field is required';
+      } else if (!isNaN(formData[field]) && Number(formData[field]) < 0) {
+        newErrors[field] = 'Value cannot be negative';
       }
     });
 

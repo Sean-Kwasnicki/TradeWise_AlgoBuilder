@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAlgorithmCode, fetchAlgorithmCodeSuccess } from '../../redux/algorithmCode';
 import { DndProvider } from 'react-dnd';
@@ -9,6 +9,7 @@ import AlgoLibrary from './AlgoLibrary';
 import SaveAlgoModal from './SaveAlgoModal';
 import CustomInputModal from './CustomInputModal';
 import { useModal } from '../../context/Modal';
+import AlgoTradingViewWidget from '../SmartChart/AlgoChart';
 import './AlgorithmCode.css';
 
 const AlgorithmCode = () => {
@@ -20,22 +21,27 @@ const AlgorithmCode = () => {
   const [indicatorType, setIndicatorType] = useState('');
   const [droppedItem, setDroppedItem] = useState(null);
   const [formData, setFormData] = useState({});
+  const [studies, setStudies] = useState([]);
+  const [symbol, setSymbol] = useState('');
   const { setModalContent, closeModal } = useModal();
 
   const handleDrop = (type) => {
     setIndicatorType(type);
     setDroppedItem(type);
+    setSymbol(''); // Reset the symbol state
     setModalContent(
       <CustomInputModal
         show={true}
         onClose={() => {
           closeModal();
-          setIndicatorType('');
+          // setIndicatorType('');
           setDroppedItem(null);
         }}
         indicatorType={type}
         onSubmit={(data) => {
           setFormData(data);
+          setSymbol(data.symbol); 
+          setStudies([type]);
           closeModal();
         }}
       />
@@ -64,10 +70,18 @@ const AlgorithmCode = () => {
     );
   };
 
+  useEffect(() => {
+    // Reset symbol each time a new block is dropped
+    setSymbol('');
+  }, [droppedItem]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="algorithm-code-container">
-      <div className="background-logo-compare"></div>
+        <div>
+        <h1>Custom Algorithm Builder</h1>
+        </div>
+        <div className="background-logo-compare"></div>
         <div className="input-container">
           <div className="drag-items">
             {['sma', 'rsi', 'macd', 'bollinger_bands', 'stochastic', 'parabolic_sar', 'atr', 'cci', 'williams_r'].map((type) => (
@@ -81,7 +95,8 @@ const AlgorithmCode = () => {
             disabled={loading || !droppedItem || Object.keys(formData).length === 0}
           >
             {loading ? 'Generating...' : 'Generate Code'}
-        </button>
+          </button>
+          <AlgoLibrary onSelectAlgorithm={(code) => dispatch(fetchAlgorithmCodeSuccess(code))} resetCodeDisplay={handleResetCodeDisplay} />
         </div>
         {error && <div className="error">{error}</div>}
         <div className="code-display">
@@ -95,7 +110,9 @@ const AlgorithmCode = () => {
             </>
           )}
         </div>
-        <AlgoLibrary onSelectAlgorithm={(code) => dispatch(fetchAlgorithmCodeSuccess(code))} resetCodeDisplay={handleResetCodeDisplay} />
+        <div className="tradingview-container">
+          <AlgoTradingViewWidget symbol={symbol} studies={studies} />
+        </div>
       </div>
     </DndProvider>
   );
