@@ -14,6 +14,8 @@ import stockReducer from "./stock";
 import userReducer from "./user";
 import watchlistReducer from "./watchlist";
 import stockHistoricalReducer from "./stock_historical";
+import algorithmCodeReducer from "./algorithmCode";
+import algorithmLibraryReducer from "./algorithmLibrary";
 
 
 const rootReducer = combineReducers({
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
   stockHistorical: stockHistoricalReducer,
   user: userReducer,
   watchlist: watchlistReducer,
+  algorithmCode: algorithmCodeReducer,
+  algorithmLibrary: algorithmLibraryReducer
 });
 
 let enhancer;

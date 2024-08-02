@@ -41,19 +41,19 @@
 - Users should be able to view historical prices in an interactive chart with options to view different time ranges (1 day, 1 week, 1 month, 1 year, 5 years).
 - Users should be able to see real-time updates and set price alerts.
 
-### Purchase Stocks
+### Add Stocks
 - Users should be able to purchase stocks and add them to their portfolio.
 - Users should be able to input the number of shares they want to buy and select the portfolio to add them to.
 - Users should receive a confirmation message that the stock was purchased successfully.
 - The portfolio's total value should be updated accordingly.
 
-### Update Stock Purchase
+### Update Stock Quantity
 - Users should be able to update the amount of stocks they want to purchase.
 - Users should be able to input a new number of shares and update the portfolio accordingly.
 - Users should receive a confirmation message that the stock purchase was updated successfully.
 - The portfolio's total value should reflect the updated stock quantity.
 
-### Delete Stock Order
+### Delete Stock from Portfolio
 - Users should be able to delete stocks from their order.
 - Users should be able to confirm the deletion and receive a confirmation message.
 - The stock should be removed from the portfolio, and the portfolio's total value should be updated accordingly.

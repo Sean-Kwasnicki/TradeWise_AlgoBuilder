@@ -24,6 +24,9 @@ function Navigation() {
         <li>
           <NavLink to="/research">Search</NavLink>
         </li>
+        <li>
+          <NavLink to="/algoBuilder">Algorithm Builder</NavLink>
+        </li>
         {user && (
           <>
           <li>

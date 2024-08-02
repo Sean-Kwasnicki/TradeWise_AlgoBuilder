@@ -10,6 +10,7 @@ import Watchlist from '../components/Watchlists/Watchlists';
 import LandingPage from '../components/LandingPage/LandingPage';
 import Dashboard from '../components/Dashboard/Dashboard';
 import ResearchPage from '../components/Research/ResearchPage';
+import AlgorithmCode from '../components/AlgorithmCodeBuilder/AlgorithmCode';
 
 
 export const router = createBrowserRouter([
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "watchlists",
         element: <Watchlist />,
+      },
+      {
+        path: "algoBuilder",
+        element: <AlgorithmCode />,
       }
     ],
   },
