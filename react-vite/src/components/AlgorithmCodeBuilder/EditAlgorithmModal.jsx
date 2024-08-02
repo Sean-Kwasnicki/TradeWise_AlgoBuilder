@@ -30,7 +30,7 @@ const EditAlgorithmModal = ({ algorithm, onSave, existingAlgorithms }) => {
   };
 
   return (
-    <div className="portfolio-modal-container">
+    <div className="login-form">
       <div className="modal-content">
         <h2>Edit Algorithm</h2>
         <input
