@@ -39,6 +39,7 @@
   width: 100%;
   justify-content: center;
   margin-top: 10px;
+}
 
 .login-form button {
   padding: 10px;
@@ -48,7 +49,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  flex: 1; 
+  flex: 1;
   box-sizing: border-box;
 }
 
