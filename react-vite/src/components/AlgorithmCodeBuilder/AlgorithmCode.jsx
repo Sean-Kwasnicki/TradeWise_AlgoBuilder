@@ -40,7 +40,7 @@ const AlgorithmCode = () => {
         indicatorType={type}
         onSubmit={(data) => {
           setFormData(data);
-          setSymbol(data.symbol); 
+          setSymbol(data.symbol);
           setStudies([type]);
           closeModal();
         }}
@@ -78,9 +78,6 @@ const AlgorithmCode = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="algorithm-code-container">
-        <div>
-        <h1>Custom Algorithm Builder</h1>
-        </div>
         <div className="background-logo-compare"></div>
         <div className="input-container">
           <div className="drag-items">
