@@ -300,6 +300,32 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             {submitted && errors.sell_threshold && <span className="error">{errors.sell_threshold}</span>}
           </>
         );
+      case 'ichimoku_cloud':
+        return (
+          <>
+            <label>Stock Symbol:</label>
+            <input name="symbol" type="text" placeholder="Symbol (e.g., AAPL)" onChange={handleChange}/>
+            {submitted && errors.symbol && <span className="error">{errors.symbol}</span>}
+            <label>Quantity:</label>
+            <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange}/>
+            {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange}/>
+            {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+            <label>Conversion Line Period (Tenkan-sen):</label>
+            <input name="conversionLinePeriod" type="number" placeholder="Period (e.g., 9)" onChange={handleChange}/>
+            {submitted && errors.conversionLinePeriod && <span className="error">{errors.conversionLinePeriod}</span>}
+            <label>Base Line Period (Kijun-sen):</label>
+            <input name="baseLinePeriod" type="number" placeholder="Period (e.g., 26)" onChange={handleChange}/>
+            {submitted && errors.baseLinePeriod && <span className="error">{errors.baseLinePeriod}</span>}
+            <label>Lagging Span Period (Chikou Span):</label>
+            <input name="laggingSpanPeriod" type="number" placeholder="Period (e.g., 26)" onChange={handleChange}/>
+            {submitted && errors.laggingSpanPeriod && <span className="error">{errors.laggingSpanPeriod}</span>}
+            <label>Displacement:</label>
+            <input name="displacement" type="number" placeholder="Displacement (e.g., 26)" onChange={handleChange}/>
+            {submitted && errors.displacement && <span className="error">{errors.displacement}</span>}
+          </>
+        );
       default:
         return null;
     }

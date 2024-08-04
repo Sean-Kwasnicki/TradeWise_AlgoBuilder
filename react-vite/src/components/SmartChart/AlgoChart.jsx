@@ -9,7 +9,8 @@ const indicatorMapping = {
   parabolic_sar: 'ParabolicSAR@tv-basicstudies',
   atr: 'ATR@tv-basicstudies',
   cci: 'CCI@tv-basicstudies',
-  williams_r: 'WilliamsR@tv-basicstudies'
+  williams_r: 'WilliamsR@tv-basicstudies',
+  ichimoku_cloud : 'IchimokuCloud@tv-basicstudies'
 };
 
 const AlgoTradingViewWidget = ({ symbol, studies }) => {

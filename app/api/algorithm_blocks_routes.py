@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from .generate_code import (
     generate_sma_code, generate_rsi_code, generate_macd_code, generate_bollinger_bands_code,
     generate_stochastic_code, generate_parabolic_sar_code, generate_atr_code, generate_cci_code,
-    generate_williams_r_code
+    generate_williams_r_code, generate_ichimoku_cloud_code
 )
 
 algorithm_block_routes = Blueprint('algorithm_blocks', __name__)
@@ -51,6 +51,10 @@ def generate_code_route():
         elif indicator_type == 'williams_r':
             code = generate_williams_r_code(
                 data['symbol'], data['quantity'], data['barSizeSetting'], data['period'], data['buy_threshold'], data['sell_threshold']
+            )
+        elif indicator_type == 'ichimoku_cloud':
+            code = generate_ichimoku_cloud_code(
+                data['symbol'], data['quantity'], data['barSizeSetting'], data['conversionLinePeriod'], data['baseLinePeriod'], data['laggingSpanPeriod'], data['displacement']
             )
         else:
             return jsonify({'error': 'Invalid indicator type'}), 400

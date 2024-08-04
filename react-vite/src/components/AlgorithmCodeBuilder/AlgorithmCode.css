@@ -140,3 +140,8 @@ input[type="text"] {
 .generate-code-button:not(:disabled):hover {
   background-color: #45a049;
 }
+
+.disclaimer {
+  color: white;
+  font-size: 12px;
+}

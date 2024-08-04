@@ -476,3 +476,62 @@ for i in range(1, len(df)):
 # Keep the script running to receive updates
 ib.run()
 """
+
+def generate_ichimoku_cloud_code(symbol, quantity, barSizeSetting, conversionLinePeriod, baseLinePeriod, laggingSpanPeriod, displacement):
+    return f"""
+from ib_insync import *
+import pandas as pd
+
+# Connect to TWS or IB Gateway
+ib = IB()
+ib.connect('127.0.0.1', 7497, clientId=1)
+
+# Define the contract
+contract = Stock('{symbol}', 'SMART', 'USD')
+
+# Fetch historical data
+bars = ib.reqHistoricalData(
+    contract,
+    endDateTime='',
+    durationStr='1 D',
+    barSizeSetting='{barSizeSetting}',
+    whatToShow='MIDPOINT',
+    useRTH=True,
+    formatDate=1)
+
+# Convert to DataFrame
+df = util.df(bars)
+
+# Calculate Ichimoku Cloud components
+df['ConversionLine'] = (df['high'].rolling(window={conversionLinePeriod}).max() + df['low'].rolling(window={conversionLinePeriod}).min()) / 2
+df['BaseLine'] = (df['high'].rolling(window={baseLinePeriod}).max() + df['low'].rolling(window={baseLinePeriod}).min()) / 2
+df['LeadingSpanA'] = ((df['ConversionLine'] + df['BaseLine']) / 2).shift({displacement})
+df['LeadingSpanB'] = ((df['high'].rolling(window={laggingSpanPeriod}).max() + df['low'].rolling(window={laggingSpanPeriod}).min()) / 2).shift({displacement})
+df['LaggingSpan'] = df['close'].shift(-{displacement})
+
+# Define the trading logic
+position = 0  # 0 means no position, 1 means long position
+
+for i in range(max(conversionLinePeriod, baseLinePeriod, laggingSpanPeriod), len(df)):
+    if (df['close'][i] > df['LeadingSpanA'][i]
+        and df['close'][i] > df['LeadingSpanB'][i]
+        and df['LeadingSpanA'][i] > df['LeadingSpanB'][i]
+        and position == 0):
+        # Buy signal
+        buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
+        trade = ib.placeOrder(contract, buy_order)
+        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        position = 1
+    elif (df['close'][i] < df['LeadingSpanA'][i]
+          and df['close'][i] < df['LeadingSpanB'][i]
+          and df['LeadingSpanA'][i] < df['LeadingSpanB'][i]
+          and position == 1):
+        # Sell signal
+        sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
+        trade = ib.placeOrder(contract, sell_order)
+        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        position = 0
+
+# Keep the script running to receive updates
+ib.run()
+"""

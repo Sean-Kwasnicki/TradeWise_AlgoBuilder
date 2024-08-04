@@ -70,10 +70,6 @@ const AlgorithmCode = () => {
     );
   };
 
-  useEffect(() => {
-    // Reset symbol each time a new block is dropped
-    setSymbol('');
-  }, [droppedItem]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -81,7 +77,7 @@ const AlgorithmCode = () => {
         <div className="background-logo-compare"></div>
         <div className="input-container">
           <div className="drag-items">
-            {['sma', 'rsi', 'macd', 'bollinger_bands', 'stochastic', 'parabolic_sar', 'atr', 'cci', 'williams_r'].map((type) => (
+            {['sma', 'rsi', 'macd', 'bollinger_bands', 'stochastic', 'parabolic_sar', 'atr', 'cci', 'ichimoku_cloud'].map((type) => (
               !droppedItem || droppedItem !== type ? <DragItem key={type} type={type} label={type.toUpperCase().replace('_', ' ')} /> : null
             ))}
           </div>
@@ -106,6 +102,10 @@ const AlgorithmCode = () => {
               </div>
             </>
           )}
+          {/* Disclaimer Section */}
+        <div className="disclaimer">
+          <p><strong>Disclaimer:</strong> The trading algorithms provided on this site are for educational purposes only. They are not intended as financial advice. Please consult with a financial advisor before making any trading decisions. The creators of this site are not liable for any financial losses incurred from the use of these algorithms.</p>
+        </div>
         </div>
         <div className="tradingview-container">
           <AlgoTradingViewWidget symbol={symbol} studies={studies} />
