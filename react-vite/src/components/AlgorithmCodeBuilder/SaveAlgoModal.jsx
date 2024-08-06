@@ -49,7 +49,7 @@ const SaveAlgorithmModal = ({ show, algorithmCode }) => {
 
   return (
     <div className="login-form">
-      <h3>Save Algorithm to Library</h3>
+      <h1>Save Algorithm to Library</h1>
       <select
         value={selectedLibrary}
         onChange={(e) => setSelectedLibrary(e.target.value)}

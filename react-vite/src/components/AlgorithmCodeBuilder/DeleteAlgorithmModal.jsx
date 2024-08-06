@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteAlgorithm } from '../../redux/algorithmLibrary';
 import { useModal } from '../../context/Modal';
-import "./SaveAlgoModal.css";
+import "../Portfolios/DeletePortfolioModal.css";
 
 const DeleteAlgorithmModal = ({ libraryId, algorithmId, onConfirm }) => {
   const dispatch = useDispatch();
@@ -10,16 +10,16 @@ const DeleteAlgorithmModal = ({ libraryId, algorithmId, onConfirm }) => {
 
   const handleDelete = () => {
     dispatch(deleteAlgorithm({ libraryId, algorithmId }));
-    onConfirm(); 
+    onConfirm();
     closeModal();
   };
 
   return (
     <div className="delete-portfolio-modal">
       <div className="modal-content">
-        <h2>Confirm Deletion</h2>
-        <div>Are you sure you want to delete this algorithm?</div>
-        <div>This action cannot be undone.</div>
+        <h1>Confirm Deletion</h1>
+        <p>Are you sure you want to delete this algorithm?</p>
+        <p>This action cannot be undone.</p>
         <div className='button-container'>
           <button onClick={handleDelete}>Delete</button>
           <button onClick={closeModal}>Cancel</button>

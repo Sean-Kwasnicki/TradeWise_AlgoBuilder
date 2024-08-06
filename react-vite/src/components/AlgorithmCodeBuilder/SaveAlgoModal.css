@@ -9,11 +9,12 @@
   border: 2px solid #444;
 }
 
-.login-form h3 {
+.login-form h1 {
   color: rgb(28, 193, 201);
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .login-form select,

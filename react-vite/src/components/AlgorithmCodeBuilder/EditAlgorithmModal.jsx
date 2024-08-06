@@ -32,7 +32,7 @@ const EditAlgorithmModal = ({ algorithm, onSave, existingAlgorithms }) => {
   return (
     <div className="login-form">
       <div className="modal-content">
-        <h2>Edit Algorithm</h2>
+        <h1>Edit Algorithm</h1>
         <input
           type="text"
           value={algorithmName}

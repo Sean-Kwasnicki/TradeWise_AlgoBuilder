@@ -3,6 +3,7 @@ def generate_sma_code(symbol, quantity, barSizeSetting, fast_sma, slow_sma):
     return f"""
 # Simple Moving Average Cross Over Strategy
 # This strategy uses the crossover of two SMAs to generate buy and sell signals.
+
 from ib_insync import *
 import pandas as pd
 
@@ -58,6 +59,7 @@ def generate_rsi_code(symbol, quantity, barSizeSetting, period, buy_threshold, s
     return f"""
 # Relative Strength Index (RSI) Strategy
 # This strategy uses the RSI to generate buy and sell signals based on thresholds.
+
 from ib_insync import *
 import pandas as pd
 
@@ -113,6 +115,7 @@ def generate_macd_code(symbol, quantity, barSizeSetting, fast_period, slow_perio
     return f"""
 # Moving Average Convergence Divergence (MACD) Strategy
 # This strategy uses the crossover of two SMAs to generate buy and sell signals.
+
 from ib_insync import *
 import pandas as pd
 
@@ -165,6 +168,7 @@ def generate_bollinger_bands_code(symbol, quantity, barSizeSetting, period, std_
     return f"""
 # Bollinger Bands Strategy
 # This strategy uses Bollinger Bands to generate buy and sell signals.
+
 from ib_insync import *
 import pandas as pd
 
@@ -216,6 +220,7 @@ def generate_stochastic_code(symbol, quantity, barSizeSetting, k_period, d_perio
     return f"""
 # Stochastic Strategy
 # This strategy uses the Stochastic Oscillator to generate buy and sell signals based on %K and %D.
+
 from ib_insync import *
 import pandas as pd
 
@@ -268,6 +273,7 @@ def generate_parabolic_sar_code(symbol, quantity, barSizeSetting, af_step, af_ma
     return f"""
 # Parabolic SAR Strategy
 # This strategy uses the Parabolic SAR to generate buy and sell signals based on the SAR value.
+
 from ib_insync import *
 import pandas as pd
 
@@ -345,6 +351,7 @@ def generate_atr_code(symbol, quantity, barSizeSetting, period, buy_threshold, s
     return f"""
 # Average True Range (ATR) Strategy
 # This strategy uses the ATR to generate buy and sell signals based on volatility thresholds.
+
 from ib_insync import *
 import pandas as pd
 
@@ -396,6 +403,7 @@ def generate_cci_code(symbol, quantity, barSizeSetting, period, buy_threshold, s
     return f"""
 # Commodity Channel Index (CCI) Strategy
 # This strategy uses the CCI to generate buy and sell signals based on threshold levels.
+
 from ib_insync import *
 import pandas as pd
 
@@ -448,6 +456,7 @@ def generate_williams_r_code(symbol, quantity, barSizeSetting, period, buy_thres
     return f"""
 # Williams %R Strategy
 # This strategy uses the Williams %R to generate buy and sell signals based on threshold levels.
+
 from ib_insync import *
 import pandas as pd
 
@@ -499,6 +508,7 @@ def generate_ichimoku_cloud_code(symbol, quantity, barSizeSetting, conversionLin
     return f"""
 # Ichimoku Cloud Strategy
 # This strategy uses the Ichimoku Cloud components to generate buy and sell signals based on cloud formation and crossovers.
+
 from ib_insync import *
 import pandas as pd
 

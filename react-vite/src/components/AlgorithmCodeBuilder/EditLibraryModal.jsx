@@ -35,7 +35,7 @@ const EditLibraryModal = ({ library, existingLibraries }) => {
   return (
     <div className="login-form">
       <div className="modal-content">
-        <h2>Edit Library</h2>
+        <h1>Edit Library</h1>
         <input
           type="text"
           value={libraryName}
