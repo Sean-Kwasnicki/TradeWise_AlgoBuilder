@@ -134,12 +134,12 @@ const ResearchPage = () => {
     <div className="research-page">
       <div className="background-logo-compare"></div>
       <div className="search-bar-research">
-        <input
-          type="text"
-          value={inputSymbol}
-          onChange={handleInputChange}
-          placeholder="Enter stock symbol"
-        />
+          <input
+            type="text"
+            value={inputSymbol}
+            onChange={handleInputChange}
+            placeholder="Enter stock symbol"
+          />
         <button onClick={handleFetchDetails}>Search</button>
       </div>
       <div className="content">

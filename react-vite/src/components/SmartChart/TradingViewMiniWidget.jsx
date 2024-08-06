@@ -31,7 +31,7 @@ const TradingViewMiniWidget = ({ symbol, containerId }) => {
         };
     }, [symbol, containerId]);
 
-    return <div id={containerId} style={{ height: '300px', width: 'auto' }} />;
+    return <div id={containerId} style={{ height: '500px', width: 'auto' }} />;
 };
 
 export default TradingViewMiniWidget;

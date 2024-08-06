@@ -18,25 +18,26 @@ function Navigation() {
         {/* <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
         </li> */}
-        <li>
-          <NavLink to="/stocks">Compare Stocks</NavLink>
-        </li>
+
+        {user && (
+          <>
+            <li>
+              <NavLink to="/portfolios/">Portfolio</NavLink>
+            </li>
+            <li>
+              <NavLink to="/watchlists">Watchlist</NavLink>
+            </li>
+            <li>
+              <NavLink to="/stocks">Compare Stocks</NavLink>
+            </li>
+            <li>
+              <NavLink to="/algoBuilder">Algorithm Builder</NavLink>
+            </li>
+          </>
+        )}
         <li>
           <NavLink to="/research">Search</NavLink>
         </li>
-        <li>
-          <NavLink to="/algoBuilder">Algorithm Builder</NavLink>
-        </li>
-        {user && (
-          <>
-          <li>
-            <NavLink to="/portfolios/">Portfolio</NavLink>
-          </li>
-          <li>
-            <NavLink to="/watchlists">Watchlist</NavLink>
-          </li>
-          </>
-        )}
         <li>
             <a href="https://github.com/Sean-Kwasnicki/TradeWise_AlgoBuilder" target="_blank" rel="noopener noreferrer">
                 About

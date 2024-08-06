@@ -14,10 +14,11 @@
   align-items: center;
   margin-bottom: 20px;
   justify-content: center;
+  width: 600px;
 }
 
 .search-bar-research input {
-  width: 400px;
+  max-width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 2px solid #ccc;
@@ -32,6 +33,7 @@
   color: white;
   border-radius: 5px;
   cursor: pointer;
+  margin: 10px;
 }
 
 .search-bar-research button:hover {
