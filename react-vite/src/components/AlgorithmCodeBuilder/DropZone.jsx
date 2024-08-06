@@ -15,7 +15,7 @@ const DropZone = ({ onDrop, droppedItem }) => {
       ref={drop}
       className={`drop-zone ${isOver ? 'dragging' : ''}`}
     >
-      {droppedItem ? droppedItem.toUpperCase().replace('_', ' ') : 'Drag an item here'}
+      {droppedItem ? droppedItem.toUpperCase().replace('_', ' ') : 'Drop Indicator Block Here'}
     </div>
   );
 };

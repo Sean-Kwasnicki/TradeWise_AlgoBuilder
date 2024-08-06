@@ -10,11 +10,12 @@ const indicatorMapping = {
   atr: 'ATR@tv-basicstudies',
   cci: 'CCI@tv-basicstudies',
   williams_r: 'WilliamsR@tv-basicstudies',
-  ichimoku_cloud : 'IchimokuCloud@tv-basicstudies'
+  ichimoku_cloud: 'IchimokuCloud@tv-basicstudies'
 };
 
 const AlgoTradingViewWidget = ({ symbol, studies }) => {
   const widgetRef = useRef(null);
+  const scriptRef = useRef(null);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -36,7 +37,7 @@ const AlgoTradingViewWidget = ({ symbol, studies }) => {
           hide_side_toolbar: true,
           allow_symbol_change: false,
           save_image: false,
-          studies: [indicatorMapping[studies]],
+          studies: studies.map(study => indicatorMapping[study]),
         });
 
         widgetRef.current.onChartReady(() => {
@@ -51,13 +52,21 @@ const AlgoTradingViewWidget = ({ symbol, studies }) => {
       }
     };
     document.body.appendChild(script);
+    scriptRef.current = script;
 
     return () => {
       if (widgetRef.current) {
-        widgetRef.current.remove();
+        try {
+          widgetRef.current.remove();
+        } catch (e) {
+          console.error('Error removing TradingView widget:', e);
+        }
         widgetRef.current = null;
       }
-      document.body.removeChild(script);
+      if (scriptRef.current) {
+        document.body.removeChild(scriptRef.current);
+        scriptRef.current = null;
+      }
     };
   }, [symbol]);
 
