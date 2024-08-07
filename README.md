@@ -25,6 +25,9 @@ TradeWise is an innovative financial technology platform designed to empower use
 - **Custom Input Modal**: After dropping an indicator, users input specific parameters to customize their algorithm.
 - **Generate and Save Code**: The platform generates custom algorithm code based on user inputs, which can be saved to the library for future use.
 
+![Algorithm Builder](images/algobuilder.png)
+
+
 Here's a sample function demonstrating how we handle the drag-and-drop interaction to trigger custom code generation for the user:
 
 ```jsx
