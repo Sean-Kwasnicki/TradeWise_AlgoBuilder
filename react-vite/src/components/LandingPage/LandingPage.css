@@ -4,12 +4,11 @@ body {
   box-sizing: border-box;
   background-color: black;
   color: white;
-  
 }
 
 .landing-page {
   text-align: center;
-  height: 100vh;
+  height: 99vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,8 +54,10 @@ body {
 }
 
 .logo {
-  max-width: 120%;
-  max-height: 120%;
+  max-width: 95%;
+  max-height: 95%;
+  margin-top: 100px;
+  margin-left: 20px;
 }
 
 .info-links {
@@ -69,7 +70,7 @@ body {
   font-weight: bold;
   font-size: 135px;
   margin-left: 75px;
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 
 .info-links ul {
