@@ -1,40 +1,71 @@
-Welcome to the TradeWise_AlgoBuilder.
+# TradeWise_AlgoBuilder
 
-TradeWise is an innovative financial technology platform designed to empower users with comprehensive tools for stock research, portfolio management, and investment analysis. The website offers a wide range of features that cater to both novice investors and seasoned traders, providing them with the necessary resources to make informed financial decisions.
+Welcome to TradeWise_AlgoBuilder.
 
-Key Features and User Capabilities
+TradeWise is an innovative financial technology platform designed to empower users with comprehensive tools for stock research, portfolio management, investment analysis, and algorithm building. The website offers a wide range of features that cater to both novice investors and seasoned traders, providing them with the necessary resources to make informed financial decisions.
 
-Stock Research:
+## Key Features and User Capabilities
 
-Detailed Stock Information: Users can access in-depth details about various stocks.
+### Stock Research
+- **Detailed Stock Information**: Users can access in-depth details about various stocks.
+- **Historical Data**: The platform provides historical price data, allowing users to analyze the performance of stocks over time and calculate percentage gains or losses.
+- **Real-Time Data**: Integration with the TradingView widget ensures that users receive up-to-date information and real-time stock charts for precise market analysis.
 
-Historical Data: The platform provides historical price data, allowing users to analyze the performance of stocks over time and calculate percentage gains or losses.
+### Portfolio Management
+- **Create and Manage Portfolios**: Users can create multiple portfolios to organize and manage their investments efficiently. Each portfolio can track the performance of individual stocks and overall portfolio value.
+- **Add and Update Stocks**: The platform allows users to add stocks to their portfolios with details like quantity and purchase price. Users can also update stock information to reflect changes in their investment strategy.
+- **Performance Metrics**: TradeWise calculates key performance metrics such as current portfolio value, purchase value, profit/loss, and percentage gain/loss, providing users with a clear view of their investment performance.
 
-Real-Time Data: Integration with the TradingView widget ensures that users receive up-to-date information and real-time stock charts for precise market analysis.
+### Watchlist Management
+- **Create and Manage Watchlists**: Users can create and manage watchlists to monitor stocks they are interested in. This feature helps users keep an eye on potential investment opportunities.
+- **Add Stocks to Watchlists**: Users can easily add stocks to their watchlists, enabling quick access to real-time data and performance analysis for those stocks.
 
-Stock News: A dedicated section for stock news keeps users informed about the latest market trends, company announcements, and other relevant financial news.
+### Algorithm Builder
+- **Drag-and-Drop Interface**: Users can drag and drop indicator blocks to visually build trading algorithms.
+- **Custom Input Modal**: After dropping an indicator, users input specific parameters to customize their algorithm.
+- **Generate and Save Code**: The platform generates custom algorithm code based on user inputs, which can be saved to the library for future use.
 
-Portfolio Management:
+Here's a sample function demonstrating how we handle the drag-and-drop interaction to trigger custom code generation for the user:
 
-Create and Manage Portfolios: Users can create multiple portfolios to organize and manage their investments efficiently. Each portfolio can track the performance of individual stocks and overall portfolio value.
+```jsx
+const handleDrop = (type) => {
+  setIndicatorType(type);
+  setDroppedItem(type);
+  setSymbol('');
+  setModalContent(
+    <CustomInputModal
+      show={true}
+      onClose={() => {
+        closeModal();
+        setDroppedItem(null);
+      }}
+      indicatorType={type}
+      onSubmit={(data) => {
+        setFormData(data);
+        setSymbol(data.symbol);
+        setStudies([type]);
+        closeModal();
+      }}
+    />
+  );
+};
+```
 
-Add and Update Stocks: The platform allows users to add stocks to their portfolios with details like quantity and purchase price. Users can also update stock information to reflect changes in their investment strategy.
+This function sets the state with the selected indicator type, opens a modal for user input, and upon submission, updates the state with the provided data, ready for generating the custom algorithm code. This process ensures a seamless and interactive experience for users to build and customize their trading algorithms visually and efficiently.
 
-Performance Metrics: TradeWise calculates key performance metrics such as current portfolio value, purchase value, profit/loss, and percentage gain/loss, providing users with a clear view of their investment performance.
+### User-Friendly Interface
+- **Intuitive Design**: TradeWise boasts a user-friendly interface with a clean and organized layout, making it easy for users to navigate and access the features they need.
 
-Watchlist Management:
+TradeWise is designed to be a one-stop solution for investors looking to enhance their stock research, portfolio management, and algorithm building capabilities. By offering detailed stock information, real-time data, comprehensive portfolio tracking, a user-friendly interface, and a powerful algorithm builder, TradeWise empowers users to make informed investment decisions and achieve their financial goals.
 
-Create and Manage Watchlists: Users can create and manage watchlists to monitor stocks they are interested in. This feature helps users keep an eye on potential investment opportunities.
+## Live Link
+You can access the live version of TradeWise_AlgoBuilder [https://tradewise-algobuilder.onrender.com](#).
 
-Add Stocks to Watchlists: Users can easily add stocks to their watchlists, enabling quick access to real-time data and performance analysis for those stocks.
-
-User-Friendly Interface:
-
-Intuitive Design: TradeWise boasts a user-friendly interface with a clean and organized layout, making it easy for users to navigate and access the features they need.
-
-TradeWise is designed to be a one-stop solution for investors looking to enhance their stock research and portfolio management capabilities. By offering detailed stock information, real-time data, comprehensive portfolio tracking, and a user-friendly interface, TradeWise empowers users to make informed investment decisions and achieve their financial goals.
-
-
+## Technologies Used
+- **Frontend**: React, Redux, react-beautiful-dnd
+- **Backend**: Flask, SQLAlchemy
+- **Database**: PostgreSQL
+- **Other**: Docker, TradingView Widget, Finnhub API
 
 ## Getting started
 
