@@ -4,6 +4,9 @@ Welcome to TradeWise_AlgoBuilder.
 
 TradeWise is an innovative financial technology platform designed to empower users with comprehensive tools for stock research, portfolio management, investment analysis, and algorithm building. The website offers a wide range of features that cater to both novice investors and seasoned traders, providing them with the necessary resources to make informed financial decisions.
 
+## Live Link
+You can access the live version of TradeWise_AlgoBuilder [https://tradewise-algobuilder.onrender.com](#).
+
 ## Key Features and User Capabilities
 
 ### Stock Research
@@ -61,8 +64,6 @@ This function sets the state with the selected indicator type, opens a modal for
 
 TradeWise is designed to be a one-stop solution for investors looking to enhance their stock research, portfolio management, and algorithm building capabilities. By offering detailed stock information, real-time data, comprehensive portfolio tracking, a user-friendly interface, and a powerful algorithm builder, TradeWise empowers users to make informed investment decisions and achieve their financial goals.
 
-## Live Link
-You can access the live version of TradeWise_AlgoBuilder [https://tradewise-algobuilder.onrender.com](#).
 
 ## Technologies Used
 - **Frontend**: React, Redux, react-beautiful-dnd
