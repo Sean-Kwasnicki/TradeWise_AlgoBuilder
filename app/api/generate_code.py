@@ -10,6 +10,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract (e.g., AAPL stock)
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -40,17 +41,18 @@ for i in range(1, len(df)):
             # Buy signal
             buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
             trade = ib.placeOrder(contract, buy_order)
-            print(f"Buy Order Status: {{trade.orderStatus.status}}")
+            # print(f"Buy Order Status: {{trade.orderStatus.status}}")
             position = 1
     elif df['SMA{fast_sma}'][i] < df['SMA{slow_sma}'][i] and df['SMA{fast_sma}'][i-1] >= df['SMA{slow_sma}'][i-1]:
         if position == 1:
             # Sell signal
             sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
             trade = ib.placeOrder(contract, sell_order)
-            print(f"Sell Order Status: {{trade.orderStatus.status}}")
+            # print(f"Sell Order Status: {{trade.orderStatus.status}}")
             position = 0
 
 # Keep the script running to receive updates
+print(f"Running SMA Strategy Script")
 ib.run()
 """
 
@@ -66,6 +68,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -98,16 +101,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['rsi'][i] > {sell_threshold} and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running RSI Strategy Script")
 ib.run()
 """
 
@@ -122,6 +126,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -151,16 +156,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['MACD'][i] < df['Signal'][i] and df['MACD'][i-1] >= df['Signal'][i-1] and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running MACD Strategy Script")
 ib.run()
 """
 
@@ -175,6 +181,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -203,16 +210,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['close'][i] > df['UpperBand'][i] and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running Bollinger Bands Strategy Script")
 ib.run()
 """
 
@@ -227,6 +235,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -256,16 +265,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['%K'][i] > {sell_threshold} and df['%D'][i] > {sell_threshold} and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running Stochastic Strategy Script")
 ib.run()
 """
 
@@ -280,6 +290,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -334,16 +345,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['PSAR Direction'][i] == 'Bearish' and df['close'][i] < df['PSAR'][i] and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running Parabolic SAR Strategy Script")
 ib.run()
 """
 
@@ -358,6 +370,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -385,16 +398,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['ATR'][i] > {sell_threshold} and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running ATR Strategy Script")
 ib.run()
 """
 
@@ -410,6 +424,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -439,16 +454,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['CCI'][i] > {sell_threshold} and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running CCI Strategy Script")
 ib.run()
 """
 
@@ -463,6 +479,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -491,16 +508,17 @@ for i in range(1, len(df)):
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif df['%R'][i] > {sell_threshold} and position == 1:
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
+print(f"Running Williams R Strategy Script")
 ib.run()
 """
 
@@ -515,6 +533,7 @@ import pandas as pd
 # Connect to TWS or IB Gateway
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)
+print(f"Connected to Interactive Broker")
 
 # Define the contract
 contract = Stock('{symbol}', 'SMART', 'USD')
@@ -550,7 +569,7 @@ for i in range(max(conversionLinePeriod, baseLinePeriod, laggingSpanPeriod), len
         # Buy signal
         buy_order = LimitOrder('BUY', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, buy_order)
-        print(f"Buy Order Status: {{trade.orderStatus.status}}")
+        # print(f"Buy Order Status: {{trade.orderStatus.status}}")
         position = 1
     elif (df['close'][i] < df['LeadingSpanA'][i]
           and df['close'][i] < df['LeadingSpanB'][i]
@@ -559,9 +578,10 @@ for i in range(max(conversionLinePeriod, baseLinePeriod, laggingSpanPeriod), len
         # Sell signal
         sell_order = LimitOrder('SELL', {quantity}, df['close'][i])
         trade = ib.placeOrder(contract, sell_order)
-        print(f"Sell Order Status: {{trade.orderStatus.status}}")
+        # print(f"Sell Order Status: {{trade.orderStatus.status}}")
         position = 0
 
 # Keep the script running to receive updates
 ib.run()
+print(f"Running Ichimoku Cloud Strategy Script")
 """
