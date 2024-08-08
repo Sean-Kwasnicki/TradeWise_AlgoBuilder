@@ -114,7 +114,7 @@ ib.run()
 def generate_macd_code(symbol, quantity, barSizeSetting, fast_period, slow_period, signal_period):
     return f"""
 # Moving Average Convergence Divergence (MACD) Strategy
-# This strategy uses the crossover of two SMAs to generate buy and sell signals.
+# This strategy uses the crossover of the MACD and Signal line to generate buy and sell signals.
 
 from ib_insync import *
 import pandas as pd
