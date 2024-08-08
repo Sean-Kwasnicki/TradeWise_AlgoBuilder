@@ -11,7 +11,7 @@
 # print(f"Connected to Interactive Broker")
 
 # # Define the contract
-# contract = Stock('T', 'SMART', 'USD')
+# contract = Stock('AAPL', 'SMART', 'USD')
 
 # # Fetch historical data
 # bars = ib.reqHistoricalData(
@@ -47,7 +47,6 @@
 #         # print(f"Sell Order Status: {trade.orderStatus.status}")
 #         position = 0
 
-# print(f"Running Ichimoku Cloud Strategy Script")
-
 # # Keep the script running to receive updates
+# print(f"Running MACD Strategy Script")
 # ib.run()

@@ -1,13 +1,17 @@
 
+# # Simple Moving Average Cross Over Strategy
+# # This strategy uses the crossover of two SMAs to generate buy and sell signals.
+
 # from ib_insync import *
 # import pandas as pd
 
 # # Connect to TWS or IB Gateway
 # ib = IB()
 # ib.connect('127.0.0.1', 7497, clientId=1)
+# print(f"Connected to Interactive Broker")
 
 # # Define the contract (e.g., AAPL stock)
-# contract = Stock('AAPL', 'SMART', 'USD')
+# contract = Stock('BA', 'SMART', 'USD')
 
 # # Fetch historical data
 # bars = ib.reqHistoricalData(
@@ -35,16 +39,16 @@
 #             # Buy signal
 #             buy_order = LimitOrder('BUY', 10, df['close'][i])
 #             trade = ib.placeOrder(contract, buy_order)
-#             print(f"Buy Order Status: {trade.orderStatus.status}")
+#             # print(f"Buy Order Status: {trade.orderStatus.status}")
 #             position = 1
 #     elif df['SMA14'][i] < df['SMA21'][i] and df['SMA14'][i-1] >= df['SMA21'][i-1]:
 #         if position == 1:
 #             # Sell signal
 #             sell_order = LimitOrder('SELL', 10, df['close'][i])
 #             trade = ib.placeOrder(contract, sell_order)
-#             print(f"Sell Order Status: {trade.orderStatus.status}")
+#             # print(f"Sell Order Status: {trade.orderStatus.status}")
 #             position = 0
 
 # # Keep the script running to receive updates
+# print(f"Running SMA Strategy Script")
 # ib.run()
-
