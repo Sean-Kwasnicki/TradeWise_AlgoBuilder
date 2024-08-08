@@ -109,7 +109,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Fast SMA Period:</label>
             <input name="fast_sma" type="number" placeholder="Fast SMA (Shorter period, e.g., 20)" onChange={handleChange} />
@@ -129,7 +129,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>RSI Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for calculation, e.g., 14)" onChange={handleChange} />
@@ -152,7 +152,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Fast Period:</label>
             <input name="fast_period" type="number" placeholder="Fast Period (Shorter EMA period, e.g., 12)" onChange={handleChange} />
@@ -175,7 +175,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for SMA, e.g., 20)" onChange={handleChange} />
@@ -195,7 +195,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>K Period:</label>
             <input name="k_period" type="number" placeholder="K Period (Lookback period, e.g., 14)" onChange={handleChange} />
@@ -221,7 +221,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>AF Step:</label>
             <input name="af_step" type="number" placeholder="AF Step (Acceleration factor step, e.g., 0.02)" onChange={handleChange} />
@@ -241,7 +241,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for ATR, e.g., 14)" onChange={handleChange} />
@@ -264,7 +264,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for CCI, e.g., 20)" onChange={handleChange} />
@@ -287,7 +287,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange} />
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for Williams %R, e.g., 14)" onChange={handleChange} />
@@ -310,7 +310,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange}/>
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins)" onChange={handleChange}/>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange}/>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
             <label>Conversion Line Period (Tenkan-sen):</label>
             <input name="conversionLinePeriod" type="number" placeholder="Period (e.g., 9)" onChange={handleChange}/>
