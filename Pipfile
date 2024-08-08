@@ -32,6 +32,7 @@ rope = "*"
 finnhub-python = "*"
 yfinance = "*"
 newsdataapi = "*"
+ib-insync = "*"
 
 [dev-packages]
 

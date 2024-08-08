@@ -72,7 +72,7 @@ const Watchlist = () => {
         <div className="watchlist-container">
             <div className="background-logo-compare"></div>
             <h1>Watchlists</h1>
-            <h3>Limit 5 stocks per Watchlist</h3>
+            {/* <h3>Limit 5 stocks per Watchlist</h3> */}
             <button className="create-watchlist-btn" onClick={handleCreateWatchlist}>Create Watchlist</button>
             <ul className="watchlist-list">
                 {watchlists.map((watchlist) => {
