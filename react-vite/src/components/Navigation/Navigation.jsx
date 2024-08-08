@@ -15,10 +15,9 @@ function Navigation() {
         <li>
           <NavLink to="/">TradeWise</NavLink>
         </li>
-        {/* <li>
-          <NavLink to="/dashboard">Dashboard</NavLink>
-        </li> */}
-
+        <li>
+          <NavLink to="/research">Search</NavLink>
+        </li>
         {user && (
           <>
             <li>
@@ -35,9 +34,6 @@ function Navigation() {
             </li>
           </>
         )}
-        <li>
-          <NavLink to="/research">Search</NavLink>
-        </li>
         <li>
             <a href="https://github.com/Sean-Kwasnicki/TradeWise_AlgoBuilder" target="_blank" rel="noopener noreferrer">
                 About
