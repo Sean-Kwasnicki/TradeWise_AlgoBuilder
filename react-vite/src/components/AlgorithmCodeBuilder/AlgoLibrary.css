@@ -4,8 +4,10 @@
   margin-bottom: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .library-actions {
@@ -13,6 +15,7 @@
   gap: 10px;
   margin-bottom: 20px;
   align-items: center;
+  width: 100%;
 }
 
 .library-actions input {
@@ -22,6 +25,7 @@
   height: 40px;
   box-sizing: border-box;
   font-size: 15px;
+  width: 100%;
 }
 
 .library-actions button {
@@ -37,6 +41,7 @@
   align-items: center;
   justify-content: center;
   font-size: 15px;
+  width: 100%;
 }
 
 .library-actions button:hover {
@@ -45,6 +50,7 @@
 
 .library-list {
   margin-top: 20px;
+  width: 100%;
 }
 
 .library-list h3 {
@@ -55,6 +61,7 @@
 .library-list ul {
   list-style-type: none;
   padding: 0;
+  width: 100%;
 }
 
 .library-list li {
@@ -90,6 +97,7 @@
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  width: 100%;
 }
 
 .library-list .algorithm-actions input {
@@ -97,6 +105,8 @@
   padding: 5px;
   border: 1px solid #ced4da;
   border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .library-list .algorithm-actions button {
@@ -114,4 +124,5 @@
 
 .algo-list {
   margin-left: 20px;
+  width: 100%;
 }

@@ -83,8 +83,8 @@ const AlgoTradingViewWidget = ({ symbol, studies }) => {
   }, [studies]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <div id="tradingview_widget" style={{ height: '800px', width: '700px', margin: '10px' }} />
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '700px', width: '100%' }}>
+      <div id="tradingview_widget" style={{ height: '100%', width: '100%', margin: '10px' }} />
     </div>
   );
 };
