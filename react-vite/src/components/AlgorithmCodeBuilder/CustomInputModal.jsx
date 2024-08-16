@@ -108,9 +108,12 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+
             <label>Bar Size Setting:</label>
             <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Fast SMA Period:</label>
             <input name="fast_sma" type="number" placeholder="Fast SMA (Shorter period, e.g., 20)" onChange={handleChange} />
             {submitted && errors.fast_sma && <span className="error">{errors.fast_sma}</span>}

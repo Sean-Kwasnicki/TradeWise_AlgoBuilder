@@ -172,7 +172,7 @@ const AlgoLibrary = ({ onSelectAlgorithm, resetCodeDisplay }) => {
           onChange={(e) => setLibraryName(e.target.value)}
         />
         <button onClick={handleAddLibrary}>Add Library</button>
-        <button onClick={resetCodeDisplay}>Reset Code Display</button>
+        <button onClick={resetCodeDisplay}>Reset Code</button>
       </div>
       {error && <p className="error">{error}</p>}
       <div className="library-list">

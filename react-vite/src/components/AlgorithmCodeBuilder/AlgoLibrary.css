@@ -5,21 +5,25 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   z-index: 1;
   box-sizing: border-box;
 }
 
 .library-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
   align-items: center;
   width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
 .library-actions input {
-  flex: 2;
+  flex-grow: 2;
+  flex-shrink: 1;
   border: 1px solid #ced4da;
   border-radius: 4px;
   height: 40px;
@@ -27,6 +31,7 @@
   font-size: 15px;
   width: 100%;
   display: flex;
+  max-width: 200px;
 }
 
 .library-actions button {
@@ -42,6 +47,9 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 100px;
 }
 
 .library-actions button:hover {
@@ -98,6 +106,7 @@
   gap: 10px;
   margin-top: 10px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .library-list .algorithm-actions input {
