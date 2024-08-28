@@ -46,9 +46,48 @@ label {
 
 input {
   margin-bottom: 10px;
-  width: 350px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
 }
 
+.custom-select {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 424px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+select {
+  margin-top: 5px;
+}
+
+input, select {
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 15px;
+}
+
+input::placeholder, select {
+  color: #aaa;
+}
+
+button[type="submit"] {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}

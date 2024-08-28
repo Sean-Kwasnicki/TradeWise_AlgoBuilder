@@ -105,18 +105,44 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Stock Symbol:</label>
             <input name="symbol" type="text" placeholder="Symbol (e.g., AAPL)" onChange={handleChange} />
             {submitted && errors.symbol && <span className="error">{errors.symbol}</span>}
+
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
 
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
-            
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
 
             <label>Fast SMA Period:</label>
             <input name="fast_sma" type="number" placeholder="Fast SMA (Shorter period, e.g., 20)" onChange={handleChange} />
             {submitted && errors.fast_sma && <span className="error">{errors.fast_sma}</span>}
+
             <label>Slow SMA Period:</label>
             <input name="slow_sma" type="number" placeholder="Slow SMA (Longer period, e.g., 50)" onChange={handleChange} />
             {submitted && errors.slow_sma && <span className="error">{errors.slow_sma}</span>}
@@ -131,9 +157,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>RSI Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for calculation, e.g., 14)" onChange={handleChange} />
             {submitted && errors.period && <span className="error">{errors.period}</span>}
@@ -154,9 +207,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Fast Period:</label>
             <input name="fast_period" type="number" placeholder="Fast Period (Shorter EMA period, e.g., 12)" onChange={handleChange} />
             {submitted && errors.fast_period && <span className="error">{errors.fast_period}</span>}
@@ -177,9 +257,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for SMA, e.g., 20)" onChange={handleChange} />
             {submitted && errors.period && <span className="error">{errors.period}</span>}
@@ -197,9 +304,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>K Period:</label>
             <input name="k_period" type="number" placeholder="K Period (Lookback period, e.g., 14)" onChange={handleChange} />
             {submitted && errors.k_period && <span className="error">{errors.k_period}</span>}
@@ -223,9 +357,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>AF Step:</label>
             <input name="af_step" type="number" placeholder="AF Step (Acceleration factor step, e.g., 0.02)" onChange={handleChange} />
             {submitted && errors.af_step && <span className="error">{errors.af_step}</span>}
@@ -243,9 +404,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for ATR, e.g., 14)" onChange={handleChange} />
             {submitted && errors.period && <span className="error">{errors.period}</span>}
@@ -266,9 +454,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for CCI, e.g., 20)" onChange={handleChange} />
             {submitted && errors.period && <span className="error">{errors.period}</span>}
@@ -289,9 +504,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} />
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+
             <label>Period:</label>
             <input name="period" type="number" placeholder="Period (Number of bars for Williams %R, e.g., 14)" onChange={handleChange} />
             {submitted && errors.period && <span className="error">{errors.period}</span>}
@@ -312,9 +554,36 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange}/>
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
+            {/* <label>Bar Size Setting:</label>
+            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange}/> */}
+
             <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange}/>
+            <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
+              <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
+              <option value="1 sec">1 sec</option>
+              <option value="5 secs">5 secs</option>
+              <option value="10 secs">10 secs</option>
+              <option value="15 secs">15 secs</option>
+              <option value="30 secs">30 secs</option>
+              <option value="1 min">1 min</option>
+              <option value="2 mins">2 mins</option>
+              <option value="3 mins">3 mins</option>
+              <option value="5 mins">5 mins</option>
+              <option value="10 mins">10 mins</option>
+              <option value="15 mins">15 mins</option>
+              <option value="20 mins">20 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="1 hour">1 hour</option>
+              <option value="2 hours">2 hours</option>
+              <option value="3 hours">3 hours</option>
+              <option value="4 hours">4 hours</option>
+              <option value="8 hours">8 hours</option>
+              <option value="1 day">1 day</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+            </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
+            
             <label>Conversion Line Period (Tenkan-sen):</label>
             <input name="conversionLinePeriod" type="number" placeholder="Period (e.g., 9)" onChange={handleChange}/>
             {submitted && errors.conversionLinePeriod && <span className="error">{errors.conversionLinePeriod}</span>}
