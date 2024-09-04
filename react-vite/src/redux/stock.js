@@ -48,14 +48,12 @@ export const fetchStock = (symbol) => async (dispatch) => {
     });
     if (response.ok) {
         const stock = await response.json();
-        console.log('Stock fetched from API:', stock);
         if (stock) {
             dispatch(getStock(stock));
         } else {
             dispatch(setStockError('No company found with the provided stock symbol. Please try again.'));
         }
     } else {
-        console.error('Failed to fetch stock data');
         dispatch(setStockError('Failed to fetch stock data. Please try again.'));
     }
 };
@@ -73,7 +71,6 @@ export const fetchHistoricalPrices = (symbol) => async (dispatch) => {
         const prices = await response.json();
         dispatch(getHistoricalPrices(symbol, prices));
     } else {
-        console.error('Failed to fetch historical prices');
         dispatch(setStockError('Failed to fetch historical prices. Please try again.'));
     }
 };
@@ -90,7 +87,6 @@ export const updateStockPrice = (symbol) => async (dispatch) => {
         const stock = await response.json();
         dispatch(updateStock(stock));
     } else {
-        console.error('Failed to update stock price');
         dispatch(setStockError('Failed to update stock price. Please try again.'));
     }
 };
@@ -107,7 +103,6 @@ export const fetchAllStocks = () => async (dispatch) => {
         const stocks = await response.json();
         dispatch(getAllStocks(stocks));
     } else {
-        console.error('Failed to fetch all stocks');
         dispatch(setStockError('Failed to fetch all stocks. Please try again.'));
     }
 };
@@ -124,7 +119,6 @@ const initialState = {
 export default function stockReducer(state = initialState, action) {
     switch (action.type) {
         case GET_STOCK:
-            console.log('GET_STOCK action:', action.stock);
             return {
                 ...state,
                 stocks: {

@@ -28,13 +28,12 @@ const AlgorithmCode = () => {
   const handleDrop = (type) => {
     setIndicatorType(type);
     setDroppedItem(type);
-    setSymbol(''); // Reset the symbol state
+    setSymbol('');
     setModalContent(
       <CustomInputModal
         show={true}
         onClose={() => {
           closeModal();
-          // setIndicatorType('');
           setDroppedItem(null);
         }}
         indicatorType={type}
@@ -115,5 +114,3 @@ const AlgorithmCode = () => {
 };
 
 export default AlgorithmCode;
-
-

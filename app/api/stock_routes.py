@@ -36,15 +36,9 @@ def get_stock_by_symbol(symbol):
         'symbol': stock_data['symbol'],
         'name': stock_data['name'],
         'current_price': stock_data['price'],
-        # 'market_cap': stock_data['market_cap'],
-        # 'pe_ratio': stock_data['pe_ratio'],
-        # 'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
-        'week_52_low': stock_details['week_52_low'],
-        # 'average_volume': stock_details['average_volume']
+        'week_52_low': stock_details['week_52_low']
     }
-
-    print(f"Stock response for {symbol}: {stock_response}")
 
     if symbol not in looked_up_symbols:
         looked_up_symbols.append(symbol)
@@ -76,12 +70,8 @@ def update_stock(symbol):
         'symbol': stock_data['symbol'],
         'name': stock_data['name'],
         'current_price': stock_data['price'],
-        # 'market_cap': stock_data['market_cap'],
-        # 'pe_ratio': stock_data['pe_ratio'],
-        # 'dividend_yield': stock_data['dividend_yield'],
         'week_52_high': stock_details['week_52_high'],
-        'week_52_low': stock_details['week_52_low'],
-        # 'average_volume': stock_details['average_volume']
+        'week_52_low': stock_details['week_52_low']
     }
     return jsonify(stock_response), 200
 
@@ -98,12 +88,8 @@ def get_all_stocks():
                 'symbol': stock_data['symbol'],
                 'name': stock_data['name'],
                 'current_price': stock_data['price'],
-                # 'market_cap': stock_data['market_cap'],
-                # 'pe_ratio': stock_data['pe_ratio'],
-                # 'dividend_yield': stock_data['dividend_yield'],
                 'week_52_high': stock_details['week_52_high'],
-                'week_52_low': stock_details['week_52_low'],
-                # 'average_volume': stock_details['average_volume']
+                'week_52_low': stock_details['week_52_low']
             }
             stocks.append(stock_response)
     return jsonify(stocks), 200

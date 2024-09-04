@@ -1,5 +1,3 @@
-
-# algorithm_block_routes.py
 from flask import Blueprint, request, jsonify
 from .generate_code import (
     generate_sma_code, generate_rsi_code, generate_macd_code, generate_bollinger_bands_code,

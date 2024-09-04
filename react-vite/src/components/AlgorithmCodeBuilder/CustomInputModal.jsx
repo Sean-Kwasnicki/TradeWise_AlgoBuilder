@@ -109,9 +109,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
             <label>Quantity:</label>
             <input name="quantity" type="number" placeholder="Quantity (Number of shares to trade, e.g., 10)" onChange={handleChange} />
             {submitted && errors.quantity && <span className="error">{errors.quantity}</span>}
-            {/* <label>Bar Size Setting:</label>
-            <input name="barSizeSetting" type="text" placeholder="Bar Size (Time interval for bars, e.g., 5 mins, 1 D)" onChange={handleChange} /> */}
-
+           
             <label>Bar Size Setting:</label>
             <select name="barSizeSetting" onChange={handleChange} defaultValue="" className="custom-select">
               <option value="" disabled hidden>Bar Size (Time interval for bars, e.g., 5 mins, 1 D)</option>
@@ -583,7 +581,7 @@ const CustomInputModal = ({ show, onClose, onSubmit, indicatorType }) => {
               <option value="1 month">1 month</option>
             </select>
             {submitted && errors.barSizeSetting && <span className="error">{errors.barSizeSetting}</span>}
-            
+
             <label>Conversion Line Period (Tenkan-sen):</label>
             <input name="conversionLinePeriod" type="number" placeholder="Period (e.g., 9)" onChange={handleChange}/>
             {submitted && errors.conversionLinePeriod && <span className="error">{errors.conversionLinePeriod}</span>}

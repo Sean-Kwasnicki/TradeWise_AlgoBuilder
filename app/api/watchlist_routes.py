@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Watchlist, WatchlistStock, Stock, db
 from app.forms.watchlist_form import WatchlistForm
 from app.forms.watchlist_stock_form import WatchlistStockForm
-# from app.api.finnhub_client import get_stock_price
+
 
 watchlist_routes = Blueprint('watchlists', __name__)
 

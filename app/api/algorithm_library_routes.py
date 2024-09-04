@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 
 algorithm_library_routes = Blueprint('algorithm_library', __name__)
 
-# Mock database for libraries
 libraries = []
 
 @algorithm_library_routes.route('/libraries', methods=['GET'])

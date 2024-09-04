@@ -3,7 +3,6 @@ from flask_login import login_required, current_user
 from app.models import Portfolio, Stock, PortfolioStock, db
 from app.forms import AddPortfolioStockForm, UpdatePortfolioStockForm, CreatePortfolioForm, UpdatePortfolioForm
 from app.api.finnhub_client import get_stock_price, get_stock_details
-# from app.api.yahoo_finance_client import get_stock_details
 from decimal import Decimal
 
 
@@ -25,9 +24,7 @@ def create_portfolio():
         portfolio = Portfolio(
             user_id=current_user.id,
             name=data['name'],
-            # initial_balance=data['initial_balance'],
             current_value=0.00,
-            # free_capital=data['initial_balance'],
             profit_loss=0.00
         )
         db.session.add(portfolio)
