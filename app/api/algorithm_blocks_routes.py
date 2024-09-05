@@ -11,7 +11,6 @@ algorithm_block_routes = Blueprint('algorithm_blocks', __name__)
 def generate_code_route():
     try:
         data = request.json
-        print("Received data:", data)  # Add logging to check received data
         indicator_type = data.get('indicator_type')
 
         if indicator_type == 'sma':
@@ -59,5 +58,4 @@ def generate_code_route():
 
         return jsonify({'code': code})
     except Exception as e:
-        print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500

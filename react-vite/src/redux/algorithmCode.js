@@ -35,14 +35,11 @@ export const fetchAlgorithmCode = (indicatorType, parameters) => async (dispatch
       }),
     });
     if (!response.ok) {
-      const text = await response.text();
-      console.error('Response text:', text);
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
     dispatch(fetchAlgorithmCodeSuccess(data.code));
   } catch (error) {
-    console.error('Error:', error);  
     dispatch(fetchAlgorithmCodeFailure(error.message));
   }
 };

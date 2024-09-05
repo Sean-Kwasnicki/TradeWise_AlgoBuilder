@@ -21,7 +21,8 @@ export const fetchHistoricalPrice = (symbol, date) => async (dispatch) => {
         const price = await response.json();
         dispatch(getHistoricalPrice(symbol, price));
     } else {
-        console.error('Failed to fetch historical price');
+        const errors = await response.json();
+        return errors;
     }
 };
 

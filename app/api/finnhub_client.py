@@ -19,7 +19,6 @@ def get_company_profile(symbol):
             # 'market_cap': profile.get('marketCapitalization', 0)
         }
     except Exception as e:
-        print(f"Error fetching company profile for {symbol}: {e}")
         return None
 
 
@@ -37,7 +36,6 @@ def get_stock_price(symbol):
             'name': profile.get('name', symbol),
         }
     except Exception as e:
-        print(f"Error fetching data for {symbol}: {e}")  # Error handling
         return None
 
 def get_company_news(symbol, from_date, to_date):
@@ -48,7 +46,6 @@ def get_company_news(symbol, from_date, to_date):
         news_items = response.json()
         return news_items
     except Exception as e:
-        print(f"Error fetching company news for {symbol}: {e}")
         return None
 
 
@@ -65,6 +62,4 @@ def get_stock_details(symbol):
                 'week_52_low': metric.get('52WeekLow')
             }
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching stock details for {symbol}: {e}")
         return None
-

@@ -74,11 +74,9 @@ export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
             return portfolio;
         } else {
             const errors = await response.json();
-            console.error('Failed to create portfolio:', errors);
             return errors;
         }
     } catch (error) {
-        console.error('Error creating portfolio:', error);
         return { error: 'Failed to create portfolio' };
     }
 };
@@ -171,11 +169,9 @@ export const addPortfolioStockThunk = (portfolioId, stockData) => async (dispatc
           return stock;
       } else {
           const errors = await response.json();
-          console.error(errors); // Log the errors to help with debugging
           return errors;
       }
   } catch (error) {
-      console.error('Error adding stock to portfolio:', error);
       return { error: 'Failed to add stock to portfolio' };
   }
 };

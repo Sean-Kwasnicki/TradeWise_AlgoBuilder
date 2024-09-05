@@ -43,7 +43,7 @@ export const fetchAlgorithms = (libraryId) => async (dispatch) => {
     const data = await response.json();
     dispatch(fetchAlgorithmsSuccess(libraryId, data));
   } catch (error) {
-    console.error('Failed to fetch algorithms', error);
+      return error;
   }
 };
 

@@ -22,7 +22,7 @@ def get_historical_prices_twelvedata(symbol):
 
     response = requests.get(base_url, params=params)
     data = response.json()
-    print(f"API response: {data}")
+
 
     if 'values' in data:
         last_year_data = data['values'][-1]
@@ -32,11 +32,10 @@ def get_historical_prices_twelvedata(symbol):
         }
         return historical_prices
     else:
-        print(f"Error fetching data: {data}")
         return None
 
 # Testing the function
 if __name__ == "__main__":
     symbol = 'AAPL'
     historical_prices = get_historical_prices_twelvedata(symbol)
-    print(historical_prices)
+

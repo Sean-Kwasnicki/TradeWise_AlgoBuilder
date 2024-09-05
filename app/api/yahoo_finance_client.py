@@ -28,10 +28,8 @@ def get_historical_prices(symbol):
                 }
             return formatted_data
         else:
-            print(f"No historical data found for {symbol}")
             return None
     except Exception as e:
-        print(f"Error fetching historical prices for {symbol}: {e}")
         return None
 
 
@@ -49,5 +47,4 @@ def get_stock_details(symbol):
 
         return details
     except Exception as e:
-        print(f"Error fetching stock details for {symbol}: {e}")
         return None

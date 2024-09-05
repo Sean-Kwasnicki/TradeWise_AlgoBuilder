@@ -59,7 +59,7 @@ const AlgoTradingViewWidget = ({ symbol, studies }) => {
         try {
           widgetRef.current.remove();
         } catch (e) {
-          console.error('Error removing TradingView widget:', e);
+          return e
         }
         widgetRef.current = null;
       }
